@@ -16,6 +16,7 @@
 
 ## Letteratura: (guardare dentro la cartella per il readme associato)
 
-## Risorse Python: notebooks di colab usati per il corso di Numerical Analysis for Machine Learning per introdurre il linguaggio.
+## Risorse Python:
+notebooks di colab usati per il corso di Numerical Analysis for Machine Learning per introdurre il linguaggio.
 Suggerisco in particolare di guardare il notebook di lecture 5 per i grafici.
 
