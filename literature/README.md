@@ -25,7 +25,7 @@
   - 001 - Air quality across a European hotspot: Spatial gradients, seasonality, diurnal cycles and trends in the Veneto region, NE Italy
   - 002 - Hierarchical Bayesian models for space-time air pollution data - Sahu
   - 003 - STATISTICAL ANALYSIS OF PARTICULATE MATTER DATA IN DOHA, QATAR
-
+  - 004 - a e b - bayesian analysis of order uncertainty in ARIMA
 
 - thesis
   - 001 - Tesi di Michela
