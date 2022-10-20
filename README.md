@@ -18,6 +18,8 @@
 - [ ] Dati mancanti
 - [ ] Dipendenza dai giorni della settimana (paper Qatar (paper 003))
 - [ ] Categorizzare le zone in urbano/rurale/...
+- [ ] Creare file Word con risultati attesi (conclusioni di altri), limiti di legge del PM10
+- [ ] Trovare limiti di legge del PM10
 
 ## Prossimo incontro
 Mercoledì 26 dalle 12 alle 14
