@@ -2,6 +2,7 @@
 
 
 ## to-do list
+### incontro con la prof
 - [ ] studiare sistemi ARMA/ARIMA (soprattutto <ins>libro 006</ins> Introduction to time series and forecasting)
   - [ ] è la serie storica stazionaria?
   - [ ] Bisogna studaire l'autocorrelazione empirica?
@@ -11,8 +12,17 @@
 - [ ] Lettura del Banjeree per modelli spazio-temporali (<ins>libro 005</ins>)
   - [ ] Noi abbiamo latitudine e longitudine, si tratta di dati puntuali, non di dati ad area su una griglia (?)
   - [ ] l'idea è quella di avere un random effect per ogni stazione e descrivere la dipendenza a coppie mediante la matrice di covarianza
+### discusso nell'incontro di giovedì
+- [ ] Replicare analisi esplorativa nella tesi di Michela
+- [ ] Cercare di indagare la stagionalità e la stazionarietà del modello
+- [ ] Dati mancanti
+- [ ] Dipendenza dai giorni della settimana (paper Qatar (paper 003))
+- [ ] Categorizzare le zone in urbano/rurale/...
+- [ ] Creare file Word con risultati attesi (conclusioni di altri), limiti di legge del PM10
+- [ ] Trovare limiti di legge del PM10
 
-
+## Prossimo incontro
+Mercoledì 26 dalle 12 alle 14
 
 ## Letteratura: (guardare dentro la cartella per il readme associato)
 
