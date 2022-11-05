@@ -27,7 +27,7 @@ stazione<-factor(Stazione)
 data_2018$date <- as.Date(with(data_2018, paste(Anno, data_2018$Mese, data_2018$Giorno,sep="-")), "%Y-%m-%d")
 data_2018$date
 x11() 
-plot(data_2018$date,data_2018$VALORE,xlab='Days',ylab='Values') #useless
+# plot(data_2018$date,data_2018$VALORE,xlab='Days',ylab='Values') #useless
 
 
 # count of repeated values!!
@@ -41,20 +41,20 @@ library(dplyr)
 
 
 # Most basic time series plot
-p <- ggplot(data.frame(
-  day = data_2018$date,
-  value = data_2018$VALORE
-), aes(x=day, y=value)) +
-  geom_line() + 
-  xlab("")
-p
+# p <- ggplot(data.frame(
+#   day = data_2018$date,
+#   value = data_2018$VALORE
+# ), aes(x=day, y=value)) +
+#   geom_line() + 
+#   xlab("")
+# p
 
 
 type<-factor(data_2018$TipoStazione)
 area<- factor(data_2018$TipoArea)
 
 boxplot(data_2018$VALORE~stazione,data_2018,ylab = 'values') #boxplot for stations
-boxplot(data_2018$VALORE) #boxplot of all values
+# boxplot(data_2018$VALORE) #boxplot of all values
 boxplot(data_2018$VALORE~type) #boxplot on type
 boxplot(data_2018$VALORE~area) #boxplot on area
 
@@ -105,7 +105,7 @@ ggplot(data_2018, aes(date, VALORE, group = area,color=area)) +
   geom_dl(aes(label = area), 
           method = list(dl.combine("first.points", "last.points"), cex = 0.8)) 
 scale_color_gradient2()
-# BELLO!
+# rivedere grafica!
 
 ggplot(data_2018, aes(date, VALORE, group = type,color=type)) + 
   geom_line() +
@@ -138,6 +138,7 @@ scale_color_gradient2()
 
 #some stations
 # stazione 1
+
 staz_1<-data_2018[which(stazione==levels(stazione)[1]),]
 staz_1$TipoArea
 
@@ -154,6 +155,7 @@ plotb=ggplot(staz_2, aes(x=date, y=VALORE)) +
   xlab("")
 
 
+# prendere una stazione rappresentativa per tipo?
 grid.arrange(plota, plotb, ncol=2, nrow = 1)
 library(forecast)
 
@@ -164,23 +166,13 @@ fit <- auto.arima(staz_1$VALORE,stepwise=FALSE,approximation=FALSE)
 summary(fit)
 
 
-## da finire
-obs<-matrix(0,49, 364)
-for (ii in 1:length(levels(stazione)))
-data_2018[which(Stazione==levels(stazione)[ii]),]$VALORE
-
-
-
-
 # Next 5 forecasted values
-forecast(fit, 5)
+# forecast(fit, 30)
 
 # plotting the graph with next
 # 5 weekly forecasted values
-plot(forecast(fit, 5), xlab ="Days",
-     ylab ="PM10 values",
-     main ="Badia", col.main ="darkgreen")
-
+# plot(forecast(fit, 30), xlab ="Days",
+#     ylab ="PM10 values",      main ="Badia", col.main ="darkgreen")
 
 #library(xts)
 
@@ -192,12 +184,9 @@ ggplot() +
   geom_line(data = staz_2, aes(x = date, y = VALORE), color = "blue") +
   xlab('days') +
   ylab('PM10')
-
+# stazione 2 ha buco!!!
 
 staz_3<-data_2018[which(stazione==levels(stazione)[3]),]
-
-
-
 
 
 ggplot(staz_3, aes(x=date, y=VALORE)) +
@@ -244,9 +233,9 @@ summary(fit1)
 fit2 <- Arima(staz_1$VALORE, order=c(3,0,2))
 summary(fit2) #better error than auto arima but more unstable
 
-fit3 <- auto.arima(staz_1$VALORE, stepwise=FALSE,approximation=FALSE)
+fit3 <- auto.arima(staz_1$VALORE, stepwise=FALSE,approximation=FALSE, trace=TRUE)
 summary(fit3)
-
+# qualce criterio stiamo usando??
 
 x11()
 
@@ -267,7 +256,12 @@ autoplot(fit3)
 
 
 ggtsdisplay(staz_3$VALORE)
-ggtsdisplay(diff(staz_3$VALORE))
+ggtsdisplay(diff(staz_3$VALORE), lag=364)
+
+summary(ur.kpss(diff(staz_3$VALORE))) #stationariety test
+ndiffs(diff(staz_3$VALORE))
+
+
 
 fit4 <- Arima(diff(staz_3$VALORE), order=c(3,1,1))
 summary(fit4)
