@@ -3,7 +3,7 @@ library(readxl)
 data<-read_excel("Polveri Emilia.xlsx", 
                       sheet = 1)
 
-data<- data[,-10]
+data<-Polveri_Emilia
 attach(data)
 anno<-factor(Anno)
 
@@ -30,6 +30,12 @@ x11()
 plot(data_2018$date,data_2018$VALORE,xlab='Days',ylab='Values') #useless
 
 
+# count of repeated values!!
+v<-which(table(data_2018$DATA_FINE)>1)
+length(which(table(v)>1))
+# no repeated values
+
+
 library(ggplot2)
 library(dplyr)
 
@@ -44,14 +50,15 @@ p <- ggplot(data.frame(
 p
 
 
+type<-factor(data_2018$TipoStazione)
+area<- factor(data_2018$TipoArea)
+
 boxplot(data_2018$VALORE~stazione,data_2018,ylab = 'values') #boxplot for stations
 boxplot(data_2018$VALORE) #boxplot of all values
 boxplot(data_2018$VALORE~type) #boxplot on type
 boxplot(data_2018$VALORE~area) #boxplot on area
 
 
-type<-factor(data_2018$TipoStazione)
-area<- factor(data_2018$TipoArea)
 
 library(directlabels)
 library(ggplot2)
@@ -69,27 +76,28 @@ data_2018$weekend<-is_weekend(data_2018$date)
 
 #datasets based on area
 
+install.packages("gridExtra")
+
 urban_data<- data_2018[which(area=='Urbano'),]
 suburban_data<-  data_2018[which(area=='Suburbano'),]
 rural_data<-  data_2018[which(area=='Rurale'),]
 x11()
-par(mfrow=c(1,3))
- ggplot(urban_data, aes(x=date, y=VALORE)) +
-  geom_line() + 
-  xlab("")
- ggplot(suburban_data, aes(x=date, y=VALORE)) +
-   geom_line() + 
-   xlab("")
- x11()
- ggplot(rural_data, aes(x=date, y=VALORE)) +
-   geom_line() + 
-   xlab("")
 
+library(gridExtra)
+
+plot1 =  ggplot(urban_data, aes(x=date, y=VALORE)) +
+  geom_line() + 
+  xlab("urban")
+plot2 = ggplot(suburban_data, aes(x=date, y=VALORE)) +
+   geom_line() + 
+   xlab("suburban")
+plot3 = ggplot(rural_data, aes(x=date, y=VALORE)) +
+   geom_line() + 
+   xlab("rural")
+ grid.arrange(plot1, plot2, plot3, ncol=3, nrow = 1)
 
 
 #plots of values divided by area and type
-
-
 
 ggplot(data_2018, aes(date, VALORE, group = area,color=area)) + 
   geom_line() +
@@ -97,6 +105,7 @@ ggplot(data_2018, aes(date, VALORE, group = area,color=area)) +
   geom_dl(aes(label = area), 
           method = list(dl.combine("first.points", "last.points"), cex = 0.8)) 
 scale_color_gradient2()
+# BELLO!
 
 ggplot(data_2018, aes(date, VALORE, group = type,color=type)) + 
   geom_line() +
@@ -104,7 +113,8 @@ ggplot(data_2018, aes(date, VALORE, group = type,color=type)) +
   geom_dl(aes(label = type), 
           method = list(dl.combine("first.points", "last.points"), cex = 0.8)) 
 scale_color_gradient2()
-
+# carino, ma forse teniamo l'altro?
+# capire quale vogliamo tenere
 
 # mu<-tapply(data_2018$VALORE, stazione, mean)
 # S<- tapply(data_2018$VALORE,stazione,sd)
@@ -127,31 +137,40 @@ scale_color_gradient2()
 #  }
 
 #some stations
+# stazione 1
 staz_1<-data_2018[which(stazione==levels(stazione)[1]),]
+staz_1$TipoArea
 
-
-
-
-
-ggplot(staz_1, aes(x=date, y=VALORE)) +
+plota=ggplot(staz_1, aes(x=date, y=VALORE)) +
   geom_line() + 
   xlab("")
 
+
+# stazione 2
 staz_2<-data_2018[which(stazione==levels(stazione)[2]),]
-
-
-
-
-ggplot(staz_2, aes(x=date, y=VALORE)) +
+staz_2$TipoArea
+plotb=ggplot(staz_2, aes(x=date, y=VALORE)) +
   geom_line() + 
   xlab("")
 
+
+grid.arrange(plota, plotb, ncol=2, nrow = 1)
 library(forecast)
 
+#################################################################################
 #auto arima on station 1
 
 fit <- auto.arima(staz_1$VALORE,stepwise=FALSE,approximation=FALSE)
 summary(fit)
+
+
+## da finire
+obs<-matrix(0,49, 364)
+for (ii in 1:length(levels(stazione)))
+data_2018[which(Stazione==levels(stazione)[ii]),]$VALORE
+
+
+
 
 # Next 5 forecasted values
 forecast(fit, 5)
@@ -215,7 +234,8 @@ ndiffs(staz_3$VALORE) #not stationary  1 diff
 
 #pacf and acf plots
 
-ggtsdisplay(staz_1$VALORE)
+ggtsdisplay(staz_1$VALORE,lag.max = 364)
+# periodicità?
 
 #try some arima fits 
 fit1 <- Arima(staz_1$VALORE, order=c(3,1,1))
@@ -319,7 +339,7 @@ sp <- ggplot(data=data_2018, aes(x=date, y=VALORE, group=stazione, col=stazione)
   theme(legend.position="none")
 sp  #not very useful
 
-p <- ggplot(data=na.omit(data_2018), aes(x=stazione, y=VALORE)) + 
+p <- ggplot(data=data_2018, aes(x=stazione, y=VALORE)) + 
   geom_boxplot(outlier.colour="red", outlier.shape=8,
                outlier.size=2) + 
   labs(title= "station boxplots", x="Station", y = "PM10", size=2.5) 
@@ -342,12 +362,46 @@ st<-factor(vdat$Stazione)
   labs(x="Day", y = "PM10", size=2.5) #not very useful
 
 
+# sembrano avere dei buchi! Confrontiamole meglio
+ 
+castelluccio<-data_2018[which(Stazione==s[1]),]
+dim(castelluccio[,2])
 
-data_2018$Month <- as.factor(data_2018$Month)
+brugnatella <-data_2018[which(Stazione==s[2]),]
+dim(brugnatella[,2])
+  
+febbio <- data_2018[which(Stazione==s[3]),]
+dim(febbio[,2])
+
+staz_1
+dim(staz_1[,2])
+
+staz_2
+dim(staz_2[,2])
+
+staz_3
+dim(staz_3[,2])
+
+# la media più bassa delle stazioni in s non sembra dipendere dai dati mancanti
+
+
+plot1 =  ggplot(data_2018[which(Stazione==s[1]),], aes(x=date, y=VALORE)) +
+   geom_line() +
+  geom_point() 
+plot2 = ggplot(data_2018[which(Stazione==s[2]),], aes(x=date, y=VALORE)) +
+   geom_line() +
+  geom_point() 
+plot3 = ggplot(data_2018[which(Stazione==s[3]),], aes(x=date, y=VALORE)) +
+   geom_line() +
+  geom_point() 
+ grid.arrange(plot1, plot2, plot3, ncol=3, nrow = 1)
+
+data_2018$date[which(is.na(VALORE))]
+
 
 
 #incidence of weekends on PM values
-
+ data_2018$Month <- as.factor(data_2018$Month)
 
 
 
