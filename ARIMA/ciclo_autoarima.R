@@ -1,5 +1,3 @@
-install.packages("RColorBrewer")
-
 vec <- matrix(0,49,3)
 for (ii in 1:length(levels(stazione)))
 {staz <- data_2018[which(Stazione==levels(stazione)[ii]),]$VALORE
@@ -28,9 +26,7 @@ for (ii in 1:49)
 {which(all(vec[ii,]==distinct(vec)[2,]))}
 vec2
 
-library(RColorBrewer)
 col=vec2
-library(gg)
 
 plot1 =  ggplot(urban_data, aes(x=date, y=VALORE), col=col) +
   geom_line() + 

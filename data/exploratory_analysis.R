@@ -53,6 +53,25 @@ library(dplyr)
 type<-factor(data_2018$TipoStazione)
 area<- factor(data_2018$TipoArea)
 
+# Prepare a vector of colors with specific color for Urbano, Suburbano e Rurale
+myColors <- ifelse(levels(data_2018$TipoStazione)=="Urbano" , rgb(0.1,0.1,0.7,0.5) , 
+                   ifelse(levels(data_2018$TipoStazione)=="Suburbano", rgb(0.8,0.1,0.3,0.6),
+                          ifelse( levels(data_2018$TipoStazione)=="Rurale" , rgb(0.5,0.5,0.5,0.5) ,
+                                  "grey90" ) ) )
+
+boxplot(data_2018$VALORE~stazione,data_2018,ylab = 'values', col=myColors) #boxplot for stations
+# boxplot(data_2018$VALORE) #boxplot of all values
+
+axis(side = 1, labels = FALSE)
+text(x = 1:49,
+     y = par("usr")[3] - 0.45,
+     labels = stazione,
+     xpd = NA,
+     ## Rotate the labels by 35 degrees.
+     cex = 0.8,
+     srt = 35,
+     adj=1)
+
 boxplot(data_2018$VALORE~stazione,data_2018,ylab = 'values') #boxplot for stations
 # boxplot(data_2018$VALORE) #boxplot of all values
 boxplot(data_2018$VALORE~type) #boxplot on type
