@@ -55,8 +55,8 @@ library(xts)
 # val.ts <- xts(df$VALORE, order.by=df$date)
 # autoplot(val.ts)
 # 
-# val.tsl <- xts(df.log$VALORE, order.by=df.log$date)
-# autoplot(val.tsl)
+val.tsl <- xts(df.log$VALORE, order.by=df.log$date)
+autoplot(val.tsl)
 
 # Run bayesian ARIMA estimation
 
