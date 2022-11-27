@@ -1,9 +1,26 @@
 vec <- matrix(0,49,3)
+Stazione<-as.factor(Stazione)
+stazione<-levels(Stazione)
+library(forecast)
+
+data_2018$VALORE<-log(data_2018$VALORE)
+
 for (ii in 1:length(levels(stazione)))
 {staz <- data_2018[which(Stazione==levels(stazione)[ii]),]$VALORE
 fit <- auto.arima(staz,stepwise=FALSE,approximation=FALSE)
 vec[ii,]<-c(length(fit$model$phi),length(fit$model$Delta),length(fit$model$theta))
 summary(fit)}
+
+####
+# controllo non-cancellazione zeri e poli
+l<-list("prova")
+l1<-list("prova1")
+for (ii in 1:length(stazione))
+{staz <- na.omit(data_2018[which(Stazione==stazione[ii]),]$VALORE)
+fit <- auto.arima(staz,stepwise=FALSE,approximation=FALSE,d=1)
+#arma.roots(c(fit$model$phi,fit$model$theta))
+l1<-c(fit$model$phi,fit$model$theta, length(fit$model$phi), length(fit$model$theta))
+l[ii]<-list(l1)}
 
 library(dplyr)
 vec<-as.data.frame(vec)

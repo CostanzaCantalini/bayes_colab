@@ -4,10 +4,10 @@ data<-read_excel("C:/Users/enogj/Documents/GitHub/bayes_colab/data/dati_polveri/
                  sheet = 1)
 
 # data<- data[,-10]
-attach(data)
+attach(Polveri_Emilia)
 anno<-factor(Anno)
 
-data_2018<- data[which(anno=='2018'),]
+data_2018<- Polveri_Emilia[which(anno=='2018'),]
 # data_2018<- data_2018[,-2]
 detach(data)
 
