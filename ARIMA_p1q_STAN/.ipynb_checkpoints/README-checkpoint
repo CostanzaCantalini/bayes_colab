@@ -1,0 +1,28 @@
+
+
+
+Utilizzare "prova" per fare esperimenti cambiando stazione e ordini dell'arima.
+
+
+
+Se si vuole cambiare le prior occorre modificare il codice in "code.stan",
+poi compilare eseguendo il codice in "compile_stan_code" e a quel punto è possibile utilizzare "prova" con le nuove prior.
+
+
+fit_arima.py contiene il codice che chiama il modello stan già compilato.
+È possibile passare il nome della stazione che si vuole studiare, i gradi del modello arima 
+e c'è un parametro opzionale per cambiare il numero di sample per ciascuna catena dell'MCMC.
+
+L'output consiste in un dizionario che contiene 'inference_data',
+ovvero gli output diretti del modello bayesiano, che arviz utilizza per fare i vari plot,
+e 'reconstructed_y', che è a sua volta un dizionario, in cui le chiavi sono le date mancanti e i valori gli output dell'MCMC relativi
+
+
+
+open_data.py contiene il codice che apre data.csv, un data_frame che contiene come colonne le stazioni e righe le date.
+
+
+
+
+Il parametro y_start del modello stan sono i giorni precedenti al primo giorno su cui abbiamo i dati, che vengono trattati come dati mancanti.
+
