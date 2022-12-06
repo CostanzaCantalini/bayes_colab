@@ -8,78 +8,105 @@ using namespace stan::math;
 
 
 stan::math::profile_map profiles__;
-static constexpr std::array<const char*, 71> locations_array__ = 
+static constexpr std::array<const char*, 98> locations_array__ = 
 {" (found before start of program)",
- " (in '/home/br1/PythonProjects/PythonStats/ARMA_bayesian_project/general_model_diff_1/code.stan', line 51, column 2 to column 34)",
- " (in '/home/br1/PythonProjects/PythonStats/ARMA_bayesian_project/general_model_diff_1/code.stan', line 52, column 2 to column 36)",
- " (in '/home/br1/PythonProjects/PythonStats/ARMA_bayesian_project/general_model_diff_1/code.stan', line 53, column 2 to column 22)",
- " (in '/home/br1/PythonProjects/PythonStats/ARMA_bayesian_project/general_model_diff_1/code.stan', line 54, column 2 to column 22)",
- " (in '/home/br1/PythonProjects/PythonStats/ARMA_bayesian_project/general_model_diff_1/code.stan', line 55, column 2 to column 22)",
- " (in '/home/br1/PythonProjects/PythonStats/ARMA_bayesian_project/general_model_diff_1/code.stan', line 59, column 9 to column 10)",
- " (in '/home/br1/PythonProjects/PythonStats/ARMA_bayesian_project/general_model_diff_1/code.stan', line 59, column 2 to column 15)",
- " (in '/home/br1/PythonProjects/PythonStats/ARMA_bayesian_project/general_model_diff_1/code.stan', line 60, column 9 to column 10)",
- " (in '/home/br1/PythonProjects/PythonStats/ARMA_bayesian_project/general_model_diff_1/code.stan', line 60, column 2 to column 16)",
- " (in '/home/br1/PythonProjects/PythonStats/ARMA_bayesian_project/general_model_diff_1/code.stan', line 64, column 4 to column 16)",
- " (in '/home/br1/PythonProjects/PythonStats/ARMA_bayesian_project/general_model_diff_1/code.stan', line 67, column 6 to column 64)",
- " (in '/home/br1/PythonProjects/PythonStats/ARMA_bayesian_project/general_model_diff_1/code.stan', line 66, column 19 to line 68, column 5)",
- " (in '/home/br1/PythonProjects/PythonStats/ARMA_bayesian_project/general_model_diff_1/code.stan', line 66, column 4 to line 68, column 5)",
- " (in '/home/br1/PythonProjects/PythonStats/ARMA_bayesian_project/general_model_diff_1/code.stan', line 71, column 6 to column 35)",
- " (in '/home/br1/PythonProjects/PythonStats/ARMA_bayesian_project/general_model_diff_1/code.stan', line 70, column 19 to line 72, column 5)",
- " (in '/home/br1/PythonProjects/PythonStats/ARMA_bayesian_project/general_model_diff_1/code.stan', line 70, column 4 to line 72, column 5)",
- " (in '/home/br1/PythonProjects/PythonStats/ARMA_bayesian_project/general_model_diff_1/code.stan', line 74, column 4 to column 61)",
- " (in '/home/br1/PythonProjects/PythonStats/ARMA_bayesian_project/general_model_diff_1/code.stan', line 62, column 17 to line 75, column 3)",
- " (in '/home/br1/PythonProjects/PythonStats/ARMA_bayesian_project/general_model_diff_1/code.stan', line 62, column 2 to line 75, column 3)",
- " (in '/home/br1/PythonProjects/PythonStats/ARMA_bayesian_project/general_model_diff_1/code.stan', line 77, column 2 to column 29)",
- " (in '/home/br1/PythonProjects/PythonStats/ARMA_bayesian_project/general_model_diff_1/code.stan', line 77, column 26 to column 27)",
- " (in '/home/br1/PythonProjects/PythonStats/ARMA_bayesian_project/general_model_diff_1/code.stan', line 77, column 24 to column 25)",
- " (in '/home/br1/PythonProjects/PythonStats/ARMA_bayesian_project/general_model_diff_1/code.stan', line 78, column 2 to column 31)",
- " (in '/home/br1/PythonProjects/PythonStats/ARMA_bayesian_project/general_model_diff_1/code.stan', line 78, column 28 to column 29)",
- " (in '/home/br1/PythonProjects/PythonStats/ARMA_bayesian_project/general_model_diff_1/code.stan', line 78, column 26 to column 27)",
- " (in '/home/br1/PythonProjects/PythonStats/ARMA_bayesian_project/general_model_diff_1/code.stan', line 79, column 2 to column 29)",
- " (in '/home/br1/PythonProjects/PythonStats/ARMA_bayesian_project/general_model_diff_1/code.stan', line 79, column 25 to column 26)",
- " (in '/home/br1/PythonProjects/PythonStats/ARMA_bayesian_project/general_model_diff_1/code.stan', line 80, column 2 to column 25)",
- " (in '/home/br1/PythonProjects/PythonStats/ARMA_bayesian_project/general_model_diff_1/code.stan', line 82, column 2 to column 24)",
- " (in '/home/br1/PythonProjects/PythonStats/ARMA_bayesian_project/general_model_diff_1/code.stan', line 83, column 2 to column 26)",
- " (in '/home/br1/PythonProjects/PythonStats/ARMA_bayesian_project/general_model_diff_1/code.stan', line 43, column 2 to column 17)",
- " (in '/home/br1/PythonProjects/PythonStats/ARMA_bayesian_project/general_model_diff_1/code.stan', line 44, column 2 to column 17)",
- " (in '/home/br1/PythonProjects/PythonStats/ARMA_bayesian_project/general_model_diff_1/code.stan', line 45, column 2 to column 17)",
- " (in '/home/br1/PythonProjects/PythonStats/ARMA_bayesian_project/general_model_diff_1/code.stan', line 46, column 8 to column 9)",
- " (in '/home/br1/PythonProjects/PythonStats/ARMA_bayesian_project/general_model_diff_1/code.stan', line 46, column 2 to column 18)",
- " (in '/home/br1/PythonProjects/PythonStats/ARMA_bayesian_project/general_model_diff_1/code.stan', line 47, column 8 to column 9)",
- " (in '/home/br1/PythonProjects/PythonStats/ARMA_bayesian_project/general_model_diff_1/code.stan', line 47, column 2 to column 43)",
- " (in '/home/br1/PythonProjects/PythonStats/ARMA_bayesian_project/general_model_diff_1/code.stan', line 51, column 27 to column 28)",
- " (in '/home/br1/PythonProjects/PythonStats/ARMA_bayesian_project/general_model_diff_1/code.stan', line 52, column 27 to column 28)",
- " (in '/home/br1/PythonProjects/PythonStats/ARMA_bayesian_project/general_model_diff_1/code.stan', line 54, column 9 to column 12)",
- " (in '/home/br1/PythonProjects/PythonStats/ARMA_bayesian_project/general_model_diff_1/code.stan', line 55, column 9 to column 10)",
- " (in '/home/br1/PythonProjects/PythonStats/ARMA_bayesian_project/general_model_diff_1/code.stan', line 7, column 6 to column 43)",
- " (in '/home/br1/PythonProjects/PythonStats/ARMA_bayesian_project/general_model_diff_1/code.stan', line 6, column 14 to line 8, column 5)",
- " (in '/home/br1/PythonProjects/PythonStats/ARMA_bayesian_project/general_model_diff_1/code.stan', line 6, column 4 to line 8, column 5)",
- " (in '/home/br1/PythonProjects/PythonStats/ARMA_bayesian_project/general_model_diff_1/code.stan', line 14, column 1 to column 28)",
- " (in '/home/br1/PythonProjects/PythonStats/ARMA_bayesian_project/general_model_diff_1/code.stan', line 13, column 13 to line 15, column 7)",
- " (in '/home/br1/PythonProjects/PythonStats/ARMA_bayesian_project/general_model_diff_1/code.stan', line 12, column 1 to column 36)",
- " (in '/home/br1/PythonProjects/PythonStats/ARMA_bayesian_project/general_model_diff_1/code.stan', line 11, column 29 to line 13, column 7)",
- " (in '/home/br1/PythonProjects/PythonStats/ARMA_bayesian_project/general_model_diff_1/code.stan', line 11, column 6 to line 15, column 7)",
- " (in '/home/br1/PythonProjects/PythonStats/ARMA_bayesian_project/general_model_diff_1/code.stan', line 10, column 15 to line 16, column 5)",
- " (in '/home/br1/PythonProjects/PythonStats/ARMA_bayesian_project/general_model_diff_1/code.stan', line 10, column 4 to line 16, column 5)",
- " (in '/home/br1/PythonProjects/PythonStats/ARMA_bayesian_project/general_model_diff_1/code.stan', line 28, column 1 to column 22)",
- " (in '/home/br1/PythonProjects/PythonStats/ARMA_bayesian_project/general_model_diff_1/code.stan', line 27, column 13 to line 29, column 7)",
- " (in '/home/br1/PythonProjects/PythonStats/ARMA_bayesian_project/general_model_diff_1/code.stan', line 26, column 1 to column 30)",
- " (in '/home/br1/PythonProjects/PythonStats/ARMA_bayesian_project/general_model_diff_1/code.stan', line 25, column 31 to line 27, column 7)",
- " (in '/home/br1/PythonProjects/PythonStats/ARMA_bayesian_project/general_model_diff_1/code.stan', line 25, column 6 to line 29, column 7)",
- " (in '/home/br1/PythonProjects/PythonStats/ARMA_bayesian_project/general_model_diff_1/code.stan', line 24, column 11 to line 30, column 5)",
- " (in '/home/br1/PythonProjects/PythonStats/ARMA_bayesian_project/general_model_diff_1/code.stan', line 22, column 1 to column 30)",
- " (in '/home/br1/PythonProjects/PythonStats/ARMA_bayesian_project/general_model_diff_1/code.stan', line 21, column 13 to line 23, column 7)",
- " (in '/home/br1/PythonProjects/PythonStats/ARMA_bayesian_project/general_model_diff_1/code.stan', line 20, column 1 to column 38)",
- " (in '/home/br1/PythonProjects/PythonStats/ARMA_bayesian_project/general_model_diff_1/code.stan', line 19, column 31 to line 21, column 7)",
- " (in '/home/br1/PythonProjects/PythonStats/ARMA_bayesian_project/general_model_diff_1/code.stan', line 19, column 6 to line 23, column 7)",
- " (in '/home/br1/PythonProjects/PythonStats/ARMA_bayesian_project/general_model_diff_1/code.stan', line 18, column 27 to line 24, column 5)",
- " (in '/home/br1/PythonProjects/PythonStats/ARMA_bayesian_project/general_model_diff_1/code.stan', line 18, column 4 to line 30, column 5)",
- " (in '/home/br1/PythonProjects/PythonStats/ARMA_bayesian_project/general_model_diff_1/code.stan', line 4, column 104 to line 31, column 3)",
- " (in '/home/br1/PythonProjects/PythonStats/ARMA_bayesian_project/general_model_diff_1/code.stan', line 35, column 6 to column 17)",
- " (in '/home/br1/PythonProjects/PythonStats/ARMA_bayesian_project/general_model_diff_1/code.stan', line 34, column 15 to line 36, column 5)",
- " (in '/home/br1/PythonProjects/PythonStats/ARMA_bayesian_project/general_model_diff_1/code.stan', line 34, column 4 to line 36, column 5)",
- " (in '/home/br1/PythonProjects/PythonStats/ARMA_bayesian_project/general_model_diff_1/code.stan', line 37, column 4 to column 18)",
- " (in '/home/br1/PythonProjects/PythonStats/ARMA_bayesian_project/general_model_diff_1/code.stan', line 33, column 28 to line 38, column 3)"};
+ " (in '/home/br1/PythonProjects/bayesian_project/git_dir/bayes_colab/ARIMA_p1q_STAN/code.stan', line 51, column 2 to column 34)",
+ " (in '/home/br1/PythonProjects/bayesian_project/git_dir/bayes_colab/ARIMA_p1q_STAN/code.stan', line 52, column 2 to column 36)",
+ " (in '/home/br1/PythonProjects/bayesian_project/git_dir/bayes_colab/ARIMA_p1q_STAN/code.stan', line 53, column 2 to column 22)",
+ " (in '/home/br1/PythonProjects/bayesian_project/git_dir/bayes_colab/ARIMA_p1q_STAN/code.stan', line 54, column 2 to column 22)",
+ " (in '/home/br1/PythonProjects/bayesian_project/git_dir/bayes_colab/ARIMA_p1q_STAN/code.stan', line 55, column 2 to column 22)",
+ " (in '/home/br1/PythonProjects/bayesian_project/git_dir/bayes_colab/ARIMA_p1q_STAN/code.stan', line 89, column 4 to column 30)",
+ " (in '/home/br1/PythonProjects/bayesian_project/git_dir/bayes_colab/ARIMA_p1q_STAN/code.stan', line 90, column 4 to column 69)",
+ " (in '/home/br1/PythonProjects/bayesian_project/git_dir/bayes_colab/ARIMA_p1q_STAN/code.stan', line 93, column 8 to column 28)",
+ " (in '/home/br1/PythonProjects/bayesian_project/git_dir/bayes_colab/ARIMA_p1q_STAN/code.stan', line 101, column 16 to column 75)",
+ " (in '/home/br1/PythonProjects/bayesian_project/git_dir/bayes_colab/ARIMA_p1q_STAN/code.stan', line 100, column 19 to line 102, column 13)",
+ " (in '/home/br1/PythonProjects/bayesian_project/git_dir/bayes_colab/ARIMA_p1q_STAN/code.stan', line 99, column 16 to column 71)",
+ " (in '/home/br1/PythonProjects/bayesian_project/git_dir/bayes_colab/ARIMA_p1q_STAN/code.stan', line 98, column 33 to line 100, column 13)",
+ " (in '/home/br1/PythonProjects/bayesian_project/git_dir/bayes_colab/ARIMA_p1q_STAN/code.stan', line 98, column 19 to line 102, column 13)",
+ " (in '/home/br1/PythonProjects/bayesian_project/git_dir/bayes_colab/ARIMA_p1q_STAN/code.stan', line 97, column 16 to column 71)",
+ " (in '/home/br1/PythonProjects/bayesian_project/git_dir/bayes_colab/ARIMA_p1q_STAN/code.stan', line 96, column 25 to line 98, column 13)",
+ " (in '/home/br1/PythonProjects/bayesian_project/git_dir/bayes_colab/ARIMA_p1q_STAN/code.stan', line 96, column 12 to line 102, column 13)",
+ " (in '/home/br1/PythonProjects/bayesian_project/git_dir/bayes_colab/ARIMA_p1q_STAN/code.stan', line 95, column 23 to line 103, column 9)",
+ " (in '/home/br1/PythonProjects/bayesian_project/git_dir/bayes_colab/ARIMA_p1q_STAN/code.stan', line 95, column 8 to line 103, column 9)",
+ " (in '/home/br1/PythonProjects/bayesian_project/git_dir/bayes_colab/ARIMA_p1q_STAN/code.stan', line 107, column 16 to column 56)",
+ " (in '/home/br1/PythonProjects/bayesian_project/git_dir/bayes_colab/ARIMA_p1q_STAN/code.stan', line 106, column 25 to line 108, column 13)",
+ " (in '/home/br1/PythonProjects/bayesian_project/git_dir/bayes_colab/ARIMA_p1q_STAN/code.stan', line 106, column 12 to line 108, column 13)",
+ " (in '/home/br1/PythonProjects/bayesian_project/git_dir/bayes_colab/ARIMA_p1q_STAN/code.stan', line 105, column 23 to line 109, column 9)",
+ " (in '/home/br1/PythonProjects/bayesian_project/git_dir/bayes_colab/ARIMA_p1q_STAN/code.stan', line 105, column 8 to line 109, column 9)",
+ " (in '/home/br1/PythonProjects/bayesian_project/git_dir/bayes_colab/ARIMA_p1q_STAN/code.stan', line 114, column 12 to column 76)",
+ " (in '/home/br1/PythonProjects/bayesian_project/git_dir/bayes_colab/ARIMA_p1q_STAN/code.stan', line 113, column 15 to line 115, column 9)",
+ " (in '/home/br1/PythonProjects/bayesian_project/git_dir/bayes_colab/ARIMA_p1q_STAN/code.stan', line 112, column 12 to column 72)",
+ " (in '/home/br1/PythonProjects/bayesian_project/git_dir/bayes_colab/ARIMA_p1q_STAN/code.stan', line 111, column 20 to line 113, column 9)",
+ " (in '/home/br1/PythonProjects/bayesian_project/git_dir/bayes_colab/ARIMA_p1q_STAN/code.stan', line 111, column 8 to line 115, column 9)",
+ " (in '/home/br1/PythonProjects/bayesian_project/git_dir/bayes_colab/ARIMA_p1q_STAN/code.stan', line 91, column 19 to line 117, column 5)",
+ " (in '/home/br1/PythonProjects/bayesian_project/git_dir/bayes_colab/ARIMA_p1q_STAN/code.stan', line 91, column 4 to line 117, column 5)",
+ " (in '/home/br1/PythonProjects/bayesian_project/git_dir/bayes_colab/ARIMA_p1q_STAN/code.stan', line 59, column 9 to column 10)",
+ " (in '/home/br1/PythonProjects/bayesian_project/git_dir/bayes_colab/ARIMA_p1q_STAN/code.stan', line 59, column 2 to column 15)",
+ " (in '/home/br1/PythonProjects/bayesian_project/git_dir/bayes_colab/ARIMA_p1q_STAN/code.stan', line 60, column 9 to column 10)",
+ " (in '/home/br1/PythonProjects/bayesian_project/git_dir/bayes_colab/ARIMA_p1q_STAN/code.stan', line 60, column 2 to column 16)",
+ " (in '/home/br1/PythonProjects/bayesian_project/git_dir/bayes_colab/ARIMA_p1q_STAN/code.stan', line 64, column 4 to column 16)",
+ " (in '/home/br1/PythonProjects/bayesian_project/git_dir/bayes_colab/ARIMA_p1q_STAN/code.stan', line 67, column 6 to column 64)",
+ " (in '/home/br1/PythonProjects/bayesian_project/git_dir/bayes_colab/ARIMA_p1q_STAN/code.stan', line 66, column 19 to line 68, column 5)",
+ " (in '/home/br1/PythonProjects/bayesian_project/git_dir/bayes_colab/ARIMA_p1q_STAN/code.stan', line 66, column 4 to line 68, column 5)",
+ " (in '/home/br1/PythonProjects/bayesian_project/git_dir/bayes_colab/ARIMA_p1q_STAN/code.stan', line 71, column 6 to column 35)",
+ " (in '/home/br1/PythonProjects/bayesian_project/git_dir/bayes_colab/ARIMA_p1q_STAN/code.stan', line 70, column 19 to line 72, column 5)",
+ " (in '/home/br1/PythonProjects/bayesian_project/git_dir/bayes_colab/ARIMA_p1q_STAN/code.stan', line 70, column 4 to line 72, column 5)",
+ " (in '/home/br1/PythonProjects/bayesian_project/git_dir/bayes_colab/ARIMA_p1q_STAN/code.stan', line 74, column 4 to column 61)",
+ " (in '/home/br1/PythonProjects/bayesian_project/git_dir/bayes_colab/ARIMA_p1q_STAN/code.stan', line 62, column 17 to line 75, column 3)",
+ " (in '/home/br1/PythonProjects/bayesian_project/git_dir/bayes_colab/ARIMA_p1q_STAN/code.stan', line 62, column 2 to line 75, column 3)",
+ " (in '/home/br1/PythonProjects/bayesian_project/git_dir/bayes_colab/ARIMA_p1q_STAN/code.stan', line 77, column 2 to column 29)",
+ " (in '/home/br1/PythonProjects/bayesian_project/git_dir/bayes_colab/ARIMA_p1q_STAN/code.stan', line 77, column 26 to column 27)",
+ " (in '/home/br1/PythonProjects/bayesian_project/git_dir/bayes_colab/ARIMA_p1q_STAN/code.stan', line 77, column 24 to column 25)",
+ " (in '/home/br1/PythonProjects/bayesian_project/git_dir/bayes_colab/ARIMA_p1q_STAN/code.stan', line 78, column 2 to column 31)",
+ " (in '/home/br1/PythonProjects/bayesian_project/git_dir/bayes_colab/ARIMA_p1q_STAN/code.stan', line 78, column 28 to column 29)",
+ " (in '/home/br1/PythonProjects/bayesian_project/git_dir/bayes_colab/ARIMA_p1q_STAN/code.stan', line 78, column 26 to column 27)",
+ " (in '/home/br1/PythonProjects/bayesian_project/git_dir/bayes_colab/ARIMA_p1q_STAN/code.stan', line 79, column 2 to column 29)",
+ " (in '/home/br1/PythonProjects/bayesian_project/git_dir/bayes_colab/ARIMA_p1q_STAN/code.stan', line 79, column 25 to column 26)",
+ " (in '/home/br1/PythonProjects/bayesian_project/git_dir/bayes_colab/ARIMA_p1q_STAN/code.stan', line 80, column 2 to column 25)",
+ " (in '/home/br1/PythonProjects/bayesian_project/git_dir/bayes_colab/ARIMA_p1q_STAN/code.stan', line 82, column 2 to column 24)",
+ " (in '/home/br1/PythonProjects/bayesian_project/git_dir/bayes_colab/ARIMA_p1q_STAN/code.stan', line 83, column 2 to column 26)",
+ " (in '/home/br1/PythonProjects/bayesian_project/git_dir/bayes_colab/ARIMA_p1q_STAN/code.stan', line 43, column 2 to column 17)",
+ " (in '/home/br1/PythonProjects/bayesian_project/git_dir/bayes_colab/ARIMA_p1q_STAN/code.stan', line 44, column 2 to column 17)",
+ " (in '/home/br1/PythonProjects/bayesian_project/git_dir/bayes_colab/ARIMA_p1q_STAN/code.stan', line 45, column 2 to column 17)",
+ " (in '/home/br1/PythonProjects/bayesian_project/git_dir/bayes_colab/ARIMA_p1q_STAN/code.stan', line 46, column 8 to column 9)",
+ " (in '/home/br1/PythonProjects/bayesian_project/git_dir/bayes_colab/ARIMA_p1q_STAN/code.stan', line 46, column 2 to column 18)",
+ " (in '/home/br1/PythonProjects/bayesian_project/git_dir/bayes_colab/ARIMA_p1q_STAN/code.stan', line 47, column 8 to column 9)",
+ " (in '/home/br1/PythonProjects/bayesian_project/git_dir/bayes_colab/ARIMA_p1q_STAN/code.stan', line 47, column 2 to column 43)",
+ " (in '/home/br1/PythonProjects/bayesian_project/git_dir/bayes_colab/ARIMA_p1q_STAN/code.stan', line 51, column 27 to column 28)",
+ " (in '/home/br1/PythonProjects/bayesian_project/git_dir/bayes_colab/ARIMA_p1q_STAN/code.stan', line 52, column 27 to column 28)",
+ " (in '/home/br1/PythonProjects/bayesian_project/git_dir/bayes_colab/ARIMA_p1q_STAN/code.stan', line 54, column 9 to column 12)",
+ " (in '/home/br1/PythonProjects/bayesian_project/git_dir/bayes_colab/ARIMA_p1q_STAN/code.stan', line 55, column 9 to column 10)",
+ " (in '/home/br1/PythonProjects/bayesian_project/git_dir/bayes_colab/ARIMA_p1q_STAN/code.stan', line 89, column 10 to column 11)",
+ " (in '/home/br1/PythonProjects/bayesian_project/git_dir/bayes_colab/ARIMA_p1q_STAN/code.stan', line 90, column 10 to column 11)",
+ " (in '/home/br1/PythonProjects/bayesian_project/git_dir/bayes_colab/ARIMA_p1q_STAN/code.stan', line 7, column 6 to column 43)",
+ " (in '/home/br1/PythonProjects/bayesian_project/git_dir/bayes_colab/ARIMA_p1q_STAN/code.stan', line 6, column 14 to line 8, column 5)",
+ " (in '/home/br1/PythonProjects/bayesian_project/git_dir/bayes_colab/ARIMA_p1q_STAN/code.stan', line 6, column 4 to line 8, column 5)",
+ " (in '/home/br1/PythonProjects/bayesian_project/git_dir/bayes_colab/ARIMA_p1q_STAN/code.stan', line 14, column 1 to column 28)",
+ " (in '/home/br1/PythonProjects/bayesian_project/git_dir/bayes_colab/ARIMA_p1q_STAN/code.stan', line 13, column 13 to line 15, column 7)",
+ " (in '/home/br1/PythonProjects/bayesian_project/git_dir/bayes_colab/ARIMA_p1q_STAN/code.stan', line 12, column 1 to column 36)",
+ " (in '/home/br1/PythonProjects/bayesian_project/git_dir/bayes_colab/ARIMA_p1q_STAN/code.stan', line 11, column 29 to line 13, column 7)",
+ " (in '/home/br1/PythonProjects/bayesian_project/git_dir/bayes_colab/ARIMA_p1q_STAN/code.stan', line 11, column 6 to line 15, column 7)",
+ " (in '/home/br1/PythonProjects/bayesian_project/git_dir/bayes_colab/ARIMA_p1q_STAN/code.stan', line 10, column 15 to line 16, column 5)",
+ " (in '/home/br1/PythonProjects/bayesian_project/git_dir/bayes_colab/ARIMA_p1q_STAN/code.stan', line 10, column 4 to line 16, column 5)",
+ " (in '/home/br1/PythonProjects/bayesian_project/git_dir/bayes_colab/ARIMA_p1q_STAN/code.stan', line 28, column 1 to column 22)",
+ " (in '/home/br1/PythonProjects/bayesian_project/git_dir/bayes_colab/ARIMA_p1q_STAN/code.stan', line 27, column 13 to line 29, column 7)",
+ " (in '/home/br1/PythonProjects/bayesian_project/git_dir/bayes_colab/ARIMA_p1q_STAN/code.stan', line 26, column 1 to column 30)",
+ " (in '/home/br1/PythonProjects/bayesian_project/git_dir/bayes_colab/ARIMA_p1q_STAN/code.stan', line 25, column 31 to line 27, column 7)",
+ " (in '/home/br1/PythonProjects/bayesian_project/git_dir/bayes_colab/ARIMA_p1q_STAN/code.stan', line 25, column 6 to line 29, column 7)",
+ " (in '/home/br1/PythonProjects/bayesian_project/git_dir/bayes_colab/ARIMA_p1q_STAN/code.stan', line 24, column 11 to line 30, column 5)",
+ " (in '/home/br1/PythonProjects/bayesian_project/git_dir/bayes_colab/ARIMA_p1q_STAN/code.stan', line 22, column 1 to column 30)",
+ " (in '/home/br1/PythonProjects/bayesian_project/git_dir/bayes_colab/ARIMA_p1q_STAN/code.stan', line 21, column 13 to line 23, column 7)",
+ " (in '/home/br1/PythonProjects/bayesian_project/git_dir/bayes_colab/ARIMA_p1q_STAN/code.stan', line 20, column 1 to column 38)",
+ " (in '/home/br1/PythonProjects/bayesian_project/git_dir/bayes_colab/ARIMA_p1q_STAN/code.stan', line 19, column 31 to line 21, column 7)",
+ " (in '/home/br1/PythonProjects/bayesian_project/git_dir/bayes_colab/ARIMA_p1q_STAN/code.stan', line 19, column 6 to line 23, column 7)",
+ " (in '/home/br1/PythonProjects/bayesian_project/git_dir/bayes_colab/ARIMA_p1q_STAN/code.stan', line 18, column 27 to line 24, column 5)",
+ " (in '/home/br1/PythonProjects/bayesian_project/git_dir/bayes_colab/ARIMA_p1q_STAN/code.stan', line 18, column 4 to line 30, column 5)",
+ " (in '/home/br1/PythonProjects/bayesian_project/git_dir/bayes_colab/ARIMA_p1q_STAN/code.stan', line 4, column 104 to line 31, column 3)",
+ " (in '/home/br1/PythonProjects/bayesian_project/git_dir/bayes_colab/ARIMA_p1q_STAN/code.stan', line 35, column 6 to column 17)",
+ " (in '/home/br1/PythonProjects/bayesian_project/git_dir/bayes_colab/ARIMA_p1q_STAN/code.stan', line 34, column 15 to line 36, column 5)",
+ " (in '/home/br1/PythonProjects/bayesian_project/git_dir/bayes_colab/ARIMA_p1q_STAN/code.stan', line 34, column 4 to line 36, column 5)",
+ " (in '/home/br1/PythonProjects/bayesian_project/git_dir/bayes_colab/ARIMA_p1q_STAN/code.stan', line 37, column 4 to column 18)",
+ " (in '/home/br1/PythonProjects/bayesian_project/git_dir/bayes_colab/ARIMA_p1q_STAN/code.stan', line 33, column 28 to line 38, column 3)"};
 
 struct f_functor__ {
   template <typename T3__, typename T5__, typename T6__,
@@ -123,63 +150,63 @@ template <typename T3__, typename T5__, typename T6__,
     local_scalar_t__ DUMMY_VAR__(std::numeric_limits<double>::quiet_NaN());
     (void) DUMMY_VAR__;  // suppress unused var warning
     try {
-      current_statement__ = 44;
+      current_statement__ = 71;
       if (stan::math::logical_lt(i, 1)) {
-        current_statement__ = 42;
+        current_statement__ = 69;
         return (stan::model::rvalue(y_start, "y_start",
                   stan::model::index_uni(((p + 1) + i))) -
                  stan::model::rvalue(y_start, "y_start",
                    stan::model::index_uni((p + i))));
       } 
-      current_statement__ = 51;
+      current_statement__ = 78;
       if (stan::math::logical_eq(i, 1)) {
-        current_statement__ = 49;
+        current_statement__ = 76;
         if (stan::math::logical_eq(
               stan::model::rvalue(is_missing, "is_missing",
                 stan::model::index_uni(1)), 1)) {
-          current_statement__ = 47;
+          current_statement__ = 74;
           return (stan::model::rvalue(y_missing, "y_missing",
                     stan::model::index_uni(1)) -
                    stan::model::rvalue(y_start, "y_start",
                      stan::model::index_uni((p + 1))));
         } else {
-          current_statement__ = 45;
+          current_statement__ = 72;
           return (stan::model::rvalue(y, "y", stan::model::index_uni(1)) -
                    stan::model::rvalue(y_start, "y_start",
                      stan::model::index_uni((p + 1))));
         }
       } 
-      current_statement__ = 64;
+      current_statement__ = 91;
       if (stan::math::logical_eq(
             stan::model::rvalue(is_missing, "is_missing",
               stan::model::index_uni(i)), 1)) {
-        current_statement__ = 62;
+        current_statement__ = 89;
         if (stan::math::logical_eq(
               stan::model::rvalue(is_missing, "is_missing",
                 stan::model::index_uni((i - 1))), 1)) {
-          current_statement__ = 60;
+          current_statement__ = 87;
           return (stan::model::rvalue(y_missing, "y_missing",
                     stan::model::index_uni(i)) -
                    stan::model::rvalue(y_missing, "y_missing",
                      stan::model::index_uni((i - 1))));
         } else {
-          current_statement__ = 58;
+          current_statement__ = 85;
           return (stan::model::rvalue(y_missing, "y_missing",
                     stan::model::index_uni(i)) -
                    stan::model::rvalue(y, "y",
                      stan::model::index_uni((i - 1))));
         }
       } else {
-        current_statement__ = 56;
+        current_statement__ = 83;
         if (stan::math::logical_eq(
               stan::model::rvalue(is_missing, "is_missing",
                 stan::model::index_uni((i - 1))), 1)) {
-          current_statement__ = 54;
+          current_statement__ = 81;
           return (stan::model::rvalue(y, "y", stan::model::index_uni(i)) -
                    stan::model::rvalue(y_missing, "y_missing",
                      stan::model::index_uni((i - 1))));
         } else {
-          current_statement__ = 52;
+          current_statement__ = 79;
           return (stan::model::rvalue(y, "y", stan::model::index_uni(i)) -
                    stan::model::rvalue(y, "y",
                      stan::model::index_uni((i - 1))));
@@ -202,12 +229,12 @@ template <typename T1__,
     local_scalar_t__ DUMMY_VAR__(std::numeric_limits<double>::quiet_NaN());
     (void) DUMMY_VAR__;  // suppress unused var warning
     try {
-      current_statement__ = 68;
+      current_statement__ = 95;
       if (stan::math::logical_lt(i, 1)) {
-        current_statement__ = 66;
+        current_statement__ = 93;
         return 0.0;
       } 
-      current_statement__ = 69;
+      current_statement__ = 96;
       return stan::model::rvalue(err, "err", stan::model::index_uni(i));
     } catch (const std::exception& e) {
       stan::lang::rethrow_located(e, locations_array__[current_statement__]);
@@ -275,76 +302,80 @@ g_functor__::operator()(const int& i, const T1__& err,
     try {
       int pos__ = std::numeric_limits<int>::min();
       pos__ = 1;
-      current_statement__ = 31;
+      current_statement__ = 56;
       context__.validate_dims("data initialization","T","int",
            std::vector<size_t>{});
       T = std::numeric_limits<int>::min();
       
       
-      current_statement__ = 31;
+      current_statement__ = 56;
       T = context__.vals_i("T")[(1 - 1)];
-      current_statement__ = 31;
+      current_statement__ = 56;
       stan::math::check_greater_or_equal(function__, "T", T, 1);
-      current_statement__ = 32;
+      current_statement__ = 57;
       context__.validate_dims("data initialization","p","int",
            std::vector<size_t>{});
       p = std::numeric_limits<int>::min();
       
       
-      current_statement__ = 32;
+      current_statement__ = 57;
       p = context__.vals_i("p")[(1 - 1)];
-      current_statement__ = 32;
+      current_statement__ = 57;
       stan::math::check_greater_or_equal(function__, "p", p, 1);
-      current_statement__ = 33;
+      current_statement__ = 58;
       context__.validate_dims("data initialization","q","int",
            std::vector<size_t>{});
       q = std::numeric_limits<int>::min();
       
       
-      current_statement__ = 33;
+      current_statement__ = 58;
       q = context__.vals_i("q")[(1 - 1)];
-      current_statement__ = 33;
+      current_statement__ = 58;
       stan::math::check_greater_or_equal(function__, "q", q, 1);
-      current_statement__ = 34;
+      current_statement__ = 59;
       stan::math::validate_non_negative_index("y", "T", T);
-      current_statement__ = 35;
+      current_statement__ = 60;
       context__.validate_dims("data initialization","y","double",
            std::vector<size_t>{static_cast<size_t>(T)});
       y = std::vector<double>(T, std::numeric_limits<double>::quiet_NaN());
       
       
-      current_statement__ = 35;
+      current_statement__ = 60;
       y = context__.vals_r("y");
-      current_statement__ = 36;
+      current_statement__ = 61;
       stan::math::validate_non_negative_index("is_missing", "T", T);
-      current_statement__ = 37;
+      current_statement__ = 62;
       context__.validate_dims("data initialization","is_missing","int",
            std::vector<size_t>{static_cast<size_t>(T)});
       is_missing = std::vector<int>(T, std::numeric_limits<int>::min());
       
       
-      current_statement__ = 37;
+      current_statement__ = 62;
       is_missing = context__.vals_i("is_missing");
-      current_statement__ = 37;
+      current_statement__ = 62;
       stan::math::check_greater_or_equal(function__, "is_missing",
                                             is_missing, 0);
-      current_statement__ = 37;
+      current_statement__ = 62;
       stan::math::check_less_or_equal(function__, "is_missing", is_missing, 1);
-      current_statement__ = 38;
+      current_statement__ = 63;
       stan::math::validate_non_negative_index("phi", "p", p);
-      current_statement__ = 39;
+      current_statement__ = 64;
       stan::math::validate_non_negative_index("theta", "q", q);
-      current_statement__ = 40;
+      current_statement__ = 65;
       y_start_1dim__ = std::numeric_limits<int>::min();
       
       
-      current_statement__ = 40;
+      current_statement__ = 65;
       y_start_1dim__ = (p + 1);
-      current_statement__ = 40;
+      current_statement__ = 65;
       stan::math::validate_non_negative_index("y_start", "p + 1",
                                               y_start_1dim__);
-      current_statement__ = 41;
+      current_statement__ = 66;
       stan::math::validate_non_negative_index("y_missing", "T", T);
+      current_statement__ = 67;
+      stan::math::validate_non_negative_index("y_post_pred", "T", T);
+      current_statement__ = 68;
+      stan::math::validate_non_negative_index("err_post_pred", "T", T);
     } catch (const std::exception& e) {
       stan::lang::rethrow_located(e, locations_array__[current_statement__]);
     }
@@ -398,22 +429,22 @@ g_functor__::operator()(const int& i, const T1__& err,
       y_missing = in__.template read<Eigen::Matrix<local_scalar_t__, -1, 1>>(
                     T);
       {
-        current_statement__ = 6;
+        current_statement__ = 31;
         stan::math::validate_non_negative_index("nu", "T", T);
         Eigen::Matrix<local_scalar_t__, -1, 1> nu =
            Eigen::Matrix<local_scalar_t__, -1, 1>::Constant(T, DUMMY_VAR__);
-        current_statement__ = 8;
+        current_statement__ = 33;
         stan::math::validate_non_negative_index("err", "T", T);
         Eigen::Matrix<local_scalar_t__, -1, 1> err =
            Eigen::Matrix<local_scalar_t__, -1, 1>::Constant(T, DUMMY_VAR__);
-        current_statement__ = 19;
+        current_statement__ = 44;
         for (int t = 1; t <= T; ++t) {
-          current_statement__ = 10;
+          current_statement__ = 35;
           stan::model::assign(nu, 0.0,
             "assigning variable nu", stan::model::index_uni(t));
-          current_statement__ = 13;
+          current_statement__ = 38;
           for (int j = 1; j <= p; ++j) {
-            current_statement__ = 11;
+            current_statement__ = 36;
             stan::model::assign(nu,
               (stan::model::rvalue(nu, "nu", stan::model::index_uni(t)) +
                 (stan::model::rvalue(phi, "phi", stan::model::index_uni(j)) *
@@ -421,73 +452,73 @@ g_functor__::operator()(const int& i, const T1__& err,
                     y_start, pstream__))),
               "assigning variable nu", stan::model::index_uni(t));
           }
-          current_statement__ = 16;
+          current_statement__ = 41;
           for (int j = 1; j <= q; ++j) {
-            current_statement__ = 14;
+            current_statement__ = 39;
             stan::model::assign(nu,
               (stan::model::rvalue(nu, "nu", stan::model::index_uni(t)) +
                 (stan::model::rvalue(theta, "theta",
                    stan::model::index_uni(j)) * g((t - j), err, pstream__))),
               "assigning variable nu", stan::model::index_uni(t));
           }
-          current_statement__ = 17;
+          current_statement__ = 42;
           stan::model::assign(err,
             (f(t, p, q, y, is_missing, y_missing, y_start, pstream__) -
               stan::model::rvalue(nu, "nu", stan::model::index_uni(t))),
             "assigning variable err", stan::model::index_uni(t));
         }
-        current_statement__ = 20;
+        current_statement__ = 45;
         lp_accum__.add(stan::math::normal_lpdf<propto__>(phi, 0, 2));
-        current_statement__ = 22;
+        current_statement__ = 47;
         if (stan::math::logical_lt(stan::math::min(phi), -1)) {
-          current_statement__ = 22;
+          current_statement__ = 47;
           lp_accum__.add(stan::math::negative_infinity());
         } else {
-          current_statement__ = 21;
+          current_statement__ = 46;
           if (stan::math::logical_gt(stan::math::max(phi), 1)) {
-            current_statement__ = 21;
+            current_statement__ = 46;
             lp_accum__.add(stan::math::negative_infinity());
           } else {
-            current_statement__ = 21;
+            current_statement__ = 46;
             lp_accum__.add(
               -(stan::math::log_diff_exp(stan::math::normal_lcdf(1, 0, 2),
                   stan::math::normal_lcdf(-1, 0, 2)) * stan::math::size(phi)));
           }
         }
-        current_statement__ = 23;
+        current_statement__ = 48;
         lp_accum__.add(stan::math::normal_lpdf<propto__>(theta, 0, 2));
-        current_statement__ = 25;
+        current_statement__ = 50;
         if (stan::math::logical_lt(stan::math::min(theta), -1)) {
-          current_statement__ = 25;
+          current_statement__ = 50;
           lp_accum__.add(stan::math::negative_infinity());
         } else {
-          current_statement__ = 24;
+          current_statement__ = 49;
           if (stan::math::logical_gt(stan::math::max(theta), 1)) {
-            current_statement__ = 24;
+            current_statement__ = 49;
             lp_accum__.add(stan::math::negative_infinity());
           } else {
-            current_statement__ = 24;
+            current_statement__ = 49;
             lp_accum__.add(
               -(stan::math::log_diff_exp(stan::math::normal_lcdf(1, 0, 2),
                   stan::math::normal_lcdf(-1, 0, 2)) *
                  stan::math::size(theta)));
           }
         }
-        current_statement__ = 26;
+        current_statement__ = 51;
         lp_accum__.add(stan::math::cauchy_lpdf<propto__>(sigma, 0, 5));
-        current_statement__ = 27;
+        current_statement__ = 52;
         if (stan::math::logical_lt(sigma, 0)) {
-          current_statement__ = 27;
+          current_statement__ = 52;
           lp_accum__.add(stan::math::negative_infinity());
         } else {
-          current_statement__ = 27;
+          current_statement__ = 52;
           lp_accum__.add(-stan::math::cauchy_lccdf(0, 0, 5));
         }
-        current_statement__ = 28;
+        current_statement__ = 53;
         lp_accum__.add(stan::math::normal_lpdf<propto__>(err, 0, sigma));
-        current_statement__ = 29;
+        current_statement__ = 54;
         lp_accum__.add(stan::math::normal_lpdf<propto__>(y_start, 1, 1));
-        current_statement__ = 30;
+        current_statement__ = 55;
         lp_accum__.add(stan::math::normal_lpdf<propto__>(y_missing, 1, 1));
       }
     } catch (const std::exception& e) {
@@ -565,6 +596,89 @@ g_functor__::operator()(const int& i, const T1__& err,
       if (stan::math::logical_negation(emit_generated_quantities__)) {
         return ;
       } 
+      std::vector<double> y_post_pred =
+         std::vector<double>(T, std::numeric_limits<double>::quiet_NaN());
+      std::vector<double> err_post_pred =
+         std::vector<double>(T, std::numeric_limits<double>::quiet_NaN());
+      current_statement__ = 7;
+      stan::model::assign(err_post_pred,
+        stan::math::normal_rng(stan::math::rep_vector(0, T), sigma,
+          base_rng__), "assigning variable err_post_pred");
+      current_statement__ = 30;
+      for (int t = 1; t <= T; ++t) {
+        double mean_val = std::numeric_limits<double>::quiet_NaN();
+        current_statement__ = 8;
+        mean_val = 0.0;
+        current_statement__ = 18;
+        for (int j = 1; j <= p; ++j) {
+          current_statement__ = 16;
+          if (stan::math::logical_lt((t - j), 1)) {
+            current_statement__ = 14;
+            mean_val = (mean_val +
+                         (stan::model::rvalue(phi, "phi",
+                            stan::model::index_uni(j)) *
+                           (stan::model::rvalue(y_start, "y_start",
+                              stan::model::index_uni((((p + t) - j) + 1))) -
+                             stan::model::rvalue(y_start, "y_start",
+                               stan::model::index_uni(((p + t) - j))))));
+          } else {
+            current_statement__ = 13;
+            if (stan::math::logical_eq((t - j), 1)) {
+              current_statement__ = 11;
+              mean_val = (mean_val +
+                           (stan::model::rvalue(phi, "phi",
+                              stan::model::index_uni(j)) *
+                             (stan::model::rvalue(y_post_pred, "y_post_pred",
+                                stan::model::index_uni((t - j))) -
+                               stan::model::rvalue(y_start, "y_start",
+                                 stan::model::index_uni(((p + t) - j))))));
+            } else {
+              current_statement__ = 9;
+              mean_val = (mean_val +
+                           (stan::model::rvalue(phi, "phi",
+                              stan::model::index_uni(j)) *
+                             (stan::model::rvalue(y_post_pred, "y_post_pred",
+                                stan::model::index_uni((t - j))) -
+                               stan::model::rvalue(y_post_pred,
+                                 "y_post_pred",
+                                 stan::model::index_uni(((t - j) - 1))))));
+            }
+          }
+        }
+        current_statement__ = 23;
+        for (int j = 1; j <= q; ++j) {
+          current_statement__ = 21;
+          if (stan::math::logical_gt((t - j), 0)) {
+            current_statement__ = 19;
+            mean_val = (mean_val +
+                         (stan::model::rvalue(theta, "theta",
+                            stan::model::index_uni(j)) *
+                           stan::model::rvalue(err_post_pred,
+                             "err_post_pred",
+                             stan::model::index_uni((t - j)))));
+          } 
+        }
+        current_statement__ = 28;
+        if (stan::math::logical_eq(t, 1)) {
+          current_statement__ = 26;
+          stan::model::assign(y_post_pred,
+            ((stan::model::rvalue(y_start, "y_start",
+                stan::model::index_uni((p + 1))) + mean_val) +
+              stan::model::rvalue(err_post_pred, "err_post_pred",
+                stan::model::index_uni(t))),
+            "assigning variable y_post_pred", stan::model::index_uni(t));
+        } else {
+          current_statement__ = 24;
+          stan::model::assign(y_post_pred,
+            ((stan::model::rvalue(y_post_pred, "y_post_pred",
+                stan::model::index_uni((t - 1))) + mean_val) +
+              stan::model::rvalue(err_post_pred, "err_post_pred",
+                stan::model::index_uni(t))),
+            "assigning variable y_post_pred", stan::model::index_uni(t));
+        }
+      }
+      out__.write(y_post_pred);
+      out__.write(err_post_pred);
     } catch (const std::exception& e) {
       stan::lang::rethrow_located(e, locations_array__[current_statement__]);
     }
@@ -625,7 +739,7 @@ g_functor__::operator()(const int& i, const T1__& err,
   inline void get_param_names(std::vector<std::string>& names__) const {
     
     names__ = std::vector<std::string>{"phi", "theta", "sigma", "y_start",
-      "y_missing"};
+      "y_missing", "y_post_pred", "err_post_pred"};
     
     } // get_param_names() 
     
@@ -636,6 +750,8 @@ g_functor__::operator()(const int& i, const T1__& err,
                                                                    },
       std::vector<size_t>{static_cast<size_t>(q)}, std::vector<size_t>{
       }, std::vector<size_t>{static_cast<size_t>(y_start_1dim__)},
+      std::vector<size_t>{static_cast<size_t>(T)},
+      std::vector<size_t>{static_cast<size_t>(T)},
       std::vector<size_t>{static_cast<size_t>(T)}};
     
     } // get_dims() 
@@ -672,7 +788,16 @@ g_functor__::operator()(const int& i, const T1__& err,
     }
     
     if (emit_generated_quantities__) {
-      
+      for (int sym1__ = 1; sym1__ <= T; ++sym1__) {
+        {
+          param_names__.emplace_back(std::string() + "y_post_pred" + '.' + std::to_string(sym1__));
+        } 
+      }
+      for (int sym1__ = 1; sym1__ <= T; ++sym1__) {
+        {
+          param_names__.emplace_back(std::string() + "err_post_pred" + '.' + std::to_string(sym1__));
+        } 
+      }
     }
     
     } // constrained_param_names() 
@@ -709,20 +834,29 @@ g_functor__::operator()(const int& i, const T1__& err,
     }
     
     if (emit_generated_quantities__) {
-      
+      for (int sym1__ = 1; sym1__ <= T; ++sym1__) {
+        {
+          param_names__.emplace_back(std::string() + "y_post_pred" + '.' + std::to_string(sym1__));
+        } 
+      }
+      for (int sym1__ = 1; sym1__ <= T; ++sym1__) {
+        {
+          param_names__.emplace_back(std::string() + "err_post_pred" + '.' + std::to_string(sym1__));
+        } 
+      }
     }
     
     } // unconstrained_param_names() 
     
   inline std::string get_constrained_sizedtypes() const {
     
-    return std::string("[{\"name\":\"phi\",\"type\":{\"name\":\"vector\",\"length\":" + std::to_string(p) + "},\"block\":\"parameters\"},{\"name\":\"theta\",\"type\":{\"name\":\"vector\",\"length\":" + std::to_string(q) + "},\"block\":\"parameters\"},{\"name\":\"sigma\",\"type\":{\"name\":\"real\"},\"block\":\"parameters\"},{\"name\":\"y_start\",\"type\":{\"name\":\"vector\",\"length\":" + std::to_string(y_start_1dim__) + "},\"block\":\"parameters\"},{\"name\":\"y_missing\",\"type\":{\"name\":\"vector\",\"length\":" + std::to_string(T) + "},\"block\":\"parameters\"}]");
+    return std::string("[{\"name\":\"phi\",\"type\":{\"name\":\"vector\",\"length\":" + std::to_string(p) + "},\"block\":\"parameters\"},{\"name\":\"theta\",\"type\":{\"name\":\"vector\",\"length\":" + std::to_string(q) + "},\"block\":\"parameters\"},{\"name\":\"sigma\",\"type\":{\"name\":\"real\"},\"block\":\"parameters\"},{\"name\":\"y_start\",\"type\":{\"name\":\"vector\",\"length\":" + std::to_string(y_start_1dim__) + "},\"block\":\"parameters\"},{\"name\":\"y_missing\",\"type\":{\"name\":\"vector\",\"length\":" + std::to_string(T) + "},\"block\":\"parameters\"},{\"name\":\"y_post_pred\",\"type\":{\"name\":\"array\",\"length\":" + std::to_string(T) + ",\"element_type\":{\"name\":\"real\"}},\"block\":\"generated_quantities\"},{\"name\":\"err_post_pred\",\"type\":{\"name\":\"array\",\"length\":" + std::to_string(T) + ",\"element_type\":{\"name\":\"real\"}},\"block\":\"generated_quantities\"}]");
     
     } // get_constrained_sizedtypes() 
     
   inline std::string get_unconstrained_sizedtypes() const {
     
-    return std::string("[{\"name\":\"phi\",\"type\":{\"name\":\"vector\",\"length\":" + std::to_string(p) + "},\"block\":\"parameters\"},{\"name\":\"theta\",\"type\":{\"name\":\"vector\",\"length\":" + std::to_string(q) + "},\"block\":\"parameters\"},{\"name\":\"sigma\",\"type\":{\"name\":\"real\"},\"block\":\"parameters\"},{\"name\":\"y_start\",\"type\":{\"name\":\"vector\",\"length\":" + std::to_string(y_start_1dim__) + "},\"block\":\"parameters\"},{\"name\":\"y_missing\",\"type\":{\"name\":\"vector\",\"length\":" + std::to_string(T) + "},\"block\":\"parameters\"}]");
+    return std::string("[{\"name\":\"phi\",\"type\":{\"name\":\"vector\",\"length\":" + std::to_string(p) + "},\"block\":\"parameters\"},{\"name\":\"theta\",\"type\":{\"name\":\"vector\",\"length\":" + std::to_string(q) + "},\"block\":\"parameters\"},{\"name\":\"sigma\",\"type\":{\"name\":\"real\"},\"block\":\"parameters\"},{\"name\":\"y_start\",\"type\":{\"name\":\"vector\",\"length\":" + std::to_string(y_start_1dim__) + "},\"block\":\"parameters\"},{\"name\":\"y_missing\",\"type\":{\"name\":\"vector\",\"length\":" + std::to_string(T) + "},\"block\":\"parameters\"},{\"name\":\"y_post_pred\",\"type\":{\"name\":\"array\",\"length\":" + std::to_string(T) + ",\"element_type\":{\"name\":\"real\"}},\"block\":\"generated_quantities\"},{\"name\":\"err_post_pred\",\"type\":{\"name\":\"array\",\"length\":" + std::to_string(T) + ",\"element_type\":{\"name\":\"real\"}},\"block\":\"generated_quantities\"}]");
     
     } // get_unconstrained_sizedtypes() 
     
@@ -738,7 +872,8 @@ g_functor__::operator()(const int& i, const T1__& err,
       const size_t num_params__ = 
   ((((p + q) + 1) + y_start_1dim__) + T);
       const size_t num_transformed = emit_transformed_parameters * 0;
-      const size_t num_gen_quantities = emit_generated_quantities * 0;
+      const size_t num_gen_quantities = emit_generated_quantities * 
+  (T + T);
       const size_t num_to_write = num_params__ + num_transformed +
         num_gen_quantities;
       std::vector<int> params_i;
@@ -758,7 +893,8 @@ g_functor__::operator()(const int& i, const T1__& err,
       const size_t num_params__ = 
   ((((p + q) + 1) + y_start_1dim__) + T);
       const size_t num_transformed = emit_transformed_parameters * 0;
-      const size_t num_gen_quantities = emit_generated_quantities * 0;
+      const size_t num_gen_quantities = emit_generated_quantities * 
+  (T + T);
       const size_t num_to_write = num_params__ + num_transformed +
         num_gen_quantities;
       vars = std::vector<double>(num_to_write,

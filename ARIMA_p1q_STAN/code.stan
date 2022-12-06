@@ -36,7 +36,7 @@ functions {
     }
     return err[i];
   }
-  
+    
 }
 
 data {
@@ -85,4 +85,35 @@ model {
 
 
     
+generated quantities {
+    array[T] real y_post_pred;
+    array[T] real err_post_pred = normal_rng(rep_vector(0,T), sigma);
+    for (t in 1:T) {
+        
+        real mean_val = 0.0;
+        
+        for (j in 1:p) {
+            if (t-j < 1) {
+                mean_val += phi[j]*(y_start[p+t-j+1] - y_start[p+t-j]);
+            } else if ((t-j)==1) {
+                mean_val += phi[j]*(y_post_pred[t-j] - y_start[p+t-j]);
+            } else {
+                mean_val += phi[j]*(y_post_pred[t-j] - y_post_pred[t-j-1]);
+            }
+        }
     
+        for (j in 1:q) {
+            if (t-j > 0) {
+                mean_val += theta[j]*err_post_pred[t-j];
+            }
+        }
+
+        if (t == 1) {
+            y_post_pred[t] = y_start[p+1] + mean_val + err_post_pred[t];            
+        } else {
+            y_post_pred[t] = y_post_pred[t-1] + mean_val + err_post_pred[t];
+        }
+        
+    }
+}
+
