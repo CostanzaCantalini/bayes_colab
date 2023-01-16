@@ -4,6 +4,9 @@
 ## Link presentazione
 - https://www.overleaf.com/9542581941dggcvhhvcsdb
 
+## Link report
+- https://www.overleaf.com/5335223538qfstbqsxjfds
+
 ## Letteratura: (guardare dentro la cartella per il readme associato)
 
 ## Risorse Python:
