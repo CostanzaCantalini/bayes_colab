@@ -1,0 +1,4 @@
+In generale per provare il codice occorre cancellare il file "code"
+Quindi eseguire il notebook "compile_stan_code" e fare attenzione al file che si ottiene a fine compilazione:
+- Se ottenete un file "code" va tutto bene, potete tranquillamente eseguire il notebook "prova" e dovrebbe funzionare
+- Se ottenere un file "code.exe" dovete aprire "fit_arima.py" e sostituire in exe_file='./code' l'espressione exe_file='./code.exe', a questo punto il notebook "prova" dovrebbe funzionare
