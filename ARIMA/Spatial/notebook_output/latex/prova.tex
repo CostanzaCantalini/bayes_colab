@@ -1,0 +1,2003 @@
+\documentclass[11pt]{article}
+
+    \usepackage[breakable]{tcolorbox}
+    \usepackage{parskip} % Stop auto-indenting (to mimic markdown behaviour)
+    
+
+    % Basic figure setup, for now with no caption control since it's done
+    % automatically by Pandoc (which extracts ![](path) syntax from Markdown).
+    \usepackage{graphicx}
+    % Maintain compatibility with old templates. Remove in nbconvert 6.0
+    \let\Oldincludegraphics\includegraphics
+    % Ensure that by default, figures have no caption (until we provide a
+    % proper Figure object with a Caption API and a way to capture that
+    % in the conversion process - todo).
+    \usepackage{caption}
+    \DeclareCaptionFormat{nocaption}{}
+    \captionsetup{format=nocaption,aboveskip=0pt,belowskip=0pt}
+
+    \usepackage{float}
+    \floatplacement{figure}{H} % forces figures to be placed at the correct location
+    \usepackage{xcolor} % Allow colors to be defined
+    \usepackage{enumerate} % Needed for markdown enumerations to work
+    \usepackage{geometry} % Used to adjust the document margins
+    \usepackage{amsmath} % Equations
+    \usepackage{amssymb} % Equations
+    \usepackage{textcomp} % defines textquotesingle
+    % Hack from http://tex.stackexchange.com/a/47451/13684:
+    \AtBeginDocument{%
+        \def\PYZsq{\textquotesingle}% Upright quotes in Pygmentized code
+    }
+    \usepackage{upquote} % Upright quotes for verbatim code
+    \usepackage{eurosym} % defines \euro
+
+    \usepackage{iftex}
+    \ifPDFTeX
+        \usepackage[T1]{fontenc}
+        \IfFileExists{alphabeta.sty}{
+              \usepackage{alphabeta}
+          }{
+              \usepackage[mathletters]{ucs}
+              \usepackage[utf8x]{inputenc}
+          }
+    \else
+        \usepackage{fontspec}
+        \usepackage{unicode-math}
+    \fi
+
+    \usepackage{fancyvrb} % verbatim replacement that allows latex
+    \usepackage{grffile} % extends the file name processing of package graphics
+                         % to support a larger range
+    \makeatletter % fix for old versions of grffile with XeLaTeX
+    \@ifpackagelater{grffile}{2019/11/01}
+    {
+      % Do nothing on new versions
+    }
+    {
+      \def\Gread@@xetex#1{%
+        \IfFileExists{"\Gin@base".bb}%
+        {\Gread@eps{\Gin@base.bb}}%
+        {\Gread@@xetex@aux#1}%
+      }
+    }
+    \makeatother
+    \usepackage[Export]{adjustbox} % Used to constrain images to a maximum size
+    \adjustboxset{max size={0.9\linewidth}{0.9\paperheight}}
+
+    % The hyperref package gives us a pdf with properly built
+    % internal navigation ('pdf bookmarks' for the table of contents,
+    % internal cross-reference links, web links for URLs, etc.)
+    \usepackage{hyperref}
+    % The default LaTeX title has an obnoxious amount of whitespace. By default,
+    % titling removes some of it. It also provides customization options.
+    \usepackage{titling}
+    \usepackage{longtable} % longtable support required by pandoc >1.10
+    \usepackage{booktabs}  % table support for pandoc > 1.12.2
+    \usepackage{array}     % table support for pandoc >= 2.11.3
+    \usepackage{calc}      % table minipage width calculation for pandoc >= 2.11.1
+    \usepackage[inline]{enumitem} % IRkernel/repr support (it uses the enumerate* environment)
+    \usepackage[normalem]{ulem} % ulem is needed to support strikethroughs (\sout)
+                                % normalem makes italics be italics, not underlines
+    \usepackage{mathrsfs}
+    
+
+    
+    % Colors for the hyperref package
+    \definecolor{urlcolor}{rgb}{0,.145,.698}
+    \definecolor{linkcolor}{rgb}{.71,0.21,0.01}
+    \definecolor{citecolor}{rgb}{.12,.54,.11}
+
+    % ANSI colors
+    \definecolor{ansi-black}{HTML}{3E424D}
+    \definecolor{ansi-black-intense}{HTML}{282C36}
+    \definecolor{ansi-red}{HTML}{E75C58}
+    \definecolor{ansi-red-intense}{HTML}{B22B31}
+    \definecolor{ansi-green}{HTML}{00A250}
+    \definecolor{ansi-green-intense}{HTML}{007427}
+    \definecolor{ansi-yellow}{HTML}{DDB62B}
+    \definecolor{ansi-yellow-intense}{HTML}{B27D12}
+    \definecolor{ansi-blue}{HTML}{208FFB}
+    \definecolor{ansi-blue-intense}{HTML}{0065CA}
+    \definecolor{ansi-magenta}{HTML}{D160C4}
+    \definecolor{ansi-magenta-intense}{HTML}{A03196}
+    \definecolor{ansi-cyan}{HTML}{60C6C8}
+    \definecolor{ansi-cyan-intense}{HTML}{258F8F}
+    \definecolor{ansi-white}{HTML}{C5C1B4}
+    \definecolor{ansi-white-intense}{HTML}{A1A6B2}
+    \definecolor{ansi-default-inverse-fg}{HTML}{FFFFFF}
+    \definecolor{ansi-default-inverse-bg}{HTML}{000000}
+
+    % common color for the border for error outputs.
+    \definecolor{outerrorbackground}{HTML}{FFDFDF}
+
+    % commands and environments needed by pandoc snippets
+    % extracted from the output of `pandoc -s`
+    \providecommand{\tightlist}{%
+      \setlength{\itemsep}{0pt}\setlength{\parskip}{0pt}}
+    \DefineVerbatimEnvironment{Highlighting}{Verbatim}{commandchars=\\\{\}}
+    % Add ',fontsize=\small' for more characters per line
+    \newenvironment{Shaded}{}{}
+    \newcommand{\KeywordTok}[1]{\textcolor[rgb]{0.00,0.44,0.13}{\textbf{{#1}}}}
+    \newcommand{\DataTypeTok}[1]{\textcolor[rgb]{0.56,0.13,0.00}{{#1}}}
+    \newcommand{\DecValTok}[1]{\textcolor[rgb]{0.25,0.63,0.44}{{#1}}}
+    \newcommand{\BaseNTok}[1]{\textcolor[rgb]{0.25,0.63,0.44}{{#1}}}
+    \newcommand{\FloatTok}[1]{\textcolor[rgb]{0.25,0.63,0.44}{{#1}}}
+    \newcommand{\CharTok}[1]{\textcolor[rgb]{0.25,0.44,0.63}{{#1}}}
+    \newcommand{\StringTok}[1]{\textcolor[rgb]{0.25,0.44,0.63}{{#1}}}
+    \newcommand{\CommentTok}[1]{\textcolor[rgb]{0.38,0.63,0.69}{\textit{{#1}}}}
+    \newcommand{\OtherTok}[1]{\textcolor[rgb]{0.00,0.44,0.13}{{#1}}}
+    \newcommand{\AlertTok}[1]{\textcolor[rgb]{1.00,0.00,0.00}{\textbf{{#1}}}}
+    \newcommand{\FunctionTok}[1]{\textcolor[rgb]{0.02,0.16,0.49}{{#1}}}
+    \newcommand{\RegionMarkerTok}[1]{{#1}}
+    \newcommand{\ErrorTok}[1]{\textcolor[rgb]{1.00,0.00,0.00}{\textbf{{#1}}}}
+    \newcommand{\NormalTok}[1]{{#1}}
+
+    % Additional commands for more recent versions of Pandoc
+    \newcommand{\ConstantTok}[1]{\textcolor[rgb]{0.53,0.00,0.00}{{#1}}}
+    \newcommand{\SpecialCharTok}[1]{\textcolor[rgb]{0.25,0.44,0.63}{{#1}}}
+    \newcommand{\VerbatimStringTok}[1]{\textcolor[rgb]{0.25,0.44,0.63}{{#1}}}
+    \newcommand{\SpecialStringTok}[1]{\textcolor[rgb]{0.73,0.40,0.53}{{#1}}}
+    \newcommand{\ImportTok}[1]{{#1}}
+    \newcommand{\DocumentationTok}[1]{\textcolor[rgb]{0.73,0.13,0.13}{\textit{{#1}}}}
+    \newcommand{\AnnotationTok}[1]{\textcolor[rgb]{0.38,0.63,0.69}{\textbf{\textit{{#1}}}}}
+    \newcommand{\CommentVarTok}[1]{\textcolor[rgb]{0.38,0.63,0.69}{\textbf{\textit{{#1}}}}}
+    \newcommand{\VariableTok}[1]{\textcolor[rgb]{0.10,0.09,0.49}{{#1}}}
+    \newcommand{\ControlFlowTok}[1]{\textcolor[rgb]{0.00,0.44,0.13}{\textbf{{#1}}}}
+    \newcommand{\OperatorTok}[1]{\textcolor[rgb]{0.40,0.40,0.40}{{#1}}}
+    \newcommand{\BuiltInTok}[1]{{#1}}
+    \newcommand{\ExtensionTok}[1]{{#1}}
+    \newcommand{\PreprocessorTok}[1]{\textcolor[rgb]{0.74,0.48,0.00}{{#1}}}
+    \newcommand{\AttributeTok}[1]{\textcolor[rgb]{0.49,0.56,0.16}{{#1}}}
+    \newcommand{\InformationTok}[1]{\textcolor[rgb]{0.38,0.63,0.69}{\textbf{\textit{{#1}}}}}
+    \newcommand{\WarningTok}[1]{\textcolor[rgb]{0.38,0.63,0.69}{\textbf{\textit{{#1}}}}}
+
+
+    % Define a nice break command that doesn't care if a line doesn't already
+    % exist.
+    \def\br{\hspace*{\fill} \\* }
+    % Math Jax compatibility definitions
+    \def\gt{>}
+    \def\lt{<}
+    \let\Oldtex\TeX
+    \let\Oldlatex\LaTeX
+    \renewcommand{\TeX}{\textrm{\Oldtex}}
+    \renewcommand{\LaTeX}{\textrm{\Oldlatex}}
+    % Document parameters
+    % Document title
+    \title{prova}
+    
+    
+    
+    
+    
+% Pygments definitions
+\makeatletter
+\def\PY@reset{\let\PY@it=\relax \let\PY@bf=\relax%
+    \let\PY@ul=\relax \let\PY@tc=\relax%
+    \let\PY@bc=\relax \let\PY@ff=\relax}
+\def\PY@tok#1{\csname PY@tok@#1\endcsname}
+\def\PY@toks#1+{\ifx\relax#1\empty\else%
+    \PY@tok{#1}\expandafter\PY@toks\fi}
+\def\PY@do#1{\PY@bc{\PY@tc{\PY@ul{%
+    \PY@it{\PY@bf{\PY@ff{#1}}}}}}}
+\def\PY#1#2{\PY@reset\PY@toks#1+\relax+\PY@do{#2}}
+
+\@namedef{PY@tok@w}{\def\PY@tc##1{\textcolor[rgb]{0.73,0.73,0.73}{##1}}}
+\@namedef{PY@tok@c}{\let\PY@it=\textit\def\PY@tc##1{\textcolor[rgb]{0.24,0.48,0.48}{##1}}}
+\@namedef{PY@tok@cp}{\def\PY@tc##1{\textcolor[rgb]{0.61,0.40,0.00}{##1}}}
+\@namedef{PY@tok@k}{\let\PY@bf=\textbf\def\PY@tc##1{\textcolor[rgb]{0.00,0.50,0.00}{##1}}}
+\@namedef{PY@tok@kp}{\def\PY@tc##1{\textcolor[rgb]{0.00,0.50,0.00}{##1}}}
+\@namedef{PY@tok@kt}{\def\PY@tc##1{\textcolor[rgb]{0.69,0.00,0.25}{##1}}}
+\@namedef{PY@tok@o}{\def\PY@tc##1{\textcolor[rgb]{0.40,0.40,0.40}{##1}}}
+\@namedef{PY@tok@ow}{\let\PY@bf=\textbf\def\PY@tc##1{\textcolor[rgb]{0.67,0.13,1.00}{##1}}}
+\@namedef{PY@tok@nb}{\def\PY@tc##1{\textcolor[rgb]{0.00,0.50,0.00}{##1}}}
+\@namedef{PY@tok@nf}{\def\PY@tc##1{\textcolor[rgb]{0.00,0.00,1.00}{##1}}}
+\@namedef{PY@tok@nc}{\let\PY@bf=\textbf\def\PY@tc##1{\textcolor[rgb]{0.00,0.00,1.00}{##1}}}
+\@namedef{PY@tok@nn}{\let\PY@bf=\textbf\def\PY@tc##1{\textcolor[rgb]{0.00,0.00,1.00}{##1}}}
+\@namedef{PY@tok@ne}{\let\PY@bf=\textbf\def\PY@tc##1{\textcolor[rgb]{0.80,0.25,0.22}{##1}}}
+\@namedef{PY@tok@nv}{\def\PY@tc##1{\textcolor[rgb]{0.10,0.09,0.49}{##1}}}
+\@namedef{PY@tok@no}{\def\PY@tc##1{\textcolor[rgb]{0.53,0.00,0.00}{##1}}}
+\@namedef{PY@tok@nl}{\def\PY@tc##1{\textcolor[rgb]{0.46,0.46,0.00}{##1}}}
+\@namedef{PY@tok@ni}{\let\PY@bf=\textbf\def\PY@tc##1{\textcolor[rgb]{0.44,0.44,0.44}{##1}}}
+\@namedef{PY@tok@na}{\def\PY@tc##1{\textcolor[rgb]{0.41,0.47,0.13}{##1}}}
+\@namedef{PY@tok@nt}{\let\PY@bf=\textbf\def\PY@tc##1{\textcolor[rgb]{0.00,0.50,0.00}{##1}}}
+\@namedef{PY@tok@nd}{\def\PY@tc##1{\textcolor[rgb]{0.67,0.13,1.00}{##1}}}
+\@namedef{PY@tok@s}{\def\PY@tc##1{\textcolor[rgb]{0.73,0.13,0.13}{##1}}}
+\@namedef{PY@tok@sd}{\let\PY@it=\textit\def\PY@tc##1{\textcolor[rgb]{0.73,0.13,0.13}{##1}}}
+\@namedef{PY@tok@si}{\let\PY@bf=\textbf\def\PY@tc##1{\textcolor[rgb]{0.64,0.35,0.47}{##1}}}
+\@namedef{PY@tok@se}{\let\PY@bf=\textbf\def\PY@tc##1{\textcolor[rgb]{0.67,0.36,0.12}{##1}}}
+\@namedef{PY@tok@sr}{\def\PY@tc##1{\textcolor[rgb]{0.64,0.35,0.47}{##1}}}
+\@namedef{PY@tok@ss}{\def\PY@tc##1{\textcolor[rgb]{0.10,0.09,0.49}{##1}}}
+\@namedef{PY@tok@sx}{\def\PY@tc##1{\textcolor[rgb]{0.00,0.50,0.00}{##1}}}
+\@namedef{PY@tok@m}{\def\PY@tc##1{\textcolor[rgb]{0.40,0.40,0.40}{##1}}}
+\@namedef{PY@tok@gh}{\let\PY@bf=\textbf\def\PY@tc##1{\textcolor[rgb]{0.00,0.00,0.50}{##1}}}
+\@namedef{PY@tok@gu}{\let\PY@bf=\textbf\def\PY@tc##1{\textcolor[rgb]{0.50,0.00,0.50}{##1}}}
+\@namedef{PY@tok@gd}{\def\PY@tc##1{\textcolor[rgb]{0.63,0.00,0.00}{##1}}}
+\@namedef{PY@tok@gi}{\def\PY@tc##1{\textcolor[rgb]{0.00,0.52,0.00}{##1}}}
+\@namedef{PY@tok@gr}{\def\PY@tc##1{\textcolor[rgb]{0.89,0.00,0.00}{##1}}}
+\@namedef{PY@tok@ge}{\let\PY@it=\textit}
+\@namedef{PY@tok@gs}{\let\PY@bf=\textbf}
+\@namedef{PY@tok@gp}{\let\PY@bf=\textbf\def\PY@tc##1{\textcolor[rgb]{0.00,0.00,0.50}{##1}}}
+\@namedef{PY@tok@go}{\def\PY@tc##1{\textcolor[rgb]{0.44,0.44,0.44}{##1}}}
+\@namedef{PY@tok@gt}{\def\PY@tc##1{\textcolor[rgb]{0.00,0.27,0.87}{##1}}}
+\@namedef{PY@tok@err}{\def\PY@bc##1{{\setlength{\fboxsep}{\string -\fboxrule}\fcolorbox[rgb]{1.00,0.00,0.00}{1,1,1}{\strut ##1}}}}
+\@namedef{PY@tok@kc}{\let\PY@bf=\textbf\def\PY@tc##1{\textcolor[rgb]{0.00,0.50,0.00}{##1}}}
+\@namedef{PY@tok@kd}{\let\PY@bf=\textbf\def\PY@tc##1{\textcolor[rgb]{0.00,0.50,0.00}{##1}}}
+\@namedef{PY@tok@kn}{\let\PY@bf=\textbf\def\PY@tc##1{\textcolor[rgb]{0.00,0.50,0.00}{##1}}}
+\@namedef{PY@tok@kr}{\let\PY@bf=\textbf\def\PY@tc##1{\textcolor[rgb]{0.00,0.50,0.00}{##1}}}
+\@namedef{PY@tok@bp}{\def\PY@tc##1{\textcolor[rgb]{0.00,0.50,0.00}{##1}}}
+\@namedef{PY@tok@fm}{\def\PY@tc##1{\textcolor[rgb]{0.00,0.00,1.00}{##1}}}
+\@namedef{PY@tok@vc}{\def\PY@tc##1{\textcolor[rgb]{0.10,0.09,0.49}{##1}}}
+\@namedef{PY@tok@vg}{\def\PY@tc##1{\textcolor[rgb]{0.10,0.09,0.49}{##1}}}
+\@namedef{PY@tok@vi}{\def\PY@tc##1{\textcolor[rgb]{0.10,0.09,0.49}{##1}}}
+\@namedef{PY@tok@vm}{\def\PY@tc##1{\textcolor[rgb]{0.10,0.09,0.49}{##1}}}
+\@namedef{PY@tok@sa}{\def\PY@tc##1{\textcolor[rgb]{0.73,0.13,0.13}{##1}}}
+\@namedef{PY@tok@sb}{\def\PY@tc##1{\textcolor[rgb]{0.73,0.13,0.13}{##1}}}
+\@namedef{PY@tok@sc}{\def\PY@tc##1{\textcolor[rgb]{0.73,0.13,0.13}{##1}}}
+\@namedef{PY@tok@dl}{\def\PY@tc##1{\textcolor[rgb]{0.73,0.13,0.13}{##1}}}
+\@namedef{PY@tok@s2}{\def\PY@tc##1{\textcolor[rgb]{0.73,0.13,0.13}{##1}}}
+\@namedef{PY@tok@sh}{\def\PY@tc##1{\textcolor[rgb]{0.73,0.13,0.13}{##1}}}
+\@namedef{PY@tok@s1}{\def\PY@tc##1{\textcolor[rgb]{0.73,0.13,0.13}{##1}}}
+\@namedef{PY@tok@mb}{\def\PY@tc##1{\textcolor[rgb]{0.40,0.40,0.40}{##1}}}
+\@namedef{PY@tok@mf}{\def\PY@tc##1{\textcolor[rgb]{0.40,0.40,0.40}{##1}}}
+\@namedef{PY@tok@mh}{\def\PY@tc##1{\textcolor[rgb]{0.40,0.40,0.40}{##1}}}
+\@namedef{PY@tok@mi}{\def\PY@tc##1{\textcolor[rgb]{0.40,0.40,0.40}{##1}}}
+\@namedef{PY@tok@il}{\def\PY@tc##1{\textcolor[rgb]{0.40,0.40,0.40}{##1}}}
+\@namedef{PY@tok@mo}{\def\PY@tc##1{\textcolor[rgb]{0.40,0.40,0.40}{##1}}}
+\@namedef{PY@tok@ch}{\let\PY@it=\textit\def\PY@tc##1{\textcolor[rgb]{0.24,0.48,0.48}{##1}}}
+\@namedef{PY@tok@cm}{\let\PY@it=\textit\def\PY@tc##1{\textcolor[rgb]{0.24,0.48,0.48}{##1}}}
+\@namedef{PY@tok@cpf}{\let\PY@it=\textit\def\PY@tc##1{\textcolor[rgb]{0.24,0.48,0.48}{##1}}}
+\@namedef{PY@tok@c1}{\let\PY@it=\textit\def\PY@tc##1{\textcolor[rgb]{0.24,0.48,0.48}{##1}}}
+\@namedef{PY@tok@cs}{\let\PY@it=\textit\def\PY@tc##1{\textcolor[rgb]{0.24,0.48,0.48}{##1}}}
+
+\def\PYZbs{\char`\\}
+\def\PYZus{\char`\_}
+\def\PYZob{\char`\{}
+\def\PYZcb{\char`\}}
+\def\PYZca{\char`\^}
+\def\PYZam{\char`\&}
+\def\PYZlt{\char`\<}
+\def\PYZgt{\char`\>}
+\def\PYZsh{\char`\#}
+\def\PYZpc{\char`\%}
+\def\PYZdl{\char`\$}
+\def\PYZhy{\char`\-}
+\def\PYZsq{\char`\'}
+\def\PYZdq{\char`\"}
+\def\PYZti{\char`\~}
+% for compatibility with earlier versions
+\def\PYZat{@}
+\def\PYZlb{[}
+\def\PYZrb{]}
+\makeatother
+
+
+    % For linebreaks inside Verbatim environment from package fancyvrb.
+    \makeatletter
+        \newbox\Wrappedcontinuationbox
+        \newbox\Wrappedvisiblespacebox
+        \newcommand*\Wrappedvisiblespace {\textcolor{red}{\textvisiblespace}}
+        \newcommand*\Wrappedcontinuationsymbol {\textcolor{red}{\llap{\tiny$\m@th\hookrightarrow$}}}
+        \newcommand*\Wrappedcontinuationindent {3ex }
+        \newcommand*\Wrappedafterbreak {\kern\Wrappedcontinuationindent\copy\Wrappedcontinuationbox}
+        % Take advantage of the already applied Pygments mark-up to insert
+        % potential linebreaks for TeX processing.
+        %        {, <, #, %, $, ' and ": go to next line.
+        %        _, }, ^, &, >, - and ~: stay at end of broken line.
+        % Use of \textquotesingle for straight quote.
+        \newcommand*\Wrappedbreaksatspecials {%
+            \def\PYGZus{\discretionary{\char`\_}{\Wrappedafterbreak}{\char`\_}}%
+            \def\PYGZob{\discretionary{}{\Wrappedafterbreak\char`\{}{\char`\{}}%
+            \def\PYGZcb{\discretionary{\char`\}}{\Wrappedafterbreak}{\char`\}}}%
+            \def\PYGZca{\discretionary{\char`\^}{\Wrappedafterbreak}{\char`\^}}%
+            \def\PYGZam{\discretionary{\char`\&}{\Wrappedafterbreak}{\char`\&}}%
+            \def\PYGZlt{\discretionary{}{\Wrappedafterbreak\char`\<}{\char`\<}}%
+            \def\PYGZgt{\discretionary{\char`\>}{\Wrappedafterbreak}{\char`\>}}%
+            \def\PYGZsh{\discretionary{}{\Wrappedafterbreak\char`\#}{\char`\#}}%
+            \def\PYGZpc{\discretionary{}{\Wrappedafterbreak\char`\%}{\char`\%}}%
+            \def\PYGZdl{\discretionary{}{\Wrappedafterbreak\char`\$}{\char`\$}}%
+            \def\PYGZhy{\discretionary{\char`\-}{\Wrappedafterbreak}{\char`\-}}%
+            \def\PYGZsq{\discretionary{}{\Wrappedafterbreak\textquotesingle}{\textquotesingle}}%
+            \def\PYGZdq{\discretionary{}{\Wrappedafterbreak\char`\"}{\char`\"}}%
+            \def\PYGZti{\discretionary{\char`\~}{\Wrappedafterbreak}{\char`\~}}%
+        }
+        % Some characters . , ; ? ! / are not pygmentized.
+        % This macro makes them "active" and they will insert potential linebreaks
+        \newcommand*\Wrappedbreaksatpunct {%
+            \lccode`\~`\.\lowercase{\def~}{\discretionary{\hbox{\char`\.}}{\Wrappedafterbreak}{\hbox{\char`\.}}}%
+            \lccode`\~`\,\lowercase{\def~}{\discretionary{\hbox{\char`\,}}{\Wrappedafterbreak}{\hbox{\char`\,}}}%
+            \lccode`\~`\;\lowercase{\def~}{\discretionary{\hbox{\char`\;}}{\Wrappedafterbreak}{\hbox{\char`\;}}}%
+            \lccode`\~`\:\lowercase{\def~}{\discretionary{\hbox{\char`\:}}{\Wrappedafterbreak}{\hbox{\char`\:}}}%
+            \lccode`\~`\?\lowercase{\def~}{\discretionary{\hbox{\char`\?}}{\Wrappedafterbreak}{\hbox{\char`\?}}}%
+            \lccode`\~`\!\lowercase{\def~}{\discretionary{\hbox{\char`\!}}{\Wrappedafterbreak}{\hbox{\char`\!}}}%
+            \lccode`\~`\/\lowercase{\def~}{\discretionary{\hbox{\char`\/}}{\Wrappedafterbreak}{\hbox{\char`\/}}}%
+            \catcode`\.\active
+            \catcode`\,\active
+            \catcode`\;\active
+            \catcode`\:\active
+            \catcode`\?\active
+            \catcode`\!\active
+            \catcode`\/\active
+            \lccode`\~`\~
+        }
+    \makeatother
+
+    \let\OriginalVerbatim=\Verbatim
+    \makeatletter
+    \renewcommand{\Verbatim}[1][1]{%
+        %\parskip\z@skip
+        \sbox\Wrappedcontinuationbox {\Wrappedcontinuationsymbol}%
+        \sbox\Wrappedvisiblespacebox {\FV@SetupFont\Wrappedvisiblespace}%
+        \def\FancyVerbFormatLine ##1{\hsize\linewidth
+            \vtop{\raggedright\hyphenpenalty\z@\exhyphenpenalty\z@
+                \doublehyphendemerits\z@\finalhyphendemerits\z@
+                \strut ##1\strut}%
+        }%
+        % If the linebreak is at a space, the latter will be displayed as visible
+        % space at end of first line, and a continuation symbol starts next line.
+        % Stretch/shrink are however usually zero for typewriter font.
+        \def\FV@Space {%
+            \nobreak\hskip\z@ plus\fontdimen3\font minus\fontdimen4\font
+            \discretionary{\copy\Wrappedvisiblespacebox}{\Wrappedafterbreak}
+            {\kern\fontdimen2\font}%
+        }%
+
+        % Allow breaks at special characters using \PYG... macros.
+        \Wrappedbreaksatspecials
+        % Breaks at punctuation characters . , ; ? ! and / need catcode=\active
+        \OriginalVerbatim[#1,codes*=\Wrappedbreaksatpunct]%
+    }
+    \makeatother
+
+    % Exact colors from NB
+    \definecolor{incolor}{HTML}{303F9F}
+    \definecolor{outcolor}{HTML}{D84315}
+    \definecolor{cellborder}{HTML}{CFCFCF}
+    \definecolor{cellbackground}{HTML}{F7F7F7}
+
+    % prompt
+    \makeatletter
+    \newcommand{\boxspacing}{\kern\kvtcb@left@rule\kern\kvtcb@boxsep}
+    \makeatother
+    \newcommand{\prompt}[4]{
+        {\ttfamily\llap{{\color{#2}[#3]:\hspace{3pt}#4}}\vspace{-\baselineskip}}
+    }
+    
+
+    
+    % Prevent overflowing lines due to hard-to-break entities
+    \sloppy
+    % Setup hyperref package
+    \hypersetup{
+      breaklinks=true,  % so long urls are correctly broken across lines
+      colorlinks=true,
+      urlcolor=urlcolor,
+      linkcolor=linkcolor,
+      citecolor=citecolor,
+      }
+    % Slightly bigger margins than the latex defaults
+    
+    \geometry{verbose,tmargin=1in,bmargin=1in,lmargin=1in,rmargin=1in}
+    
+    
+
+\begin{document}
+    
+    \maketitle
+    
+    
+
+    
+    \begin{tcolorbox}[breakable, size=fbox, boxrule=1pt, pad at break*=1mm,colback=cellbackground, colframe=cellborder]
+\prompt{In}{incolor}{1}{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+\PY{k+kn}{import} \PY{n+nn}{pandas} \PY{k}{as} \PY{n+nn}{pd}
+\PY{k+kn}{import} \PY{n+nn}{numpy} \PY{k}{as} \PY{n+nn}{np}
+\PY{k+kn}{import} \PY{n+nn}{matplotlib}\PY{n+nn}{.}\PY{n+nn}{pyplot} \PY{k}{as} \PY{n+nn}{plt}
+\PY{k+kn}{import} \PY{n+nn}{matplotlib} \PY{k}{as} \PY{n+nn}{mplt}
+\PY{k+kn}{import} \PY{n+nn}{seaborn} \PY{k}{as} \PY{n+nn}{sns}
+\PY{k+kn}{import} \PY{n+nn}{arviz} \PY{k}{as} \PY{n+nn}{az}
+\PY{k+kn}{import} \PY{n+nn}{datetime}
+\end{Verbatim}
+\end{tcolorbox}
+
+    \begin{tcolorbox}[breakable, size=fbox, boxrule=1pt, pad at break*=1mm,colback=cellbackground, colframe=cellborder]
+\prompt{In}{incolor}{2}{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+\PY{k+kn}{import} \PY{n+nn}{fit\PYZus{}arima}
+\end{Verbatim}
+\end{tcolorbox}
+
+    \begin{tcolorbox}[breakable, size=fbox, boxrule=1pt, pad at break*=1mm,colback=cellbackground, colframe=cellborder]
+\prompt{In}{incolor}{3}{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+\PY{k+kn}{import} \PY{n+nn}{open\PYZus{}data}
+\PY{n}{df\PYZus{}temp} \PY{o}{=} \PY{n}{open\PYZus{}data}\PY{o}{.}\PY{n}{open}\PY{p}{(}\PY{p}{)}
+\PY{n}{df} \PY{o}{=} \PY{n}{df\PYZus{}temp}\PY{p}{[}\PY{l+m+mi}{0}\PY{p}{]}
+\end{Verbatim}
+\end{tcolorbox}
+
+    \begin{tcolorbox}[breakable, size=fbox, boxrule=1pt, pad at break*=1mm,colback=cellbackground, colframe=cellborder]
+\prompt{In}{incolor}{4}{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+\PY{n}{ritorno} \PY{o}{=} \PY{n}{fit\PYZus{}arima}\PY{o}{.}\PY{n}{compute}\PY{p}{(}\PY{l+m+mi}{2}\PY{p}{,} \PY{l+m+mi}{1}\PY{p}{,} \PY{n}{catene}\PY{o}{=}\PY{l+m+mi}{4}\PY{p}{,} \PY{n}{samples\PYZus{}per\PYZus{}chain}\PY{o}{=}\PY{l+m+mi}{2500}\PY{p}{,} \PY{n}{burnin}\PY{o}{=}\PY{l+m+mi}{1000}\PY{p}{)}
+\end{Verbatim}
+\end{tcolorbox}
+
+    \begin{Verbatim}[commandchars=\\\{\}]
+19:07:23 - cmdstanpy - INFO - CmdStan start processing
+    \end{Verbatim}
+
+    
+    \begin{Verbatim}[commandchars=\\\{\}]
+chain 1 |          | 00:00 Status
+    \end{Verbatim}
+
+    
+    
+    \begin{Verbatim}[commandchars=\\\{\}]
+chain 2 |          | 00:00 Status
+    \end{Verbatim}
+
+    
+    
+    \begin{Verbatim}[commandchars=\\\{\}]
+chain 3 |          | 00:00 Status
+    \end{Verbatim}
+
+    
+    
+    \begin{Verbatim}[commandchars=\\\{\}]
+chain 4 |          | 00:00 Status
+    \end{Verbatim}
+
+    
+    \begin{Verbatim}[commandchars=\\\{\}]
+
+    \end{Verbatim}
+
+    \begin{Verbatim}[commandchars=\\\{\}]
+19:29:26 - cmdstanpy - INFO - CmdStan done processing.
+19:29:26 - cmdstanpy - WARNING - Non-fatal error during sampling:
+Exception: normal\_lpdf: Scale parameter is 0, but must be positive! (in '/home/b
+r1/PythonProjects/PythonStats/git\_bayesian\_copie/ARIMA/Spatial/code.stan', line
+177, column 4 to column 34)
+        Exception: normal\_lpdf: Scale parameter is 0, but must be positive! (in 
+'/home/br1/PythonProjects/PythonStats/git\_bayesian\_copie/ARIMA/Spatial/code.stan
+', line 177, column 4 to column 34)
+        Exception: normal\_lpdf: Scale parameter is 0, but must be positive! (in 
+'/home/br1/PythonProjects/PythonStats/git\_bayesian\_copie/ARIMA/Spatial/code.stan
+', line 177, column 4 to column 34)
+        Exception: code\_model\_namespace::log\_prob: phi[1][1] is -nan, but must
+be greater than or equal to -1.000000 (in '/home/br1/PythonProjects/PythonStats/
+git\_bayesian\_copie/ARIMA/Spatial/code.stan', line 101, column 2 to column 47)
+Exception: code\_model\_namespace::log\_prob: H is not symmetric. H[1,2] = inf, but
+H[2,1] = inf (in '/home/br1/PythonProjects/PythonStats/git\_bayesian\_copie/ARIMA/
+Spatial/code.stan', line 91, column 2 to column 53)
+        Exception: code\_model\_namespace::log\_prob: H is not symmetric. H[1,2] =
+inf, but H[2,1] = inf (in '/home/br1/PythonProjects/PythonStats/git\_bayesian\_cop
+ie/ARIMA/Spatial/code.stan', line 91, column 2 to column 53)
+        Exception: code\_model\_namespace::log\_prob: H is not symmetric. H[1,2] =
+inf, but H[2,1] = inf (in '/home/br1/PythonProjects/PythonStats/git\_bayesian\_cop
+ie/ARIMA/Spatial/code.stan', line 91, column 2 to column 53)
+        Exception: code\_model\_namespace::log\_prob: H is not symmetric. H[1,2] =
+inf, but H[2,1] = inf (in '/home/br1/PythonProjects/PythonStats/git\_bayesian\_cop
+ie/ARIMA/Spatial/code.stan', line 91, column 2 to column 53)
+Exception: code\_model\_namespace::log\_prob: H is not symmetric. H[1,2] = inf, but
+H[2,1] = inf (in '/home/br1/PythonProjects/PythonStats/git\_bayesian\_copie/ARIMA/
+Spatial/code.stan', line 91, column 2 to column 53)
+        Exception: code\_model\_namespace::log\_prob: H is not symmetric. H[1,2] =
+inf, but H[2,1] = inf (in '/home/br1/PythonProjects/PythonStats/git\_bayesian\_cop
+ie/ARIMA/Spatial/code.stan', line 91, column 2 to column 53)
+        Exception: code\_model\_namespace::log\_prob: H is not symmetric. H[1,2] =
+inf, but H[2,1] = inf (in '/home/br1/PythonProjects/PythonStats/git\_bayesian\_cop
+ie/ARIMA/Spatial/code.stan', line 91, column 2 to column 53)
+        Exception: code\_model\_namespace::log\_prob: H is not symmetric. H[1,2] =
+inf, but H[2,1] = inf (in '/home/br1/PythonProjects/PythonStats/git\_bayesian\_cop
+ie/ARIMA/Spatial/code.stan', line 91, column 2 to column 53)
+        Exception: code\_model\_namespace::log\_prob: H is not symmetric. H[1,2] =
+inf, but H[2,1] = inf (in '/home/br1/PythonProjects/PythonStats/git\_bayesian\_cop
+ie/ARIMA/Spatial/code.stan', line 91, column 2 to column 53)
+        Exception: code\_model\_namespace::log\_prob: H is not symmetric. H[1,2] =
+inf, but H[2,1] = inf (in '/home/br1/PythonProjects/PythonStats/git\_bayesian\_cop
+ie/ARIMA/Spatial/code.stan', line 91, column 2 to column 53)
+        Exception: code\_model\_namespace::log\_prob: H is not symmetric. H[1,2] =
+inf, but H[2,1] = inf (in '/home/br1/PythonProjects/PythonStats/git\_bayesian\_cop
+ie/ARIMA/Spatial/code.stan', line 91, column 2 to column 53)
+        Exception: code\_model\_namespace::log\_prob: H is not symmetric. H[1,2] =
+inf, but H[2,1] = inf (in '/home/br1/PythonProjects/PythonStats/git\_bayesian\_cop
+ie/ARIMA/Spatial/code.stan', line 91, column 2 to column 53)
+Exception: code\_model\_namespace::log\_prob: H is not symmetric. H[1,2] = inf, but
+H[2,1] = inf (in '/home/br1/PythonProjects/PythonStats/git\_bayesian\_copie/ARIMA/
+Spatial/code.stan', line 91, column 2 to column 53)
+        Exception: code\_model\_namespace::log\_prob: H is not symmetric. H[1,2] =
+inf, but H[2,1] = inf (in '/home/br1/PythonProjects/PythonStats/git\_bayesian\_cop
+ie/ARIMA/Spatial/code.stan', line 91, column 2 to column 53)
+        Exception: code\_model\_namespace::log\_prob: H is not symmetric. H[1,2] =
+inf, but H[2,1] = inf (in '/home/br1/PythonProjects/PythonStats/git\_bayesian\_cop
+ie/ARIMA/Spatial/code.stan', line 91, column 2 to column 53)
+        Exception: code\_model\_namespace::log\_prob: H is not symmetric. H[1,2] =
+inf, but H[2,1] = inf (in '/home/br1/PythonProjects/PythonStats/git\_bayesian\_cop
+ie/ARIMA/Spatial/code.stan', line 91, column 2 to column 53)
+Consider re-running with show\_console=True if the above output is unclear!
+    \end{Verbatim}
+
+    \begin{Verbatim}[commandchars=\\\{\}]
+
+    \end{Verbatim}
+
+    \begin{Verbatim}[commandchars=\\\{\}]
+/home/br1/PythonProjects/PythonStats/ARIMA\_last\_computation/Spatial/fit\_arima.py
+:43: FutureWarning: Indexing with a float is deprecated, and will raise an
+IndexError in pandas 2.0. You can manually convert to an integer key instead.
+  y\_missing\_list.append(\{'Stazione':df.columns[v[i]],'Data':df.index[u[i]],'Samp
+les':inference\_data.posterior.w.values[:,:,i].reshape(catene*samples\_per\_chain)\}
+)
+    \end{Verbatim}
+
+    Tempo di computazione: 22:02
+
+    \begin{tcolorbox}[breakable, size=fbox, boxrule=1pt, pad at break*=1mm,colback=cellbackground, colframe=cellborder]
+\prompt{In}{incolor}{5}{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+\PY{n}{res} \PY{o}{=} \PY{n}{az}\PY{o}{.}\PY{n}{loo}\PY{p}{(}\PY{n}{ritorno}\PY{p}{[}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{inference\PYZus{}data}\PY{l+s+s1}{\PYZsq{}}\PY{p}{]}\PY{p}{,} \PY{n}{var\PYZus{}name}\PY{o}{=}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{log\PYZus{}lik}\PY{l+s+s2}{\PYZdq{}}\PY{p}{,} \PY{n}{pointwise}\PY{o}{=}\PY{k+kc}{True}\PY{p}{)}
+\PY{n}{res}
+\end{Verbatim}
+\end{tcolorbox}
+
+    \begin{Verbatim}[commandchars=\\\{\}]
+/home/br1/PythonProjects/PythonStats/.venv/lib/python3.10/site-
+packages/arviz/stats/stats.py:803: UserWarning: Estimated shape parameter of
+Pareto distribution is greater than 0.7 for one or more samples. You should
+consider using a more robust model, this is because importance sampling is less
+likely to work well if the marginal posterior and LOO posterior are very
+different. This is more likely to happen with a non-robust model and highly
+influential observations.
+  warnings.warn(
+    \end{Verbatim}
+
+            \begin{tcolorbox}[breakable, size=fbox, boxrule=.5pt, pad at break*=1mm, opacityfill=0]
+\prompt{Out}{outcolor}{5}{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+Computed from 10000 posterior samples and 17191 observations log-likelihood
+matrix.
+
+         Estimate       SE
+elpd\_loo  7249.97   154.92
+p\_loo      287.49        -
+
+There has been a warning during the calculation. Please check the results.
+------
+
+Pareto k diagnostic values:
+                         Count   Pct.
+(-Inf, 0.5]   (good)     17091   99.4\%
+ (0.5, 0.7]   (ok)          86    0.5\%
+   (0.7, 1]   (bad)         14    0.1\%
+   (1, Inf)   (very bad)     0    0.0\%
+\end{Verbatim}
+\end{tcolorbox}
+        
+    \begin{tcolorbox}[breakable, size=fbox, boxrule=1pt, pad at break*=1mm,colback=cellbackground, colframe=cellborder]
+\prompt{In}{incolor}{6}{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+\PY{n}{aux\PYZus{}plt} \PY{o}{=} \PY{n}{az}\PY{o}{.}\PY{n}{plot\PYZus{}khat}\PY{p}{(}\PY{n}{res}\PY{p}{,} \PY{n}{show\PYZus{}bins}\PY{o}{=}\PY{k+kc}{True}\PY{p}{,} \PY{n}{figsize}\PY{o}{=}\PY{p}{(}\PY{l+m+mi}{7}\PY{p}{,}\PY{l+m+mi}{5}\PY{p}{)}\PY{p}{)}
+\end{Verbatim}
+\end{tcolorbox}
+
+    \begin{center}
+    \adjustimage{max size={0.9\linewidth}{0.9\paperheight}}{output_6_0.png}
+    \end{center}
+    { \hspace*{\fill} \\}
+    
+    \begin{tcolorbox}[breakable, size=fbox, boxrule=1pt, pad at break*=1mm,colback=cellbackground, colframe=cellborder]
+\prompt{In}{incolor}{7}{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+\PY{n}{res} \PY{o}{=} \PY{n}{az}\PY{o}{.}\PY{n}{waic}\PY{p}{(}\PY{n}{ritorno}\PY{p}{[}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{inference\PYZus{}data}\PY{l+s+s1}{\PYZsq{}}\PY{p}{]}\PY{p}{,} \PY{n}{var\PYZus{}name}\PY{o}{=}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{log\PYZus{}lik}\PY{l+s+s2}{\PYZdq{}}\PY{p}{)}
+\PY{n}{res}
+\end{Verbatim}
+\end{tcolorbox}
+
+    \begin{Verbatim}[commandchars=\\\{\}]
+/home/br1/PythonProjects/PythonStats/.venv/lib/python3.10/site-
+packages/arviz/stats/stats.py:1645: UserWarning: For one or more samples the
+posterior variance of the log predictive densities exceeds 0.4. This could be
+indication of WAIC starting to fail.
+See http://arxiv.org/abs/1507.04544 for details
+  warnings.warn(
+    \end{Verbatim}
+
+            \begin{tcolorbox}[breakable, size=fbox, boxrule=.5pt, pad at break*=1mm, opacityfill=0]
+\prompt{Out}{outcolor}{7}{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+Computed from 10000 posterior samples and 17191 observations log-likelihood
+matrix.
+
+          Estimate       SE
+elpd\_waic  7262.00   154.79
+p\_waic      275.45        -
+
+There has been a warning during the calculation. Please check the results.
+\end{Verbatim}
+\end{tcolorbox}
+        
+    \begin{tcolorbox}[breakable, size=fbox, boxrule=1pt, pad at break*=1mm,colback=cellbackground, colframe=cellborder]
+\prompt{In}{incolor}{8}{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+\PY{n}{plt\PYZus{}aux} \PY{o}{=} \PY{n}{az}\PY{o}{.}\PY{n}{plot\PYZus{}trace}\PY{p}{(}\PY{n}{ritorno}\PY{p}{[}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{inference\PYZus{}data}\PY{l+s+s1}{\PYZsq{}}\PY{p}{]}\PY{p}{,} \PY{n}{var\PYZus{}names}\PY{o}{=}\PY{p}{[}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{phi}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{theta}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{hyper\PYZus{}gamma\PYZus{}phi\PYZus{}m}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{hyper\PYZus{}gamma\PYZus{}phi\PYZus{}s}\PY{l+s+s1}{\PYZsq{}}\PY{p}{]}\PY{p}{,} \PY{n}{divergences}\PY{o}{=}\PY{k+kc}{True}\PY{p}{,} \PY{n}{figsize}\PY{o}{=}\PY{p}{(}\PY{l+m+mi}{15}\PY{p}{,}\PY{l+m+mi}{15}\PY{p}{)}\PY{p}{)}
+\end{Verbatim}
+\end{tcolorbox}
+
+    \begin{center}
+    \adjustimage{max size={0.9\linewidth}{0.9\paperheight}}{output_8_0.png}
+    \end{center}
+    { \hspace*{\fill} \\}
+    
+    \begin{tcolorbox}[breakable, size=fbox, boxrule=1pt, pad at break*=1mm,colback=cellbackground, colframe=cellborder]
+\prompt{In}{incolor}{9}{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+\PY{n}{plt\PYZus{}aux} \PY{o}{=} \PY{n}{az}\PY{o}{.}\PY{n}{plot\PYZus{}trace}\PY{p}{(}\PY{n}{ritorno}\PY{p}{[}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{inference\PYZus{}data}\PY{l+s+s1}{\PYZsq{}}\PY{p}{]}\PY{p}{,} \PY{n}{var\PYZus{}names}\PY{o}{=}\PY{p}{[}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{mh\PYZus{}sigma}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{sh\PYZus{}sigma}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{sigma}\PY{l+s+s1}{\PYZsq{}}\PY{p}{]}\PY{p}{,} \PY{n}{divergences}\PY{o}{=}\PY{k+kc}{True}\PY{p}{,} \PY{n}{figsize}\PY{o}{=}\PY{p}{(}\PY{l+m+mi}{15}\PY{p}{,}\PY{l+m+mi}{10}\PY{p}{)}\PY{p}{)}
+\end{Verbatim}
+\end{tcolorbox}
+
+    \begin{center}
+    \adjustimage{max size={0.9\linewidth}{0.9\paperheight}}{output_9_0.png}
+    \end{center}
+    { \hspace*{\fill} \\}
+    
+    \begin{tcolorbox}[breakable, size=fbox, boxrule=1pt, pad at break*=1mm,colback=cellbackground, colframe=cellborder]
+\prompt{In}{incolor}{10}{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+\PY{n}{plt\PYZus{}aux} \PY{o}{=} \PY{n}{az}\PY{o}{.}\PY{n}{plot\PYZus{}trace}\PY{p}{(}\PY{n}{ritorno}\PY{p}{[}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{inference\PYZus{}data}\PY{l+s+s1}{\PYZsq{}}\PY{p}{]}\PY{p}{,} \PY{n}{var\PYZus{}names}\PY{o}{=}\PY{p}{[}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{alpha}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{w\PYZus{}s}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{betas}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{c}\PY{l+s+s1}{\PYZsq{}}\PY{p}{]}\PY{p}{,} \PY{n}{divergences}\PY{o}{=}\PY{k+kc}{True}\PY{p}{,} \PY{n}{figsize}\PY{o}{=}\PY{p}{(}\PY{l+m+mi}{15}\PY{p}{,}\PY{l+m+mi}{15}\PY{p}{)}\PY{p}{)}
+\end{Verbatim}
+\end{tcolorbox}
+
+    \begin{center}
+    \adjustimage{max size={0.9\linewidth}{0.9\paperheight}}{output_10_0.png}
+    \end{center}
+    { \hspace*{\fill} \\}
+    
+    \begin{tcolorbox}[breakable, size=fbox, boxrule=1pt, pad at break*=1mm,colback=cellbackground, colframe=cellborder]
+\prompt{In}{incolor}{11}{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+\PY{n}{df\PYZus{}risultati} \PY{o}{=} \PY{n}{az}\PY{o}{.}\PY{n}{summary}\PY{p}{(}\PY{n}{ritorno}\PY{p}{[}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{inference\PYZus{}data}\PY{l+s+s1}{\PYZsq{}}\PY{p}{]}\PY{p}{,} \PY{n}{var\PYZus{}names}\PY{o}{=}\PY{p}{[}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{betas}\PY{l+s+s1}{\PYZsq{}}\PY{p}{]}\PY{p}{,} \PY{n}{hdi\PYZus{}prob}\PY{o}{=}\PY{l+m+mf}{0.95}\PY{p}{)}
+\PY{n}{df\PYZus{}risultati}\PY{o}{.}\PY{n}{loc}\PY{p}{[}\PY{p}{:}\PY{p}{,}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{Name}\PY{l+s+s1}{\PYZsq{}}\PY{p}{]} \PY{o}{=} \PY{p}{[}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{Altitude}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{Type\PYZus{}Suburban}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{Type\PYZus{}Rural}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{Zoning\PYZus{}2}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{Zoning\PYZus{}3}\PY{l+s+s1}{\PYZsq{}}\PY{p}{]} \PY{c+c1}{\PYZsh{}????????? Come sono state fatte le covariate?}
+\PY{n}{df\PYZus{}risultati}\PY{o}{.}\PY{n}{set\PYZus{}index}\PY{p}{(}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{Name}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,} \PY{n}{inplace}\PY{o}{=}\PY{k+kc}{True}\PY{p}{)}
+\PY{n}{df\PYZus{}risultati}
+\end{Verbatim}
+\end{tcolorbox}
+
+            \begin{tcolorbox}[breakable, size=fbox, boxrule=.5pt, pad at break*=1mm, opacityfill=0]
+\prompt{Out}{outcolor}{11}{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+                mean     sd  hdi\_2.5\%  hdi\_97.5\%  mcse\_mean  mcse\_sd  \textbackslash{}
+Name
+Altitude      -0.093  0.016    -0.126     -0.063      0.000    0.000
+Type\_Suburban  0.047  0.021     0.005      0.089      0.000    0.000
+Type\_Rural     0.047  0.050    -0.051      0.144      0.001    0.001
+Zoning\_2      -0.007  0.027    -0.058      0.046      0.001    0.001
+Zoning\_3      -0.007  0.027    -0.060      0.045      0.001    0.001
+
+               ess\_bulk  ess\_tail  r\_hat
+Name
+Altitude         3364.0    4784.0    1.0
+Type\_Suburban    7476.0    7287.0    1.0
+Type\_Rural       2872.0    4449.0    1.0
+Zoning\_2          948.0    2215.0    1.0
+Zoning\_3         1009.0    2075.0    1.0
+\end{Verbatim}
+\end{tcolorbox}
+        
+    \begin{tcolorbox}[breakable, size=fbox, boxrule=1pt, pad at break*=1mm,colback=cellbackground, colframe=cellborder]
+\prompt{In}{incolor}{12}{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+\PY{k+kn}{import} \PY{n+nn}{time}
+\PY{k+kn}{from} \PY{n+nn}{matplotlib}\PY{n+nn}{.}\PY{n+nn}{patches} \PY{k+kn}{import} \PY{n}{Rectangle}
+
+\PY{n}{plt}\PY{o}{.}\PY{n}{figure}\PY{p}{(}\PY{n}{figsize}\PY{o}{=}\PY{p}{(}\PY{l+m+mi}{10}\PY{p}{,}\PY{l+m+mi}{3}\PY{p}{)}\PY{p}{)}
+\PY{n}{ax} \PY{o}{=} \PY{n}{plt}\PY{o}{.}\PY{n}{subplot}\PY{p}{(}\PY{l+m+mi}{1}\PY{p}{,}\PY{l+m+mi}{1}\PY{p}{,}\PY{l+m+mi}{1}\PY{p}{)}
+\PY{n}{plt}\PY{o}{.}\PY{n}{xlim}\PY{p}{(}\PY{n}{left} \PY{o}{=} \PY{o}{\PYZhy{}}\PY{l+m+mf}{0.3}\PY{p}{,} \PY{n}{right} \PY{o}{=} \PY{l+m+mf}{0.3}\PY{p}{)}
+\PY{n}{pos\PYZus{}rows} \PY{o}{=} \PY{n}{np}\PY{o}{.}\PY{n}{arange}\PY{p}{(}\PY{l+m+mi}{0}\PY{p}{,}\PY{n+nb}{len}\PY{p}{(}\PY{n}{df\PYZus{}risultati}\PY{o}{.}\PY{n}{index}\PY{p}{)}\PY{p}{)}
+\PY{n}{plt}\PY{o}{.}\PY{n}{ylim}\PY{p}{(}\PY{n}{bottom}\PY{o}{=}\PY{o}{\PYZhy{}}\PY{l+m+mf}{0.75}\PY{p}{,} \PY{n}{top}\PY{o}{=}\PY{n}{pos\PYZus{}rows}\PY{p}{[}\PY{o}{\PYZhy{}}\PY{l+m+mi}{1}\PY{p}{]}\PY{o}{+}\PY{l+m+mf}{1.0}\PY{p}{)}
+\PY{n}{i} \PY{o}{=} \PY{l+m+mi}{1}
+\PY{k}{for} \PY{n}{row} \PY{o+ow}{in} \PY{n}{df\PYZus{}risultati}\PY{o}{.}\PY{n}{index}\PY{p}{:}    
+    \PY{n}{lci} \PY{o}{=} \PY{n}{df\PYZus{}risultati}\PY{o}{.}\PY{n}{loc}\PY{p}{[}\PY{n}{row}\PY{p}{,} \PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{hdi\PYZus{}2.5}\PY{l+s+s1}{\PYZpc{}}\PY{l+s+s1}{\PYZsq{}}\PY{p}{]}
+    \PY{n}{rci} \PY{o}{=} \PY{n}{df\PYZus{}risultati}\PY{o}{.}\PY{n}{loc}\PY{p}{[}\PY{n}{row}\PY{p}{,} \PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{hdi\PYZus{}97.5}\PY{l+s+s1}{\PYZpc{}}\PY{l+s+s1}{\PYZsq{}}\PY{p}{]}
+    \PY{n}{len\PYZus{}ci} \PY{o}{=} \PY{n}{rci} \PY{o}{\PYZhy{}} \PY{n}{lci}
+    \PY{k}{if} \PY{n}{lci}\PY{o}{*}\PY{n}{rci} \PY{o}{\PYZlt{}}\PY{o}{=} \PY{l+m+mi}{0}\PY{p}{:}
+        \PY{n}{col} \PY{o}{=} \PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{red}\PY{l+s+s1}{\PYZsq{}}
+    \PY{k}{else}\PY{p}{:}
+        \PY{n}{col} \PY{o}{=} \PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{blue}\PY{l+s+s1}{\PYZsq{}}
+    \PY{n}{ax}\PY{o}{.}\PY{n}{add\PYZus{}patch}\PY{p}{(}\PY{n}{Rectangle}\PY{p}{(}\PY{p}{(}\PY{n}{lci}\PY{p}{,} \PY{n}{pos\PYZus{}rows}\PY{p}{[}\PY{o}{\PYZhy{}}\PY{n}{i}\PY{p}{]} \PY{o}{\PYZhy{}} \PY{l+m+mf}{0.75}\PY{o}{/}\PY{l+m+mi}{2}\PY{p}{)}\PY{p}{,} \PY{n}{len\PYZus{}ci}\PY{p}{,} \PY{l+m+mf}{0.75}\PY{p}{,}
+             \PY{n}{edgecolor} \PY{o}{=} \PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{grey}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,}
+             \PY{n}{facecolor} \PY{o}{=} \PY{n}{col}\PY{p}{,}
+             \PY{n}{fill}\PY{o}{=}\PY{k+kc}{True}\PY{p}{,}
+             \PY{n}{lw}\PY{o}{=}\PY{l+m+mi}{1}\PY{p}{)}\PY{p}{)}
+    \PY{n}{i} \PY{o}{+}\PY{o}{=} \PY{l+m+mi}{1}
+    
+    
+\PY{n}{plt}\PY{o}{.}\PY{n}{axvline}\PY{p}{(}\PY{l+m+mi}{0}\PY{p}{,} \PY{l+m+mi}{0}\PY{p}{,} \PY{n}{pos\PYZus{}rows}\PY{p}{[}\PY{o}{\PYZhy{}}\PY{l+m+mi}{1}\PY{p}{]}\PY{o}{+}\PY{l+m+mf}{0.75}\PY{p}{,} \PY{n}{linestyle}\PY{o}{=}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{\PYZhy{}\PYZhy{}}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,} \PY{n}{color}\PY{o}{=}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{black}\PY{l+s+s1}{\PYZsq{}}\PY{p}{)}
+\PY{n}{plt}\PY{o}{.}\PY{n}{grid}\PY{p}{(}\PY{n}{axis}\PY{o}{=}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{both}\PY{l+s+s1}{\PYZsq{}}\PY{p}{)}
+\PY{n}{plt}\PY{o}{.}\PY{n}{yticks}\PY{p}{(}\PY{n}{ticks}\PY{o}{=}\PY{n}{np}\PY{o}{.}\PY{n}{flip}\PY{p}{(}\PY{n}{pos\PYZus{}rows}\PY{p}{)}\PY{p}{,} \PY{n}{labels}\PY{o}{=}\PY{n}{df\PYZus{}risultati}\PY{o}{.}\PY{n}{index}\PY{o}{.}\PY{n}{to\PYZus{}list}\PY{p}{(}\PY{p}{)}\PY{p}{)}
+\PY{n}{plt}\PY{o}{.}\PY{n}{xticks}\PY{p}{(}\PY{n}{ticks}\PY{o}{=}\PY{n}{np}\PY{o}{.}\PY{n}{linspace}\PY{p}{(}\PY{o}{\PYZhy{}}\PY{l+m+mf}{0.3}\PY{p}{,}\PY{l+m+mf}{0.3}\PY{p}{,}\PY{l+m+mi}{13}\PY{p}{)}\PY{p}{)}
+\PY{n}{plt}\PY{o}{.}\PY{n}{show}\PY{p}{(}\PY{p}{)}
+\end{Verbatim}
+\end{tcolorbox}
+
+    \begin{center}
+    \adjustimage{max size={0.9\linewidth}{0.9\paperheight}}{output_12_0.png}
+    \end{center}
+    { \hspace*{\fill} \\}
+    
+    \begin{tcolorbox}[breakable, size=fbox, boxrule=1pt, pad at break*=1mm,colback=cellbackground, colframe=cellborder]
+\prompt{In}{incolor}{13}{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+\PY{n}{aux\PYZus{}shape} \PY{o}{=} \PY{n}{ritorno}\PY{p}{[}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{inference\PYZus{}data}\PY{l+s+s1}{\PYZsq{}}\PY{p}{]}\PY{o}{.}\PY{n}{posterior}\PY{o}{.}\PY{n}{gamma\PYZus{}th}\PY{o}{.}\PY{n}{values}\PY{o}{.}\PY{n}{shape}
+\PY{n}{sns}\PY{o}{.}\PY{n}{kdeplot}\PY{p}{(}\PY{n}{ritorno}\PY{p}{[}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{inference\PYZus{}data}\PY{l+s+s1}{\PYZsq{}}\PY{p}{]}\PY{o}{.}\PY{n}{posterior}\PY{o}{.}\PY{n}{gamma\PYZus{}th}\PY{o}{.}\PY{n}{values}\PY{o}{.}\PY{n}{reshape}\PY{p}{(}\PY{p}{(}\PY{n}{aux\PYZus{}shape}\PY{p}{[}\PY{l+m+mi}{0}\PY{p}{]}\PY{o}{*}\PY{n}{aux\PYZus{}shape}\PY{p}{[}\PY{l+m+mi}{1}\PY{p}{]}\PY{p}{)}\PY{p}{)}\PY{p}{,} \PY{n}{legend}\PY{o}{=}\PY{k+kc}{False}\PY{p}{)}
+\end{Verbatim}
+\end{tcolorbox}
+
+            \begin{tcolorbox}[breakable, size=fbox, boxrule=.5pt, pad at break*=1mm, opacityfill=0]
+\prompt{Out}{outcolor}{13}{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+<AxesSubplot: ylabel='Density'>
+\end{Verbatim}
+\end{tcolorbox}
+        
+    \begin{center}
+    \adjustimage{max size={0.9\linewidth}{0.9\paperheight}}{output_13_1.png}
+    \end{center}
+    { \hspace*{\fill} \\}
+    
+    \begin{tcolorbox}[breakable, size=fbox, boxrule=1pt, pad at break*=1mm,colback=cellbackground, colframe=cellborder]
+\prompt{In}{incolor}{14}{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+\PY{n}{aux\PYZus{}shape} \PY{o}{=} \PY{n}{ritorno}\PY{p}{[}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{inference\PYZus{}data}\PY{l+s+s1}{\PYZsq{}}\PY{p}{]}\PY{o}{.}\PY{n}{posterior}\PY{o}{.}\PY{n}{phi}\PY{o}{.}\PY{n}{values}\PY{o}{.}\PY{n}{shape}
+\PY{n}{sns}\PY{o}{.}\PY{n}{kdeplot}\PY{p}{(}\PY{n}{ritorno}\PY{p}{[}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{inference\PYZus{}data}\PY{l+s+s1}{\PYZsq{}}\PY{p}{]}\PY{o}{.}\PY{n}{posterior}\PY{o}{.}\PY{n}{phi}\PY{o}{.}\PY{n}{values}\PY{o}{.}\PY{n}{reshape}\PY{p}{(}\PY{p}{(}\PY{n}{aux\PYZus{}shape}\PY{p}{[}\PY{l+m+mi}{0}\PY{p}{]}\PY{o}{*}\PY{n}{aux\PYZus{}shape}\PY{p}{[}\PY{l+m+mi}{1}\PY{p}{]}\PY{p}{,}\PY{n}{aux\PYZus{}shape}\PY{p}{[}\PY{l+m+mi}{2}\PY{p}{]}\PY{p}{,}\PY{n}{aux\PYZus{}shape}\PY{p}{[}\PY{l+m+mi}{3}\PY{p}{]}\PY{p}{)}\PY{p}{)}\PY{p}{[}\PY{p}{:}\PY{p}{,}\PY{l+m+mi}{0}\PY{p}{,}\PY{p}{:}\PY{p}{]}\PY{p}{,} \PY{n}{legend}\PY{o}{=}\PY{k+kc}{False}\PY{p}{)}
+\end{Verbatim}
+\end{tcolorbox}
+
+            \begin{tcolorbox}[breakable, size=fbox, boxrule=.5pt, pad at break*=1mm, opacityfill=0]
+\prompt{Out}{outcolor}{14}{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+<AxesSubplot: ylabel='Density'>
+\end{Verbatim}
+\end{tcolorbox}
+        
+    \begin{center}
+    \adjustimage{max size={0.9\linewidth}{0.9\paperheight}}{output_14_1.png}
+    \end{center}
+    { \hspace*{\fill} \\}
+    
+    \begin{tcolorbox}[breakable, size=fbox, boxrule=1pt, pad at break*=1mm,colback=cellbackground, colframe=cellborder]
+\prompt{In}{incolor}{15}{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+\PY{n}{aux\PYZus{}shape} \PY{o}{=} \PY{n}{ritorno}\PY{p}{[}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{inference\PYZus{}data}\PY{l+s+s1}{\PYZsq{}}\PY{p}{]}\PY{o}{.}\PY{n}{posterior}\PY{o}{.}\PY{n}{phi}\PY{o}{.}\PY{n}{values}\PY{o}{.}\PY{n}{shape}
+\PY{n}{sns}\PY{o}{.}\PY{n}{kdeplot}\PY{p}{(}\PY{n}{ritorno}\PY{p}{[}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{inference\PYZus{}data}\PY{l+s+s1}{\PYZsq{}}\PY{p}{]}\PY{o}{.}\PY{n}{posterior}\PY{o}{.}\PY{n}{phi}\PY{o}{.}\PY{n}{values}\PY{o}{.}\PY{n}{reshape}\PY{p}{(}\PY{p}{(}\PY{n}{aux\PYZus{}shape}\PY{p}{[}\PY{l+m+mi}{0}\PY{p}{]}\PY{o}{*}\PY{n}{aux\PYZus{}shape}\PY{p}{[}\PY{l+m+mi}{1}\PY{p}{]}\PY{p}{,}\PY{n}{aux\PYZus{}shape}\PY{p}{[}\PY{l+m+mi}{2}\PY{p}{]}\PY{p}{,}\PY{n}{aux\PYZus{}shape}\PY{p}{[}\PY{l+m+mi}{3}\PY{p}{]}\PY{p}{)}\PY{p}{)}\PY{p}{[}\PY{p}{:}\PY{p}{,}\PY{l+m+mi}{1}\PY{p}{,}\PY{p}{:}\PY{p}{]}\PY{p}{,} \PY{n}{legend}\PY{o}{=}\PY{k+kc}{False}\PY{p}{)}
+\end{Verbatim}
+\end{tcolorbox}
+
+            \begin{tcolorbox}[breakable, size=fbox, boxrule=.5pt, pad at break*=1mm, opacityfill=0]
+\prompt{Out}{outcolor}{15}{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+<AxesSubplot: ylabel='Density'>
+\end{Verbatim}
+\end{tcolorbox}
+        
+    \begin{center}
+    \adjustimage{max size={0.9\linewidth}{0.9\paperheight}}{output_15_1.png}
+    \end{center}
+    { \hspace*{\fill} \\}
+    
+    \begin{tcolorbox}[breakable, size=fbox, boxrule=1pt, pad at break*=1mm,colback=cellbackground, colframe=cellborder]
+\prompt{In}{incolor}{16}{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+\PY{n}{aux\PYZus{}shape} \PY{o}{=} \PY{n}{ritorno}\PY{p}{[}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{inference\PYZus{}data}\PY{l+s+s1}{\PYZsq{}}\PY{p}{]}\PY{o}{.}\PY{n}{posterior}\PY{o}{.}\PY{n}{c}\PY{o}{.}\PY{n}{values}\PY{o}{.}\PY{n}{shape}
+\PY{n}{sns}\PY{o}{.}\PY{n}{kdeplot}\PY{p}{(}\PY{n}{ritorno}\PY{p}{[}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{inference\PYZus{}data}\PY{l+s+s1}{\PYZsq{}}\PY{p}{]}\PY{o}{.}\PY{n}{posterior}\PY{o}{.}\PY{n}{c}\PY{o}{.}\PY{n}{values}\PY{o}{.}\PY{n}{reshape}\PY{p}{(}\PY{p}{(}\PY{n}{aux\PYZus{}shape}\PY{p}{[}\PY{l+m+mi}{0}\PY{p}{]}\PY{o}{*}\PY{n}{aux\PYZus{}shape}\PY{p}{[}\PY{l+m+mi}{1}\PY{p}{]}\PY{p}{,}\PY{n}{aux\PYZus{}shape}\PY{p}{[}\PY{l+m+mi}{2}\PY{p}{]}\PY{p}{)}\PY{p}{)}\PY{p}{,} \PY{n}{legend}\PY{o}{=}\PY{k+kc}{False}\PY{p}{)}
+\end{Verbatim}
+\end{tcolorbox}
+
+            \begin{tcolorbox}[breakable, size=fbox, boxrule=.5pt, pad at break*=1mm, opacityfill=0]
+\prompt{Out}{outcolor}{16}{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+<AxesSubplot: ylabel='Density'>
+\end{Verbatim}
+\end{tcolorbox}
+        
+    \begin{center}
+    \adjustimage{max size={0.9\linewidth}{0.9\paperheight}}{output_16_1.png}
+    \end{center}
+    { \hspace*{\fill} \\}
+    
+    \begin{tcolorbox}[breakable, size=fbox, boxrule=1pt, pad at break*=1mm,colback=cellbackground, colframe=cellborder]
+\prompt{In}{incolor}{17}{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+\PY{n}{aux\PYZus{}shape} \PY{o}{=} \PY{n}{ritorno}\PY{p}{[}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{inference\PYZus{}data}\PY{l+s+s1}{\PYZsq{}}\PY{p}{]}\PY{o}{.}\PY{n}{posterior}\PY{o}{.}\PY{n}{w\PYZus{}s}\PY{o}{.}\PY{n}{values}\PY{o}{.}\PY{n}{shape}
+\PY{n}{sns}\PY{o}{.}\PY{n}{kdeplot}\PY{p}{(}\PY{n}{ritorno}\PY{p}{[}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{inference\PYZus{}data}\PY{l+s+s1}{\PYZsq{}}\PY{p}{]}\PY{o}{.}\PY{n}{posterior}\PY{o}{.}\PY{n}{w\PYZus{}s}\PY{o}{.}\PY{n}{values}\PY{o}{.}\PY{n}{reshape}\PY{p}{(}\PY{p}{(}\PY{n}{aux\PYZus{}shape}\PY{p}{[}\PY{l+m+mi}{0}\PY{p}{]}\PY{o}{*}\PY{n}{aux\PYZus{}shape}\PY{p}{[}\PY{l+m+mi}{1}\PY{p}{]}\PY{p}{,}\PY{n}{aux\PYZus{}shape}\PY{p}{[}\PY{l+m+mi}{2}\PY{p}{]}\PY{p}{)}\PY{p}{)}\PY{p}{,} \PY{n}{legend}\PY{o}{=}\PY{k+kc}{False}\PY{p}{)}
+\end{Verbatim}
+\end{tcolorbox}
+
+            \begin{tcolorbox}[breakable, size=fbox, boxrule=.5pt, pad at break*=1mm, opacityfill=0]
+\prompt{Out}{outcolor}{17}{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+<AxesSubplot: ylabel='Density'>
+\end{Verbatim}
+\end{tcolorbox}
+        
+    \begin{center}
+    \adjustimage{max size={0.9\linewidth}{0.9\paperheight}}{output_17_1.png}
+    \end{center}
+    { \hspace*{\fill} \\}
+    
+    \begin{tcolorbox}[breakable, size=fbox, boxrule=1pt, pad at break*=1mm,colback=cellbackground, colframe=cellborder]
+\prompt{In}{incolor}{18}{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+\PY{n}{pd}\PY{o}{.}\PY{n}{set\PYZus{}option}\PY{p}{(}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{display.max\PYZus{}columns}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,} \PY{l+m+mi}{500}\PY{p}{)}
+\PY{n}{spatial\PYZus{}results} \PY{o}{=} \PY{n}{pd}\PY{o}{.}\PY{n}{DataFrame}\PY{p}{(}\PY{n}{ritorno}\PY{p}{[}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{inference\PYZus{}data}\PY{l+s+s1}{\PYZsq{}}\PY{p}{]}\PY{o}{.}\PY{n}{posterior}\PY{o}{.}\PY{n}{w\PYZus{}s}\PY{o}{.}\PY{n}{values}\PY{o}{.}\PY{n}{reshape}\PY{p}{(}\PY{p}{(}\PY{n}{aux\PYZus{}shape}\PY{p}{[}\PY{l+m+mi}{0}\PY{p}{]}\PY{o}{*}\PY{n}{aux\PYZus{}shape}\PY{p}{[}\PY{l+m+mi}{1}\PY{p}{]}\PY{p}{,}\PY{n}{aux\PYZus{}shape}\PY{p}{[}\PY{l+m+mi}{2}\PY{p}{]}\PY{p}{)}\PY{p}{)}\PY{p}{,} \PY{n}{columns}\PY{o}{=}\PY{n}{df}\PY{o}{.}\PY{n}{columns}\PY{p}{)}\PY{o}{.}\PY{n}{describe}\PY{p}{(}\PY{p}{)}
+\PY{n}{spatial\PYZus{}results}\PY{o}{.}\PY{n}{loc}\PY{p}{[}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{abs\PYZus{}dist\PYZus{}from\PYZus{}mean}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,}\PY{p}{:}\PY{p}{]} \PY{o}{=} \PY{p}{(}\PY{n}{spatial\PYZus{}results}\PY{o}{.}\PY{n}{loc}\PY{p}{[}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{mean}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,}\PY{p}{:}\PY{p}{]} \PY{o}{\PYZhy{}} \PY{n}{spatial\PYZus{}results}\PY{o}{.}\PY{n}{loc}\PY{p}{[}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{mean}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,}\PY{p}{:}\PY{p}{]}\PY{o}{.}\PY{n}{mean}\PY{p}{(}\PY{p}{)}\PY{p}{)}\PY{o}{.}\PY{n}{abs}\PY{p}{(}\PY{p}{)}
+\PY{n}{spatial\PYZus{}results}\PY{o}{.}\PY{n}{sort\PYZus{}values}\PY{p}{(}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{abs\PYZus{}dist\PYZus{}from\PYZus{}mean}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,} \PY{n}{axis}\PY{o}{=}\PY{l+m+mi}{1}\PY{p}{,} \PY{n}{ascending}\PY{o}{=}\PY{k+kc}{False}\PY{p}{)}
+\PY{c+c1}{\PYZsh{}spatial\PYZus{}results.sort\PYZus{}values(\PYZsq{}mean\PYZsq{}, axis=1, ascending=True)}
+\end{Verbatim}
+\end{tcolorbox}
+
+            \begin{tcolorbox}[breakable, size=fbox, boxrule=.5pt, pad at break*=1mm, opacityfill=0]
+\prompt{Out}{outcolor}{18}{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+                    SAVIGNANO DI RIGO        TIMAVO  SAN FRANCESCO  \textbackslash{}
+count                    10000.000000  10000.000000   10000.000000
+mean                        -0.306410      0.102571       0.093294
+std                          0.038593      0.039460       0.032450
+min                         -0.451929     -0.028114      -0.021401
+25\%                         -0.332056      0.076158       0.071530
+50\%                         -0.306119      0.102565       0.093290
+75\%                         -0.280899      0.128534       0.114788
+max                         -0.155581      0.257271       0.224467
+abs\_dist\_from\_mean           0.310908      0.098073       0.088796
+
+                    PARCO EDILCARANI     VERUCCHIO  CORTE BRUGNATELLA  \textbackslash{}
+count                   10000.000000  10000.000000       10000.000000
+mean                        0.090832     -0.080935          -0.076943
+std                         0.032496      0.034201           0.050646
+min                        -0.032652     -0.211771          -0.268127
+25\%                         0.068725     -0.103766          -0.111479
+50\%                         0.090919     -0.080592          -0.077135
+75\%                         0.112575     -0.058193          -0.043456
+max                         0.214644      0.044538           0.118328
+abs\_dist\_from\_mean          0.086334      0.085434           0.081441
+
+                      CITTADELLA       GERBIDO    MONTEBELLO     MARECCHIA  \textbackslash{}
+count               10000.000000  10000.000000  10000.000000  10000.000000
+mean                    0.077313      0.076855      0.075405     -0.065292
+std                     0.031196      0.057665      0.030105      0.035118
+min                    -0.041326     -0.134485     -0.035171     -0.202785
+25\%                     0.056758      0.037728      0.055765     -0.088718
+50\%                     0.077146      0.075648      0.074875     -0.065298
+75\%                     0.097972      0.114672      0.095279     -0.042370
+max                     0.192406      0.326672      0.187755      0.074742
+abs\_dist\_from\_mean      0.072815      0.072357      0.070906      0.069790
+
+                       DE AMICIS  GIARDINI MARGHERITA    S. LAZZARO  \textbackslash{}
+count               10000.000000         10000.000000  10000.000000
+mean                   -0.062066            -0.061775      0.069143
+std                     0.034504             0.036763      0.037855
+min                    -0.214657            -0.215806     -0.076860
+25\%                    -0.085327            -0.085926      0.043638
+50\%                    -0.061733            -0.061719      0.068317
+75\%                    -0.038801            -0.037511      0.094824
+max                     0.106161             0.074917      0.218612
+abs\_dist\_from\_mean      0.066564             0.066273      0.064645
+
+                        GIARDINI        FEBBIO   SAN LAZZARO      S. ROCCO  \textbackslash{}
+count               10000.000000  10000.000000  10000.000000  10000.000000
+mean                    0.063326      0.061142     -0.051587      0.060237
+std                     0.036776      0.068578      0.040230      0.031529
+min                    -0.097305     -0.210157     -0.213683     -0.079157
+25\%                     0.039017      0.014856     -0.078338      0.039341
+50\%                     0.062872      0.061203     -0.051260      0.060492
+75\%                     0.087648      0.106811     -0.024475      0.081286
+max                     0.211243      0.332445      0.100380      0.202812
+abs\_dist\_from\_mean      0.058828      0.056644      0.056086      0.055739
+
+                    SAN PIETRO CAPOFIUME  PARCO FERRARI  CASTELLARANO  \textbackslash{}
+count                       10000.000000   10000.000000  10000.000000
+mean                           -0.049831       0.058399      0.056898
+std                             0.036093       0.036843      0.037665
+min                            -0.217263      -0.085559     -0.080720
+25\%                            -0.074185       0.033950      0.031700
+50\%                            -0.049933       0.058608      0.056537
+75\%                            -0.025785       0.083098      0.082371
+max                             0.125044       0.208785      0.190513
+abs\_dist\_from\_mean              0.054329       0.053901      0.052399
+
+                         SARAGAT          CENO  CASTELLUCCIO  \textbackslash{}
+count               10000.000000  10000.000000  10000.000000
+mean                    0.056483      0.055782     -0.045742
+std                     0.033729      0.047916      0.060295
+min                    -0.071879     -0.109718     -0.285971
+25\%                     0.034359      0.023779     -0.086205
+50\%                     0.056151      0.055101     -0.046483
+75\%                     0.078875      0.087060     -0.006075
+max                     0.182835      0.263622      0.173644
+abs\_dist\_from\_mean      0.051984      0.051284      0.050240
+
+                    PARCO RESISTENZA  PARCO MONTECUCCO  PORTA SAN FELICE  \textbackslash{}
+count                   10000.000000      10000.000000      10000.000000
+mean                       -0.037341          0.045815         -0.036549
+std                         0.039012          0.036722          0.033188
+min                        -0.185684         -0.090075         -0.176187
+25\%                        -0.063159          0.021231         -0.058919
+50\%                        -0.037723          0.045985         -0.036443
+75\%                        -0.011370          0.070106         -0.014464
+max                         0.139213          0.225210          0.111891
+abs\_dist\_from\_mean          0.041839          0.041317          0.041048
+
+                           BADIA  PARCO BERTOZZI          ROMA  \textbackslash{}
+count               10000.000000    10000.000000  10000.000000
+mean                   -0.036031       -0.035278     -0.034291
+std                     0.031056        0.041860      0.039133
+min                    -0.161792       -0.205623     -0.196196
+25\%                    -0.057233       -0.062632     -0.060673
+50\%                    -0.036442       -0.035396     -0.033986
+75\%                    -0.015421       -0.007505     -0.008064
+max                     0.115185        0.120552      0.114773
+abs\_dist\_from\_mean      0.040529        0.039776      0.038789
+
+                    GIORDANI-FARNESE     ZALAMELLA      REMESINA  \textbackslash{}
+count                   10000.000000  10000.000000  10000.000000
+mean                        0.042434     -0.028845      0.036386
+std                         0.034448      0.035586      0.039290
+min                        -0.096995     -0.153849     -0.122254
+25\%                         0.019139     -0.052461      0.010261
+50\%                         0.042640     -0.028935      0.035967
+75\%                         0.065347     -0.004887      0.062472
+max                         0.166962      0.100064      0.200000
+abs\_dist\_from\_mean          0.037935      0.033343      0.031888
+
+                       LUGAGNANO      FLAMINIA  DELTA CERVIA  \textbackslash{}
+count               10000.000000  10000.000000  10000.000000
+mean                    0.036101      0.034391     -0.012834
+std                     0.041153      0.040622      0.031650
+min                    -0.132079     -0.120896     -0.129597
+25\%                     0.009016      0.007730     -0.034144
+50\%                     0.036768      0.034257     -0.013034
+75\%                     0.063716      0.061462      0.008292
+max                     0.214804      0.231678      0.114608
+abs\_dist\_from\_mean      0.031603      0.029893      0.017333
+
+                    FRANCHINI-ANGELONI     PARADIGNA     SAVIGNANO  \textbackslash{}
+count                     10000.000000  10000.000000  10000.000000
+mean                         -0.012742      0.021605     -0.011015
+std                           0.040524      0.054844      0.039552
+min                          -0.178752     -0.196225     -0.161476
+25\%                          -0.039517     -0.014436     -0.037891
+50\%                          -0.012768      0.021783     -0.011417
+75\%                           0.014096      0.056994      0.015043
+max                           0.172252      0.280677      0.133076
+abs\_dist\_from\_mean            0.017241      0.017107      0.015513
+
+                         GAVELLO       SAN LEO     BESENZONE    MALCANTONE  \textbackslash{}
+count               10000.000000  10000.000000  10000.000000  10000.000000
+mean                   -0.008718     -0.008249      0.015842      0.015607
+std                     0.031315      0.042009      0.033783      0.055393
+min                    -0.128605     -0.172774     -0.119853     -0.230863
+25\%                    -0.029307     -0.036153     -0.006299     -0.021360
+50\%                    -0.008691     -0.007306      0.016452      0.014788
+75\%                     0.011688      0.019610      0.037919      0.052351
+max                     0.098604      0.170170      0.180741      0.246557
+abs\_dist\_from\_mean      0.013216      0.012747      0.011343      0.011109
+
+                        GHERARDI         CENTO  VILLA FULVIA        CAORLE  \textbackslash{}
+count               10000.000000  10000.000000  10000.000000  10000.000000
+mean                   -0.005671      0.012018      0.011800      0.009843
+std                     0.033313      0.041055      0.039079      0.037329
+min                    -0.130816     -0.169802     -0.148996     -0.121303
+25\%                    -0.027651     -0.015379     -0.013569     -0.015560
+50\%                    -0.006140      0.011774      0.012006      0.010301
+75\%                     0.016458      0.039743      0.037228      0.034770
+max                     0.146209      0.170174      0.146710      0.156652
+abs\_dist\_from\_mean      0.010169      0.007520      0.007302      0.005345
+
+                        BOGOLESE        ISONZO  VIA CHIARINI
+count               10000.000000  10000.000000  10000.000000
+mean                    0.001343      0.002770      0.004920
+std                     0.055658      0.039286      0.037974
+min                    -0.242722     -0.166949     -0.148257
+25\%                    -0.036027     -0.023254     -0.020344
+50\%                     0.001695      0.002734      0.004676
+75\%                     0.038052      0.029785      0.030628
+max                     0.236301      0.149952      0.157490
+abs\_dist\_from\_mean      0.003155      0.001728      0.000422
+\end{Verbatim}
+\end{tcolorbox}
+        
+    \begin{tcolorbox}[breakable, size=fbox, boxrule=1pt, pad at break*=1mm,colback=cellbackground, colframe=cellborder]
+\prompt{In}{incolor}{19}{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+\PY{n}{aux\PYZus{}shape} \PY{o}{=} \PY{n}{ritorno}\PY{p}{[}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{inference\PYZus{}data}\PY{l+s+s1}{\PYZsq{}}\PY{p}{]}\PY{o}{.}\PY{n}{posterior}\PY{o}{.}\PY{n}{annual\PYZus{}mean}\PY{o}{.}\PY{n}{values}\PY{o}{.}\PY{n}{shape}
+\PY{n}{sns}\PY{o}{.}\PY{n}{kdeplot}\PY{p}{(}\PY{n}{ritorno}\PY{p}{[}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{inference\PYZus{}data}\PY{l+s+s1}{\PYZsq{}}\PY{p}{]}\PY{o}{.}\PY{n}{posterior}\PY{o}{.}\PY{n}{annual\PYZus{}mean}\PY{o}{.}\PY{n}{values}\PY{o}{.}\PY{n}{reshape}\PY{p}{(}\PY{p}{(}\PY{n}{aux\PYZus{}shape}\PY{p}{[}\PY{l+m+mi}{0}\PY{p}{]}\PY{o}{*}\PY{n}{aux\PYZus{}shape}\PY{p}{[}\PY{l+m+mi}{1}\PY{p}{]}\PY{p}{,}\PY{n}{aux\PYZus{}shape}\PY{p}{[}\PY{l+m+mi}{2}\PY{p}{]}\PY{p}{)}\PY{p}{)}\PY{p}{,} \PY{n}{legend}\PY{o}{=}\PY{k+kc}{False}\PY{p}{)}
+\end{Verbatim}
+\end{tcolorbox}
+
+            \begin{tcolorbox}[breakable, size=fbox, boxrule=.5pt, pad at break*=1mm, opacityfill=0]
+\prompt{Out}{outcolor}{19}{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+<AxesSubplot: ylabel='Density'>
+\end{Verbatim}
+\end{tcolorbox}
+        
+    \begin{center}
+    \adjustimage{max size={0.9\linewidth}{0.9\paperheight}}{output_19_1.png}
+    \end{center}
+    { \hspace*{\fill} \\}
+    
+    \begin{tcolorbox}[breakable, size=fbox, boxrule=1pt, pad at break*=1mm,colback=cellbackground, colframe=cellborder]
+\prompt{In}{incolor}{20}{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+\PY{n}{aux\PYZus{}shape} \PY{o}{=} \PY{n}{ritorno}\PY{p}{[}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{inference\PYZus{}data}\PY{l+s+s1}{\PYZsq{}}\PY{p}{]}\PY{o}{.}\PY{n}{posterior}\PY{o}{.}\PY{n}{annual\PYZus{}median}\PY{o}{.}\PY{n}{values}\PY{o}{.}\PY{n}{shape}
+\PY{n}{sns}\PY{o}{.}\PY{n}{kdeplot}\PY{p}{(}\PY{n}{ritorno}\PY{p}{[}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{inference\PYZus{}data}\PY{l+s+s1}{\PYZsq{}}\PY{p}{]}\PY{o}{.}\PY{n}{posterior}\PY{o}{.}\PY{n}{annual\PYZus{}median}\PY{o}{.}\PY{n}{values}\PY{o}{.}\PY{n}{reshape}\PY{p}{(}\PY{p}{(}\PY{n}{aux\PYZus{}shape}\PY{p}{[}\PY{l+m+mi}{0}\PY{p}{]}\PY{o}{*}\PY{n}{aux\PYZus{}shape}\PY{p}{[}\PY{l+m+mi}{1}\PY{p}{]}\PY{p}{,}\PY{n}{aux\PYZus{}shape}\PY{p}{[}\PY{l+m+mi}{2}\PY{p}{]}\PY{p}{)}\PY{p}{)}\PY{p}{,} \PY{n}{legend}\PY{o}{=}\PY{k+kc}{False}\PY{p}{)}
+\end{Verbatim}
+\end{tcolorbox}
+
+            \begin{tcolorbox}[breakable, size=fbox, boxrule=.5pt, pad at break*=1mm, opacityfill=0]
+\prompt{Out}{outcolor}{20}{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+<AxesSubplot: ylabel='Density'>
+\end{Verbatim}
+\end{tcolorbox}
+        
+    \begin{center}
+    \adjustimage{max size={0.9\linewidth}{0.9\paperheight}}{output_20_1.png}
+    \end{center}
+    { \hspace*{\fill} \\}
+    
+    \begin{tcolorbox}[breakable, size=fbox, boxrule=1pt, pad at break*=1mm,colback=cellbackground, colframe=cellborder]
+\prompt{In}{incolor}{21}{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+\PY{n}{aux\PYZus{}shape} \PY{o}{=} \PY{n}{ritorno}\PY{p}{[}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{inference\PYZus{}data}\PY{l+s+s1}{\PYZsq{}}\PY{p}{]}\PY{o}{.}\PY{n}{posterior}\PY{o}{.}\PY{n}{annual\PYZus{}max}\PY{o}{.}\PY{n}{values}\PY{o}{.}\PY{n}{shape}
+\PY{n}{sns}\PY{o}{.}\PY{n}{kdeplot}\PY{p}{(}\PY{n}{ritorno}\PY{p}{[}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{inference\PYZus{}data}\PY{l+s+s1}{\PYZsq{}}\PY{p}{]}\PY{o}{.}\PY{n}{posterior}\PY{o}{.}\PY{n}{annual\PYZus{}max}\PY{o}{.}\PY{n}{values}\PY{o}{.}\PY{n}{reshape}\PY{p}{(}\PY{p}{(}\PY{n}{aux\PYZus{}shape}\PY{p}{[}\PY{l+m+mi}{0}\PY{p}{]}\PY{o}{*}\PY{n}{aux\PYZus{}shape}\PY{p}{[}\PY{l+m+mi}{1}\PY{p}{]}\PY{p}{,}\PY{n}{aux\PYZus{}shape}\PY{p}{[}\PY{l+m+mi}{2}\PY{p}{]}\PY{p}{)}\PY{p}{)}\PY{p}{,} \PY{n}{legend}\PY{o}{=}\PY{k+kc}{False}\PY{p}{)}
+\end{Verbatim}
+\end{tcolorbox}
+
+            \begin{tcolorbox}[breakable, size=fbox, boxrule=.5pt, pad at break*=1mm, opacityfill=0]
+\prompt{Out}{outcolor}{21}{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+<AxesSubplot: ylabel='Density'>
+\end{Verbatim}
+\end{tcolorbox}
+        
+    \begin{center}
+    \adjustimage{max size={0.9\linewidth}{0.9\paperheight}}{output_21_1.png}
+    \end{center}
+    { \hspace*{\fill} \\}
+    
+    \begin{tcolorbox}[breakable, size=fbox, boxrule=1pt, pad at break*=1mm,colback=cellbackground, colframe=cellborder]
+\prompt{In}{incolor}{22}{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+\PY{n}{valori\PYZus{}31\PYZus{}dic} \PY{o}{=} \PY{p}{[}\PY{p}{]}
+\PY{k}{for} \PY{n}{dizionario} \PY{o+ow}{in} \PY{n}{ritorno}\PY{p}{[}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{missing}\PY{l+s+s1}{\PYZsq{}}\PY{p}{]}\PY{p}{:}
+    \PY{k}{if} \PY{n}{dizionario}\PY{p}{[}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{Data}\PY{l+s+s1}{\PYZsq{}}\PY{p}{]} \PY{o}{==} \PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{2018\PYZhy{}12\PYZhy{}31}\PY{l+s+s1}{\PYZsq{}}\PY{p}{:}
+        \PY{n}{valori\PYZus{}31\PYZus{}dic}\PY{o}{.}\PY{n}{append}\PY{p}{(}\PY{n}{dizionario}\PY{p}{[}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{Samples}\PY{l+s+s1}{\PYZsq{}}\PY{p}{]}\PY{p}{)}
+        
+\PY{n}{res\PYZus{}plot} \PY{o}{=} \PY{n}{sns}\PY{o}{.}\PY{n}{kdeplot}\PY{p}{(}\PY{n}{valori\PYZus{}31\PYZus{}dic}\PY{p}{,} \PY{n}{legend}\PY{o}{=}\PY{k+kc}{False}\PY{p}{)}
+\end{Verbatim}
+\end{tcolorbox}
+
+    \begin{center}
+    \adjustimage{max size={0.9\linewidth}{0.9\paperheight}}{output_22_0.png}
+    \end{center}
+    { \hspace*{\fill} \\}
+    
+    \begin{tcolorbox}[breakable, size=fbox, boxrule=1pt, pad at break*=1mm,colback=cellbackground, colframe=cellborder]
+\prompt{In}{incolor}{23}{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+\PY{n}{aux\PYZus{}shape} \PY{o}{=} \PY{n}{ritorno}\PY{p}{[}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{inference\PYZus{}data}\PY{l+s+s1}{\PYZsq{}}\PY{p}{]}\PY{o}{.}\PY{n}{posterior}\PY{o}{.}\PY{n}{annual\PYZus{}days\PYZus{}over\PYZus{}threshold}\PY{o}{.}\PY{n}{values}\PY{o}{.}\PY{n}{shape}
+\PY{n}{sns}\PY{o}{.}\PY{n}{kdeplot}\PY{p}{(}\PY{n}{ritorno}\PY{p}{[}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{inference\PYZus{}data}\PY{l+s+s1}{\PYZsq{}}\PY{p}{]}\PY{o}{.}\PY{n}{posterior}\PY{o}{.}\PY{n}{annual\PYZus{}days\PYZus{}over\PYZus{}threshold}\PY{o}{.}\PY{n}{values}\PY{o}{.}\PY{n}{reshape}\PY{p}{(}\PY{p}{(}\PY{n}{aux\PYZus{}shape}\PY{p}{[}\PY{l+m+mi}{0}\PY{p}{]}\PY{o}{*}\PY{n}{aux\PYZus{}shape}\PY{p}{[}\PY{l+m+mi}{1}\PY{p}{]}\PY{p}{,}\PY{n}{aux\PYZus{}shape}\PY{p}{[}\PY{l+m+mi}{2}\PY{p}{]}\PY{p}{)}\PY{p}{)}\PY{p}{,} \PY{n}{legend}\PY{o}{=}\PY{k+kc}{False}\PY{p}{)}
+\end{Verbatim}
+\end{tcolorbox}
+
+            \begin{tcolorbox}[breakable, size=fbox, boxrule=.5pt, pad at break*=1mm, opacityfill=0]
+\prompt{Out}{outcolor}{23}{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+<AxesSubplot: ylabel='Density'>
+\end{Verbatim}
+\end{tcolorbox}
+        
+    \begin{center}
+    \adjustimage{max size={0.9\linewidth}{0.9\paperheight}}{output_23_1.png}
+    \end{center}
+    { \hspace*{\fill} \\}
+    
+    \begin{tcolorbox}[breakable, size=fbox, boxrule=1pt, pad at break*=1mm,colback=cellbackground, colframe=cellborder]
+\prompt{In}{incolor}{24}{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+\PY{n}{pd}\PY{o}{.}\PY{n}{set\PYZus{}option}\PY{p}{(}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{display.max\PYZus{}columns}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,} \PY{l+m+mi}{500}\PY{p}{)}
+\PY{n}{aux\PYZus{}results} \PY{o}{=} \PY{n}{pd}\PY{o}{.}\PY{n}{DataFrame}\PY{p}{(}\PY{n}{ritorno}\PY{p}{[}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{inference\PYZus{}data}\PY{l+s+s1}{\PYZsq{}}\PY{p}{]}\PY{o}{.}\PY{n}{posterior}\PY{o}{.}\PY{n}{annual\PYZus{}days\PYZus{}over\PYZus{}threshold}\PY{o}{.}\PY{n}{values}\PY{o}{.}\PY{n}{reshape}\PY{p}{(}\PY{p}{(}\PY{n}{aux\PYZus{}shape}\PY{p}{[}\PY{l+m+mi}{0}\PY{p}{]}\PY{o}{*}\PY{n}{aux\PYZus{}shape}\PY{p}{[}\PY{l+m+mi}{1}\PY{p}{]}\PY{p}{,}\PY{n}{aux\PYZus{}shape}\PY{p}{[}\PY{l+m+mi}{2}\PY{p}{]}\PY{p}{)}\PY{p}{)}\PY{p}{,} \PY{n}{columns}\PY{o}{=}\PY{n}{df}\PY{o}{.}\PY{n}{columns}\PY{p}{)}\PY{o}{.}\PY{n}{describe}\PY{p}{(}\PY{p}{)}
+\PY{n}{aux\PYZus{}results}\PY{o}{.}\PY{n}{sort\PYZus{}values}\PY{p}{(}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{mean}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,} \PY{n}{axis}\PY{o}{=}\PY{l+m+mi}{1}\PY{p}{,} \PY{n}{ascending}\PY{o}{=}\PY{k+kc}{True}\PY{p}{)}
+\end{Verbatim}
+\end{tcolorbox}
+
+            \begin{tcolorbox}[breakable, size=fbox, boxrule=.5pt, pad at break*=1mm, opacityfill=0]
+\prompt{Out}{outcolor}{24}{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+       CASTELLUCCIO  CORTE BRUGNATELLA  SAVIGNANO DI RIGO        FEBBIO  \textbackslash{}
+count  10000.000000       10000.000000       10000.000000  10000.000000
+mean       0.084700           0.114200           0.169900      0.213200
+std        0.336656           0.393921           0.477972      0.547335
+min        0.000000           0.000000           0.000000      0.000000
+25\%        0.000000           0.000000           0.000000      0.000000
+50\%        0.000000           0.000000           0.000000      0.000000
+75\%        0.000000           0.000000           0.000000      0.000000
+max        5.000000           4.000000           6.000000      6.000000
+
+            SAN LEO     VERUCCHIO         BADIA  GIARDINI MARGHERITA  \textbackslash{}
+count  10000.000000  10000.000000  10000.000000         10000.000000
+mean       1.439700      6.163700      8.191700            13.288900
+std        1.874117      4.538299      5.566943             7.712067
+min        0.000000      0.000000      0.000000             0.000000
+25\%        0.000000      3.000000      4.000000             8.000000
+50\%        1.000000      5.000000      7.000000            12.000000
+75\%        2.000000      8.000000     11.000000            17.000000
+max       22.000000     51.000000     48.000000            83.000000
+
+          MARECCHIA  SAN PIETRO CAPOFIUME     LUGAGNANO  DELTA CERVIA  \textbackslash{}
+count  10000.000000          10000.000000  10000.000000  10000.000000
+mean      13.383800             17.298200     17.327300     17.440400
+std        7.559802             10.245837      9.490173      8.649215
+min        0.000000              0.000000      0.000000      0.000000
+25\%        8.000000             10.000000     10.000000     11.000000
+50\%       12.000000             15.000000     16.000000     16.000000
+75\%       17.000000             23.000000     23.000000     22.000000
+max       61.000000             96.000000     86.000000     83.000000
+
+       PARCO BERTOZZI   SAN LAZZARO  PARCO RESISTENZA      GHERARDI  \textbackslash{}
+count    10000.000000  10000.000000      10000.000000  10000.000000
+mean        18.862400     20.159400         20.947400     21.590300
+std         10.746209     10.771044         10.750106     11.560822
+min          0.000000      0.000000          0.000000      0.000000
+25\%         11.000000     12.000000         13.000000     13.000000
+50\%         17.000000     18.000000         19.000000     20.000000
+75\%         25.000000     26.000000         27.000000     28.000000
+max        101.000000     98.000000         87.000000    114.000000
+
+       FRANCHINI-ANGELONI  VIA CHIARINI     BESENZONE     DE AMICIS  \textbackslash{}
+count        10000.000000  10000.000000  10000.000000  10000.000000
+mean            22.266600     22.494100     23.346300     23.748900
+std             11.529198     11.233939     12.010604     10.714884
+min              0.000000      0.000000      0.000000      0.000000
+25\%             14.000000     14.000000     15.000000     16.000000
+50\%             20.000000     21.000000     22.000000     22.000000
+75\%             29.000000     29.000000     30.000000     30.000000
+max            121.000000    103.000000    101.000000     90.000000
+
+       PORTA SAN FELICE       GAVELLO     SAVIGNANO       CAORLE  \textbackslash{}
+count      10000.000000  10000.000000  10000.000000  10000.00000
+mean          24.173500     24.189900     24.849800     28.25950
+std           10.759757     11.385359     11.942408     13.48826
+min            1.000000      1.000000      1.000000      1.00000
+25\%           16.000000     16.000000     16.000000     18.00000
+50\%           23.000000     23.000000     23.000000     26.00000
+75\%           30.000000     31.000000     32.000000     35.25000
+max           87.000000     95.000000     98.000000    124.00000
+
+       VILLA FULVIA  CASTELLARANO          ROMA  PARCO MONTECUCCO  \textbackslash{}
+count  10000.000000  10000.000000  10000.000000      10000.000000
+mean      28.606600     29.147100     29.159600         29.453100
+std       12.895397     11.863336     13.050922         13.064121
+min        2.000000      0.000000      1.000000          1.000000
+25\%       19.000000     21.000000     20.000000         20.000000
+50\%       27.000000     28.000000     27.000000         28.000000
+75\%       36.000000     36.000000     37.000000         37.000000
+max      105.000000     97.000000    110.000000        107.000000
+
+              CENTO      BOGOLESE     ZALAMELLA  SAN FRANCESCO    MALCANTONE  \textbackslash{}
+count  10000.000000  10000.000000  10000.000000   10000.000000  10000.000000
+mean      31.460200     32.663700     33.974300      35.803000     36.122500
+std       14.020609     13.437249     14.321032      12.836957     15.052965
+min        1.000000      0.000000      2.000000       2.000000      2.000000
+25\%       21.000000     23.000000     24.000000      26.000000     25.000000
+50\%       30.000000     31.000000     32.000000      35.000000     34.000000
+75\%       39.000000     41.000000     42.000000      44.000000     45.000000
+max      136.000000    104.000000    156.000000     100.000000    120.000000
+
+           REMESINA       SARAGAT     PARADIGNA    S. LAZZARO      S. ROCCO  \textbackslash{}
+count  10000.000000  10000.000000  10000.000000  10000.000000  10000.000000
+mean      37.146600     37.261200     37.404800     37.728800     37.733700
+std       14.834585     14.079631     14.959115     14.947849     15.275121
+min        1.000000      2.000000      2.000000      4.000000      2.000000
+25\%       27.000000     27.000000     27.000000     27.000000     27.000000
+50\%       35.000000     36.000000     36.000000     36.000000     36.000000
+75\%       46.000000     46.000000     46.000000     46.000000     47.000000
+max      127.000000    113.000000    119.000000    139.000000    131.000000
+
+         CITTADELLA  PARCO FERRARI        ISONZO  PARCO EDILCARANI  \textbackslash{}
+count  10000.000000   10000.000000  10000.000000      10000.000000
+mean      40.380200      43.072200     43.647400         44.093500
+std       14.064097      15.689723     15.918468         14.578107
+min        6.000000       4.000000      5.000000          4.000000
+25\%       30.000000      32.000000     32.000000         34.000000
+50\%       39.000000      41.000000     42.000000         43.000000
+75\%       49.000000      53.000000     53.000000         53.000000
+max      119.000000     131.000000    145.000000        115.000000
+
+       GIORDANI-FARNESE        CENO      FLAMINIA       GERBIDO    MONTEBELLO  \textbackslash{}
+count      10000.000000  10000.0000  10000.000000  10000.000000  10000.000000
+mean          45.711600     49.9224     50.438500     54.714200     55.854200
+std           16.045989     17.6247     18.282299     19.285744     17.229673
+min            4.000000      5.0000      6.000000      6.000000      9.000000
+25\%           35.000000     37.0000     38.000000     41.000000     43.000000
+50\%           44.000000     48.0000     49.000000     53.000000     54.000000
+75\%           55.000000     60.0000     61.000000     66.000000     66.000000
+max          127.000000    148.0000    155.000000    153.000000    147.000000
+
+           GIARDINI        TIMAVO
+count  10000.000000  10000.000000
+mean      59.622000     67.054000
+std       17.970203     20.824045
+min        9.000000     14.000000
+25\%       47.000000     52.000000
+50\%       58.000000     65.000000
+75\%       71.000000     80.000000
+max      142.000000    174.000000
+\end{Verbatim}
+\end{tcolorbox}
+        
+    \begin{tcolorbox}[breakable, size=fbox, boxrule=1pt, pad at break*=1mm,colback=cellbackground, colframe=cellborder]
+\prompt{In}{incolor}{25}{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+\PY{n}{pd}\PY{o}{.}\PY{n}{set\PYZus{}option}\PY{p}{(}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{display.max\PYZus{}columns}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,} \PY{l+m+mi}{500}\PY{p}{)}
+\PY{n}{aux\PYZus{}results} \PY{o}{=} \PY{n}{pd}\PY{o}{.}\PY{n}{DataFrame}\PY{p}{(}\PY{n}{ritorno}\PY{p}{[}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{inference\PYZus{}data}\PY{l+s+s1}{\PYZsq{}}\PY{p}{]}\PY{o}{.}\PY{n}{posterior}\PY{o}{.}\PY{n}{is\PYZus{}over\PYZus{}daily\PYZus{}limit}\PY{o}{.}\PY{n}{values}\PY{o}{.}\PY{n}{reshape}\PY{p}{(}\PY{p}{(}\PY{n}{aux\PYZus{}shape}\PY{p}{[}\PY{l+m+mi}{0}\PY{p}{]}\PY{o}{*}\PY{n}{aux\PYZus{}shape}\PY{p}{[}\PY{l+m+mi}{1}\PY{p}{]}\PY{p}{,}\PY{n}{aux\PYZus{}shape}\PY{p}{[}\PY{l+m+mi}{2}\PY{p}{]}\PY{p}{)}\PY{p}{)}\PY{p}{,} \PY{n}{columns}\PY{o}{=}\PY{n}{df}\PY{o}{.}\PY{n}{columns}\PY{p}{)}\PY{o}{.}\PY{n}{describe}\PY{p}{(}\PY{p}{)}
+\PY{n}{aux\PYZus{}results}\PY{o}{.}\PY{n}{sort\PYZus{}values}\PY{p}{(}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{mean}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,} \PY{n}{axis}\PY{o}{=}\PY{l+m+mi}{1}\PY{p}{,} \PY{n}{ascending}\PY{o}{=}\PY{k+kc}{True}\PY{p}{)}
+\end{Verbatim}
+\end{tcolorbox}
+
+            \begin{tcolorbox}[breakable, size=fbox, boxrule=.5pt, pad at break*=1mm, opacityfill=0]
+\prompt{Out}{outcolor}{25}{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+       CASTELLUCCIO   FEBBIO  CORTE BRUGNATELLA  SAVIGNANO DI RIGO  SAN LEO  \textbackslash{}
+count       10000.0  10000.0            10000.0            10000.0  10000.0
+mean            0.0      0.0                0.0                0.0      0.0
+std             0.0      0.0                0.0                0.0      0.0
+min             0.0      0.0                0.0                0.0      0.0
+25\%             0.0      0.0                0.0                0.0      0.0
+50\%             0.0      0.0                0.0                0.0      0.0
+75\%             0.0      0.0                0.0                0.0      0.0
+max             0.0      0.0                0.0                0.0      0.0
+
+          VERUCCHIO         BADIA     MARECCHIA  GIARDINI MARGHERITA  \textbackslash{}
+count  10000.000000  10000.000000  10000.000000         10000.000000
+mean       0.000300      0.001200      0.012800             0.013900
+std        0.017319      0.034622      0.112416             0.117082
+min        0.000000      0.000000      0.000000             0.000000
+25\%        0.000000      0.000000      0.000000             0.000000
+50\%        0.000000      0.000000      0.000000             0.000000
+75\%        0.000000      0.000000      0.000000             0.000000
+max        1.000000      1.000000      1.000000             1.000000
+
+       DELTA CERVIA     LUGAGNANO  SAN PIETRO CAPOFIUME  PARCO BERTOZZI  \textbackslash{}
+count  10000.000000  10000.000000          10000.000000    10000.000000
+mean       0.037000      0.047100              0.055100        0.076000
+std        0.188771      0.211863              0.228187        0.265011
+min        0.000000      0.000000              0.000000        0.000000
+25\%        0.000000      0.000000              0.000000        0.000000
+50\%        0.000000      0.000000              0.000000        0.000000
+75\%        0.000000      0.000000              0.000000        0.000000
+max        1.000000      1.000000              1.000000        1.000000
+
+        SAN LAZZARO  PARCO RESISTENZA      GHERARDI  FRANCHINI-ANGELONI  \textbackslash{}
+count  10000.000000      10000.000000  10000.000000        10000.000000
+mean       0.088900          0.097300      0.114800            0.122900
+std        0.284614          0.296381      0.318796            0.328339
+min        0.000000          0.000000      0.000000            0.000000
+25\%        0.000000          0.000000      0.000000            0.000000
+50\%        0.000000          0.000000      0.000000            0.000000
+75\%        0.000000          0.000000      0.000000            0.000000
+max        1.000000          1.000000      1.000000            1.000000
+
+       VIA CHIARINI     DE AMICIS  PORTA SAN FELICE     BESENZONE  \textbackslash{}
+count  10000.000000  10000.000000      10000.000000  10000.000000
+mean       0.125400      0.135300          0.141800      0.147800
+std        0.331188      0.342061          0.348862      0.354919
+min        0.000000      0.000000          0.000000      0.000000
+25\%        0.000000      0.000000          0.000000      0.000000
+50\%        0.000000      0.000000          0.000000      0.000000
+75\%        0.000000      0.000000          0.000000      0.000000
+max        1.000000      1.000000          1.000000      1.000000
+
+            GAVELLO     SAVIGNANO        CAORLE  VILLA FULVIA  CASTELLARANO  \textbackslash{}
+count  10000.000000  10000.000000  10000.000000  10000.000000  10000.000000
+mean       0.149200      0.168800      0.250000      0.259400      0.267000
+std        0.356303      0.374594      0.433034      0.438327      0.442414
+min        0.000000      0.000000      0.000000      0.000000      0.000000
+25\%        0.000000      0.000000      0.000000      0.000000      0.000000
+50\%        0.000000      0.000000      0.000000      0.000000      0.000000
+75\%        0.000000      0.000000      0.250000      1.000000      1.000000
+max        1.000000      1.000000      1.000000      1.000000      1.000000
+
+               ROMA  PARCO MONTECUCCO         CENTO      BOGOLESE  \textbackslash{}
+count  10000.000000       10000.00000  10000.000000  10000.000000
+mean       0.276000           0.28100      0.336400      0.371300
+std        0.447039           0.44951      0.472501      0.483177
+min        0.000000           0.00000      0.000000      0.000000
+25\%        0.000000           0.00000      0.000000      0.000000
+50\%        0.000000           0.00000      0.000000      0.000000
+75\%        1.000000           1.00000      1.000000      1.000000
+max        1.000000           1.00000      1.000000      1.000000
+
+          ZALAMELLA    MALCANTONE  SAN FRANCESCO      REMESINA       SARAGAT  \textbackslash{}
+count  10000.000000  10000.000000   10000.000000  10000.000000  10000.000000
+mean       0.407700      0.467200       0.474200      0.498600      0.505300
+std        0.491431      0.498948       0.499359      0.500023      0.499997
+min        0.000000      0.000000       0.000000      0.000000      0.000000
+25\%        0.000000      0.000000       0.000000      0.000000      0.000000
+50\%        0.000000      0.000000       0.000000      0.000000      1.000000
+75\%        1.000000      1.000000       1.000000      1.000000      1.000000
+max        1.000000      1.000000       1.000000      1.000000      1.000000
+
+          PARADIGNA    S. LAZZARO      S. ROCCO    CITTADELLA  PARCO FERRARI  \textbackslash{}
+count  10000.000000  10000.000000  10000.000000  10000.000000   10000.000000
+mean       0.508500      0.512200      0.512800      0.603700       0.660700
+std        0.499953      0.499876      0.499861      0.489153       0.473495
+min        0.000000      0.000000      0.000000      0.000000       0.000000
+25\%        0.000000      0.000000      0.000000      0.000000       0.000000
+50\%        1.000000      1.000000      1.000000      1.000000       1.000000
+75\%        1.000000      1.000000      1.000000      1.000000       1.000000
+max        1.000000      1.000000      1.000000      1.000000       1.000000
+
+            ISONZO  PARCO EDILCARANI  GIORDANI-FARNESE      FLAMINIA  \textbackslash{}
+count  10000.00000      10000.000000      10000.000000  10000.000000
+mean       0.67090          0.703400          0.724600      0.788600
+std        0.46991          0.456781          0.446738      0.408322
+min        0.00000          0.000000          0.000000      0.000000
+25\%        0.00000          0.000000          0.000000      1.000000
+50\%        1.00000          1.000000          1.000000      1.000000
+75\%        1.00000          1.000000          1.000000      1.000000
+max        1.00000          1.000000          1.000000      1.000000
+
+               CENO       GERBIDO   MONTEBELLO     GIARDINI        TIMAVO
+count  10000.000000  10000.000000  10000.00000  10000.00000  10000.000000
+mean       0.790400      0.842800      0.89440      0.92440      0.950400
+std        0.407043      0.364007      0.30734      0.26437      0.217128
+min        0.000000      0.000000      0.00000      0.00000      0.000000
+25\%        1.000000      1.000000      1.00000      1.00000      1.000000
+50\%        1.000000      1.000000      1.00000      1.00000      1.000000
+75\%        1.000000      1.000000      1.00000      1.00000      1.000000
+max        1.000000      1.000000      1.00000      1.00000      1.000000
+\end{Verbatim}
+\end{tcolorbox}
+        
+    \begin{tcolorbox}[breakable, size=fbox, boxrule=1pt, pad at break*=1mm,colback=cellbackground, colframe=cellborder]
+\prompt{In}{incolor}{26}{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+\PY{n}{aux\PYZus{}results}\PY{o}{.}\PY{n}{loc}\PY{p}{[}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{mean}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,}\PY{p}{:}\PY{p}{]}\PY{o}{.}\PY{n}{plot}\PY{p}{(}\PY{n}{kind}\PY{o}{=}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{barh}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,} \PY{n}{figsize}\PY{o}{=}\PY{p}{(}\PY{l+m+mi}{15}\PY{p}{,}\PY{l+m+mi}{15}\PY{p}{)}\PY{p}{,} \PY{n}{xticks}\PY{o}{=}\PY{n}{np}\PY{o}{.}\PY{n}{linspace}\PY{p}{(}\PY{l+m+mi}{0}\PY{p}{,}\PY{l+m+mi}{1}\PY{p}{,}\PY{l+m+mi}{11}\PY{p}{)}\PY{p}{)}
+\PY{c+c1}{\PYZsh{}res = plt.xticks(rotation = 30)}
+\end{Verbatim}
+\end{tcolorbox}
+
+            \begin{tcolorbox}[breakable, size=fbox, boxrule=.5pt, pad at break*=1mm, opacityfill=0]
+\prompt{Out}{outcolor}{26}{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+<AxesSubplot: >
+\end{Verbatim}
+\end{tcolorbox}
+        
+    \begin{center}
+    \adjustimage{max size={0.9\linewidth}{0.9\paperheight}}{output_26_1.png}
+    \end{center}
+    { \hspace*{\fill} \\}
+    
+    \begin{tcolorbox}[breakable, size=fbox, boxrule=1pt, pad at break*=1mm,colback=cellbackground, colframe=cellborder]
+\prompt{In}{incolor}{27}{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+\PY{n}{pd}\PY{o}{.}\PY{n}{set\PYZus{}option}\PY{p}{(}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{display.max\PYZus{}columns}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,} \PY{l+m+mi}{500}\PY{p}{)}
+\PY{n}{aux\PYZus{}results} \PY{o}{=} \PY{n}{pd}\PY{o}{.}\PY{n}{DataFrame}\PY{p}{(}\PY{n}{ritorno}\PY{p}{[}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{inference\PYZus{}data}\PY{l+s+s1}{\PYZsq{}}\PY{p}{]}\PY{o}{.}\PY{n}{posterior}\PY{o}{.}\PY{n}{is\PYZus{}over\PYZus{}annual\PYZus{}limit}\PY{o}{.}\PY{n}{values}\PY{o}{.}\PY{n}{reshape}\PY{p}{(}\PY{p}{(}\PY{n}{aux\PYZus{}shape}\PY{p}{[}\PY{l+m+mi}{0}\PY{p}{]}\PY{o}{*}\PY{n}{aux\PYZus{}shape}\PY{p}{[}\PY{l+m+mi}{1}\PY{p}{]}\PY{p}{,}\PY{n}{aux\PYZus{}shape}\PY{p}{[}\PY{l+m+mi}{2}\PY{p}{]}\PY{p}{)}\PY{p}{)}\PY{p}{,} \PY{n}{columns}\PY{o}{=}\PY{n}{df}\PY{o}{.}\PY{n}{columns}\PY{p}{)}\PY{o}{.}\PY{n}{describe}\PY{p}{(}\PY{p}{)}
+\PY{n}{aux\PYZus{}results}\PY{o}{.}\PY{n}{sort\PYZus{}values}\PY{p}{(}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{mean}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,} \PY{n}{axis}\PY{o}{=}\PY{l+m+mi}{1}\PY{p}{,} \PY{n}{ascending}\PY{o}{=}\PY{k+kc}{True}\PY{p}{)}
+\end{Verbatim}
+\end{tcolorbox}
+
+            \begin{tcolorbox}[breakable, size=fbox, boxrule=.5pt, pad at break*=1mm, opacityfill=0]
+\prompt{Out}{outcolor}{27}{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+       CASTELLUCCIO  PARCO EDILCARANI  DELTA CERVIA  BESENZONE  \textbackslash{}
+count       10000.0           10000.0       10000.0    10000.0
+mean            0.0               0.0           0.0        0.0
+std             0.0               0.0           0.0        0.0
+min             0.0               0.0           0.0        0.0
+25\%             0.0               0.0           0.0        0.0
+50\%             0.0               0.0           0.0        0.0
+75\%             0.0               0.0           0.0        0.0
+max             0.0               0.0           0.0        0.0
+
+       PORTA SAN FELICE  VILLA FULVIA  GHERARDI  PARCO MONTECUCCO  BOGOLESE  \textbackslash{}
+count           10000.0       10000.0   10000.0           10000.0   10000.0
+mean                0.0           0.0       0.0               0.0       0.0
+std                 0.0           0.0       0.0               0.0       0.0
+min                 0.0           0.0       0.0               0.0       0.0
+25\%                 0.0           0.0       0.0               0.0       0.0
+50\%                 0.0           0.0       0.0               0.0       0.0
+75\%                 0.0           0.0       0.0               0.0       0.0
+max                 0.0           0.0       0.0               0.0       0.0
+
+       SARAGAT  PARADIGNA  REMESINA   ISONZO  GIORDANI-FARNESE  CITTADELLA  \textbackslash{}
+count  10000.0    10000.0   10000.0  10000.0           10000.0     10000.0
+mean       0.0        0.0       0.0      0.0               0.0         0.0
+std        0.0        0.0       0.0      0.0               0.0         0.0
+min        0.0        0.0       0.0      0.0               0.0         0.0
+25\%        0.0        0.0       0.0      0.0               0.0         0.0
+50\%        0.0        0.0       0.0      0.0               0.0         0.0
+75\%        0.0        0.0       0.0      0.0               0.0         0.0
+max        0.0        0.0       0.0      0.0               0.0         0.0
+
+       SAN FRANCESCO  CASTELLARANO     ROMA   CAORLE  LUGAGNANO   FEBBIO  \textbackslash{}
+count        10000.0       10000.0  10000.0  10000.0    10000.0  10000.0
+mean             0.0           0.0      0.0      0.0        0.0      0.0
+std              0.0           0.0      0.0      0.0        0.0      0.0
+min              0.0           0.0      0.0      0.0        0.0      0.0
+25\%              0.0           0.0      0.0      0.0        0.0      0.0
+50\%              0.0           0.0      0.0      0.0        0.0      0.0
+75\%              0.0           0.0      0.0      0.0        0.0      0.0
+max              0.0           0.0      0.0      0.0        0.0      0.0
+
+       CORTE BRUGNATELLA  SAVIGNANO DI RIGO  SAN LEO  VERUCCHIO    BADIA  \textbackslash{}
+count            10000.0            10000.0  10000.0    10000.0  10000.0
+mean                 0.0                0.0      0.0        0.0      0.0
+std                  0.0                0.0      0.0        0.0      0.0
+min                  0.0                0.0      0.0        0.0      0.0
+25\%                  0.0                0.0      0.0        0.0      0.0
+50\%                  0.0                0.0      0.0        0.0      0.0
+75\%                  0.0                0.0      0.0        0.0      0.0
+max                  0.0                0.0      0.0        0.0      0.0
+
+       GAVELLO  PARCO RESISTENZA  PARCO BERTOZZI  GIARDINI MARGHERITA  \textbackslash{}
+count  10000.0           10000.0         10000.0              10000.0
+mean       0.0               0.0             0.0                  0.0
+std        0.0               0.0             0.0                  0.0
+min        0.0               0.0             0.0                  0.0
+25\%        0.0               0.0             0.0                  0.0
+50\%        0.0               0.0             0.0                  0.0
+75\%        0.0               0.0             0.0                  0.0
+max        0.0               0.0             0.0                  0.0
+
+       MARECCHIA  SAN LAZZARO  DE AMICIS  SAN PIETRO CAPOFIUME  VIA CHIARINI  \textbackslash{}
+count    10000.0      10000.0    10000.0               10000.0       10000.0
+mean         0.0          0.0        0.0                   0.0           0.0
+std          0.0          0.0        0.0                   0.0           0.0
+min          0.0          0.0        0.0                   0.0           0.0
+25\%          0.0          0.0        0.0                   0.0           0.0
+50\%          0.0          0.0        0.0                   0.0           0.0
+75\%          0.0          0.0        0.0                   0.0           0.0
+max          0.0          0.0        0.0                   0.0           0.0
+
+       FRANCHINI-ANGELONI  SAVIGNANO  MALCANTONE    S. ROCCO  S. LAZZARO  \textbackslash{}
+count             10000.0    10000.0  10000.0000  10000.0000  10000.0000
+mean                  0.0        0.0      0.0001      0.0001      0.0001
+std                   0.0        0.0      0.0100      0.0100      0.0100
+min                   0.0        0.0      0.0000      0.0000      0.0000
+25\%                   0.0        0.0      0.0000      0.0000      0.0000
+50\%                   0.0        0.0      0.0000      0.0000      0.0000
+75\%                   0.0        0.0      0.0000      0.0000      0.0000
+max                   0.0        0.0      1.0000      1.0000      1.0000
+
+        ZALAMELLA       CENTO  PARCO FERRARI      GIARDINI    MONTEBELLO  \textbackslash{}
+count  10000.0000  10000.0000     10000.0000  10000.000000  10000.000000
+mean       0.0001      0.0001         0.0001      0.000400      0.000400
+std        0.0100      0.0100         0.0100      0.019997      0.019997
+min        0.0000      0.0000         0.0000      0.000000      0.000000
+25\%        0.0000      0.0000         0.0000      0.000000      0.000000
+50\%        0.0000      0.0000         0.0000      0.000000      0.000000
+75\%        0.0000      0.0000         0.0000      0.000000      0.000000
+max        1.0000      1.0000         1.0000      1.000000      1.000000
+
+               CENO      FLAMINIA       GERBIDO        TIMAVO
+count  10000.000000  10000.000000  10000.000000  10000.000000
+mean       0.000600      0.000600      0.001500      0.007400
+std        0.024489      0.024489      0.038703      0.085709
+min        0.000000      0.000000      0.000000      0.000000
+25\%        0.000000      0.000000      0.000000      0.000000
+50\%        0.000000      0.000000      0.000000      0.000000
+75\%        0.000000      0.000000      0.000000      0.000000
+max        1.000000      1.000000      1.000000      1.000000
+\end{Verbatim}
+\end{tcolorbox}
+        
+    \begin{tcolorbox}[breakable, size=fbox, boxrule=1pt, pad at break*=1mm,colback=cellbackground, colframe=cellborder]
+\prompt{In}{incolor}{28}{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+\PY{n}{aux\PYZus{}results}\PY{o}{.}\PY{n}{loc}\PY{p}{[}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{mean}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,}\PY{p}{:}\PY{p}{]}\PY{o}{.}\PY{n}{plot}\PY{p}{(}\PY{n}{kind}\PY{o}{=}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{barh}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,} \PY{n}{figsize}\PY{o}{=}\PY{p}{(}\PY{l+m+mi}{15}\PY{p}{,}\PY{l+m+mi}{15}\PY{p}{)}\PY{p}{,} \PY{n}{xticks}\PY{o}{=}\PY{n}{np}\PY{o}{.}\PY{n}{linspace}\PY{p}{(}\PY{l+m+mi}{0}\PY{p}{,}\PY{l+m+mi}{1}\PY{p}{,}\PY{l+m+mi}{11}\PY{p}{)}\PY{p}{)}
+\PY{c+c1}{\PYZsh{}res = plt.xticks(rotation = 30)}
+\end{Verbatim}
+\end{tcolorbox}
+
+            \begin{tcolorbox}[breakable, size=fbox, boxrule=.5pt, pad at break*=1mm, opacityfill=0]
+\prompt{Out}{outcolor}{28}{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+<AxesSubplot: >
+\end{Verbatim}
+\end{tcolorbox}
+        
+    \begin{center}
+    \adjustimage{max size={0.9\linewidth}{0.9\paperheight}}{output_28_1.png}
+    \end{center}
+    { \hspace*{\fill} \\}
+    
+    \begin{tcolorbox}[breakable, size=fbox, boxrule=1pt, pad at break*=1mm,colback=cellbackground, colframe=cellborder]
+\prompt{In}{incolor}{29}{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+\PY{n}{y\PYZus{}post\PYZus{}pred} \PY{o}{=} \PY{n}{ritorno}\PY{p}{[}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{inference\PYZus{}data}\PY{l+s+s1}{\PYZsq{}}\PY{p}{]}\PY{o}{.}\PY{n}{posterior}\PY{o}{.}\PY{n}{y\PYZus{}post\PYZus{}pred}\PY{o}{.}\PY{n}{to\PYZus{}numpy}\PY{p}{(}\PY{p}{)}
+\PY{n}{y\PYZus{}post\PYZus{}pred} \PY{o}{=} \PY{n}{y\PYZus{}post\PYZus{}pred}\PY{o}{.}\PY{n}{reshape}\PY{p}{(}\PY{n}{y\PYZus{}post\PYZus{}pred}\PY{o}{.}\PY{n}{shape}\PY{p}{[}\PY{l+m+mi}{0}\PY{p}{]}\PY{o}{*}\PY{n}{y\PYZus{}post\PYZus{}pred}\PY{o}{.}\PY{n}{shape}\PY{p}{[}\PY{l+m+mi}{1}\PY{p}{]}\PY{p}{,} \PY{n}{y\PYZus{}post\PYZus{}pred}\PY{o}{.}\PY{n}{shape}\PY{p}{[}\PY{l+m+mi}{2}\PY{p}{]}\PY{p}{,} \PY{n}{y\PYZus{}post\PYZus{}pred}\PY{o}{.}\PY{n}{shape}\PY{p}{[}\PY{l+m+mi}{3}\PY{p}{]}\PY{p}{)}
+\PY{n}{y\PYZus{}post\PYZus{}pred}\PY{o}{.}\PY{n}{shape}
+\end{Verbatim}
+\end{tcolorbox}
+
+            \begin{tcolorbox}[breakable, size=fbox, boxrule=.5pt, pad at break*=1mm, opacityfill=0]
+\prompt{Out}{outcolor}{29}{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+(10000, 365, 49)
+\end{Verbatim}
+\end{tcolorbox}
+        
+    \begin{tcolorbox}[breakable, size=fbox, boxrule=1pt, pad at break*=1mm,colback=cellbackground, colframe=cellborder]
+\prompt{In}{incolor}{30}{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+\PY{k+kn}{import} \PY{n+nn}{ipywidgets} \PY{k}{as} \PY{n+nn}{widgets}
+\PY{k+kn}{from} \PY{n+nn}{ipywidgets} \PY{k+kn}{import} \PY{n}{HBox}\PY{p}{,} \PY{n}{VBox}
+\PY{k+kn}{from} \PY{n+nn}{IPython}\PY{n+nn}{.}\PY{n+nn}{display} \PY{k+kn}{import} \PY{n}{display}
+\end{Verbatim}
+\end{tcolorbox}
+
+    \begin{tcolorbox}[breakable, size=fbox, boxrule=1pt, pad at break*=1mm,colback=cellbackground, colframe=cellborder]
+\prompt{In}{incolor}{31}{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+\PY{n+nd}{@widgets}\PY{o}{.}\PY{n}{interact}\PY{p}{(}\PY{n}{stazione} \PY{o}{=} \PY{n}{df}\PY{o}{.}\PY{n}{columns}\PY{p}{)}
+\PY{k}{def} \PY{n+nf}{f}\PY{p}{(}\PY{n}{stazione}\PY{p}{)}\PY{p}{:}
+    \PY{n}{col\PYZus{}map} \PY{o}{=} \PY{n}{sns}\PY{o}{.}\PY{n}{light\PYZus{}palette}\PY{p}{(}\PY{p}{(}\PY{l+m+mi}{20}\PY{p}{,} \PY{l+m+mi}{75}\PY{p}{,} \PY{l+m+mi}{70}\PY{p}{)}\PY{p}{,} \PY{n+nb}{input}\PY{o}{=}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{husl}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,} \PY{n}{as\PYZus{}cmap}\PY{o}{=}\PY{k+kc}{True}\PY{p}{)}
+
+    \PY{n}{plt}\PY{o}{.}\PY{n}{figure}\PY{p}{(}\PY{n}{figsize}\PY{o}{=}\PY{p}{(}\PY{l+m+mi}{14}\PY{p}{,}\PY{l+m+mi}{8}\PY{p}{)}\PY{p}{)}
+    \PY{n}{ax} \PY{o}{=} \PY{n}{plt}\PY{o}{.}\PY{n}{subplot}\PY{p}{(}\PY{l+m+mi}{1}\PY{p}{,}\PY{l+m+mi}{1}\PY{p}{,}\PY{l+m+mi}{1}\PY{p}{)}
+
+    \PY{n}{idx\PYZus{}stazione} \PY{o}{=} \PY{n}{df}\PY{o}{.}\PY{n}{columns}\PY{o}{.}\PY{n}{to\PYZus{}list}\PY{p}{(}\PY{p}{)}\PY{o}{.}\PY{n}{index}\PY{p}{(}\PY{n}{stazione}\PY{p}{)}
+    
+    \PY{l+s+sd}{\PYZdq{}\PYZdq{}\PYZdq{}}
+\PY{l+s+sd}{    sns.lineplot(np.transpose(y\PYZus{}post\PYZus{}pred[0:50,:,idx\PYZus{}stazione]))}
+\PY{l+s+sd}{    \PYZdq{}\PYZdq{}\PYZdq{}}
+
+    \PY{n}{lower\PYZus{}lim} \PY{o}{=} \PY{n}{np}\PY{o}{.}\PY{n}{zeros}\PY{p}{(}\PY{n+nb}{len}\PY{p}{(}\PY{n}{df}\PY{o}{.}\PY{n}{index}\PY{p}{)}\PY{p}{)}
+    \PY{n}{upper\PYZus{}lim} \PY{o}{=} \PY{n}{np}\PY{o}{.}\PY{n}{zeros}\PY{p}{(}\PY{n+nb}{len}\PY{p}{(}\PY{n}{df}\PY{o}{.}\PY{n}{index}\PY{p}{)}\PY{p}{)}    
+    \PY{k}{for} \PY{n}{i} \PY{o+ow}{in} \PY{n+nb}{range}\PY{p}{(}\PY{n+nb}{len}\PY{p}{(}\PY{n}{df}\PY{o}{.}\PY{n}{index}\PY{p}{)}\PY{p}{)}\PY{p}{:}
+        \PY{n}{lower\PYZus{}lim}\PY{p}{[}\PY{n}{i}\PY{p}{]} \PY{o}{=} \PY{n}{np}\PY{o}{.}\PY{n}{percentile}\PY{p}{(}\PY{n}{y\PYZus{}post\PYZus{}pred}\PY{p}{[}\PY{p}{:}\PY{p}{,}\PY{n}{i}\PY{p}{,}\PY{n}{idx\PYZus{}stazione}\PY{p}{]}\PY{p}{,}\PY{l+m+mf}{2.5}\PY{p}{)}
+        \PY{n}{upper\PYZus{}lim}\PY{p}{[}\PY{n}{i}\PY{p}{]} \PY{o}{=} \PY{n}{np}\PY{o}{.}\PY{n}{percentile}\PY{p}{(}\PY{n}{y\PYZus{}post\PYZus{}pred}\PY{p}{[}\PY{p}{:}\PY{p}{,}\PY{n}{i}\PY{p}{,}\PY{n}{idx\PYZus{}stazione}\PY{p}{]}\PY{p}{,}\PY{l+m+mf}{97.5}\PY{p}{)}
+    
+    
+\PY{c+c1}{\PYZsh{}    sns.lineplot(lower\PYZus{}lim)}
+\PY{c+c1}{\PYZsh{}    sns.lineplot(upper\PYZus{}lim)}
+    
+    \PY{k}{for} \PY{n}{i} \PY{o+ow}{in} \PY{n+nb}{range}\PY{p}{(}\PY{n+nb}{len}\PY{p}{(}\PY{n}{df}\PY{o}{.}\PY{n}{index}\PY{p}{)}\PY{p}{)}\PY{p}{:}
+        \PY{n}{ax}\PY{o}{.}\PY{n}{add\PYZus{}patch}\PY{p}{(}\PY{n}{mplt}\PY{o}{.}\PY{n}{patches}\PY{o}{.}\PY{n}{Rectangle}\PY{p}{(}\PY{p}{(}\PY{n}{i}\PY{p}{,}\PY{n}{lower\PYZus{}lim}\PY{p}{[}\PY{n}{i}\PY{p}{]}\PY{p}{)}\PY{p}{,}\PY{l+m+mi}{1}\PY{p}{,}\PY{n}{upper\PYZus{}lim}\PY{p}{[}\PY{n}{i}\PY{p}{]}\PY{o}{\PYZhy{}}\PY{n}{lower\PYZus{}lim}\PY{p}{[}\PY{n}{i}\PY{p}{]}\PY{p}{,} \PY{n}{fill}\PY{o}{=}\PY{k+kc}{True}\PY{p}{,} \PY{n}{color}\PY{o}{=}\PY{n}{col\PYZus{}map}\PY{p}{(}\PY{l+m+mi}{180}\PY{p}{)}\PY{p}{)}\PY{p}{)}
+
+    \PY{n}{sns}\PY{o}{.}\PY{n}{lineplot}\PY{p}{(}\PY{n}{df}\PY{p}{[}\PY{n}{stazione}\PY{p}{]}\PY{p}{)}    
+    \PY{n}{sns}\PY{o}{.}\PY{n}{lineplot}\PY{p}{(}\PY{n}{np}\PY{o}{.}\PY{n}{mean}\PY{p}{(}\PY{n}{y\PYZus{}post\PYZus{}pred}\PY{p}{[}\PY{p}{:}\PY{p}{,}\PY{p}{:}\PY{p}{,}\PY{n}{idx\PYZus{}stazione}\PY{p}{]}\PY{p}{,} \PY{n}{axis}\PY{o}{=}\PY{l+m+mi}{0}\PY{p}{)}\PY{p}{)}
+
+
+    \PY{n}{index} \PY{o}{=} \PY{l+m+mi}{0}
+    \PY{k}{for} \PY{n}{line} \PY{o+ow}{in} \PY{n}{ax}\PY{o}{.}\PY{n}{get\PYZus{}lines}\PY{p}{(}\PY{p}{)}\PY{p}{:}
+        \PY{k}{if} \PY{n}{index} \PY{o}{==} \PY{l+m+mi}{0}\PY{p}{:}
+            \PY{n}{col\PYZus{}map} \PY{o}{=} \PY{n}{sns}\PY{o}{.}\PY{n}{dark\PYZus{}palette}\PY{p}{(}\PY{p}{(}\PY{l+m+mi}{230}\PY{p}{,}\PY{l+m+mi}{90}\PY{p}{,}\PY{l+m+mi}{65}\PY{p}{)}\PY{p}{,} \PY{n+nb}{input}\PY{o}{=}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{husl}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,} \PY{n}{as\PYZus{}cmap}\PY{o}{=}\PY{k+kc}{True}\PY{p}{)}
+            \PY{n}{line}\PY{o}{.}\PY{n}{set\PYZus{}c}\PY{p}{(}\PY{n}{col\PYZus{}map}\PY{p}{(}\PY{l+m+mi}{155}\PY{p}{)}\PY{p}{)}
+        \PY{k}{else}\PY{p}{:}
+            \PY{n}{col\PYZus{}map} \PY{o}{=} \PY{n}{sns}\PY{o}{.}\PY{n}{dark\PYZus{}palette}\PY{p}{(}\PY{p}{(}\PY{l+m+mi}{10}\PY{p}{,}\PY{l+m+mi}{90}\PY{p}{,}\PY{l+m+mi}{65}\PY{p}{)}\PY{p}{,} \PY{n+nb}{input}\PY{o}{=}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{husl}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,} \PY{n}{as\PYZus{}cmap}\PY{o}{=}\PY{k+kc}{True}\PY{p}{)}
+            \PY{n}{line}\PY{o}{.}\PY{n}{set\PYZus{}c}\PY{p}{(}\PY{n}{col\PYZus{}map}\PY{p}{(}\PY{l+m+mi}{175}\PY{p}{)}\PY{p}{)}
+        \PY{n}{index} \PY{o}{+}\PY{o}{=} \PY{l+m+mi}{1}
+        
+    \PY{n}{plt}\PY{o}{.}\PY{n}{ylim}\PY{p}{(}\PY{n}{bottom}\PY{o}{=}\PY{l+m+mi}{0}\PY{p}{,}\PY{n}{top}\PY{o}{=}\PY{l+m+mf}{2.5}\PY{p}{)}
+
+    \PY{n}{primo\PYZus{}giorno} \PY{o}{=} \PY{n}{datetime}\PY{o}{.}\PY{n}{date}\PY{p}{(}\PY{l+m+mi}{2018}\PY{p}{,}\PY{l+m+mi}{1}\PY{p}{,}\PY{l+m+mi}{1}\PY{p}{)}
+    \PY{n}{date\PYZus{}da\PYZus{}segnare} \PY{o}{=} \PY{p}{[}\PY{p}{]}
+    \PY{n}{date\PYZus{}da\PYZus{}segnare\PYZus{}posizioni} \PY{o}{=} \PY{p}{[}\PY{p}{]}
+
+    \PY{k}{for} \PY{n}{i} \PY{o+ow}{in} \PY{n+nb}{range}\PY{p}{(}\PY{l+m+mi}{12}\PY{p}{)}\PY{p}{:}
+        \PY{n}{date\PYZus{}da\PYZus{}segnare}\PY{o}{.}\PY{n}{append}\PY{p}{(}\PY{n}{datetime}\PY{o}{.}\PY{n}{date}\PY{p}{(}\PY{l+m+mi}{2018}\PY{p}{,}\PY{n}{i}\PY{o}{+}\PY{l+m+mi}{1}\PY{p}{,}\PY{l+m+mi}{1}\PY{p}{)}\PY{p}{)}
+        \PY{n}{date\PYZus{}da\PYZus{}segnare\PYZus{}posizioni}\PY{o}{.}\PY{n}{append}\PY{p}{(}\PY{p}{(}\PY{n}{date\PYZus{}da\PYZus{}segnare}\PY{p}{[}\PY{l+m+mi}{2}\PY{o}{*}\PY{n}{i}\PY{p}{]} \PY{o}{\PYZhy{}} \PY{n}{primo\PYZus{}giorno}\PY{p}{)}\PY{o}{.}\PY{n}{days}\PY{p}{)}
+        \PY{n}{date\PYZus{}da\PYZus{}segnare}\PY{o}{.}\PY{n}{append}\PY{p}{(}\PY{n}{datetime}\PY{o}{.}\PY{n}{date}\PY{p}{(}\PY{l+m+mi}{2018}\PY{p}{,}\PY{n}{i}\PY{o}{+}\PY{l+m+mi}{1}\PY{p}{,}\PY{l+m+mi}{15}\PY{p}{)}\PY{p}{)}
+        \PY{n}{date\PYZus{}da\PYZus{}segnare\PYZus{}posizioni}\PY{o}{.}\PY{n}{append}\PY{p}{(}\PY{p}{(}\PY{n}{date\PYZus{}da\PYZus{}segnare}\PY{p}{[}\PY{l+m+mi}{2}\PY{o}{*}\PY{n}{i}\PY{o}{+}\PY{l+m+mi}{1}\PY{p}{]} \PY{o}{\PYZhy{}} \PY{n}{primo\PYZus{}giorno}\PY{p}{)}\PY{o}{.}\PY{n}{days}\PY{p}{)}
+        \PY{n}{date\PYZus{}da\PYZus{}segnare}\PY{p}{[}\PY{l+m+mi}{2}\PY{o}{*}\PY{n}{i}\PY{p}{]} \PY{o}{=} \PY{n}{date\PYZus{}da\PYZus{}segnare}\PY{p}{[}\PY{l+m+mi}{2}\PY{o}{*}\PY{n}{i}\PY{p}{]}\PY{o}{.}\PY{n}{isoformat}\PY{p}{(}\PY{p}{)}
+        \PY{n}{date\PYZus{}da\PYZus{}segnare}\PY{p}{[}\PY{l+m+mi}{2}\PY{o}{*}\PY{n}{i}\PY{o}{+}\PY{l+m+mi}{1}\PY{p}{]} \PY{o}{=} \PY{n}{date\PYZus{}da\PYZus{}segnare}\PY{p}{[}\PY{l+m+mi}{2}\PY{o}{*}\PY{n}{i}\PY{o}{+}\PY{l+m+mi}{1}\PY{p}{]}\PY{o}{.}\PY{n}{isoformat}\PY{p}{(}\PY{p}{)}
+
+    \PY{n}{plt}\PY{o}{.}\PY{n}{xticks}\PY{p}{(}\PY{n}{date\PYZus{}da\PYZus{}segnare\PYZus{}posizioni}\PY{p}{,}\PY{n}{date\PYZus{}da\PYZus{}segnare}\PY{p}{,}\PY{n}{rotation}\PY{o}{=}\PY{l+m+mi}{65}\PY{p}{)}
+    \PY{n}{plt}\PY{o}{.}\PY{n}{tick\PYZus{}params}\PY{p}{(}
+        \PY{n}{axis}\PY{o}{=}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{x}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,}          \PY{c+c1}{\PYZsh{} changes apply to the x\PYZhy{}axis}
+        \PY{n}{which}\PY{o}{=}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{both}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,}      \PY{c+c1}{\PYZsh{} both major and minor ticks are affected}
+        \PY{n}{bottom}\PY{o}{=}\PY{k+kc}{True}\PY{p}{,}      \PY{c+c1}{\PYZsh{} ticks along the bottom edge are off}
+        \PY{n}{top}\PY{o}{=}\PY{k+kc}{False}\PY{p}{,}         \PY{c+c1}{\PYZsh{} ticks along the top edge are off}
+        \PY{n}{labelbottom}\PY{o}{=}\PY{k+kc}{True}\PY{p}{)}
+    \PY{n}{plt}\PY{o}{.}\PY{n}{grid}\PY{p}{(}\PY{p}{)}
+    
+    \PY{l+s+sd}{\PYZdq{}\PYZdq{}\PYZdq{}}
+\PY{l+s+sd}{    ax.get\PYZus{}legend().remove()}
+\PY{l+s+sd}{    col\PYZus{}vals = np.linspace(1,255,num=len(df.columns))}
+\PY{l+s+sd}{    index = 0}
+\PY{l+s+sd}{    for line in ax.get\PYZus{}lines():}
+\PY{l+s+sd}{        if(index == len(ax.get\PYZus{}lines()) \PYZhy{} 1):}
+\PY{l+s+sd}{            col\PYZus{}map = sns.dark\PYZus{}palette((230,90,65), input=\PYZsq{}husl\PYZsq{}, as\PYZus{}cmap=True)}
+\PY{l+s+sd}{            line.set\PYZus{}c(col\PYZus{}map(175))}
+\PY{l+s+sd}{            continue}
+\PY{l+s+sd}{        if(index == len(ax.get\PYZus{}lines()) \PYZhy{} 2):}
+\PY{l+s+sd}{            col\PYZus{}map = sns.dark\PYZus{}palette((120,90,65), input=\PYZsq{}husl\PYZsq{}, as\PYZus{}cmap=True)}
+\PY{l+s+sd}{            line.set\PYZus{}c(col\PYZus{}map(175))}
+\PY{l+s+sd}{            index += 1}
+\PY{l+s+sd}{            continue}
+
+\PY{l+s+sd}{        \PYZsh{}line.set\PYZus{}c(col\PYZus{}map(int(np.round(col\PYZus{}vals[index]))))}
+\PY{l+s+sd}{        line.set\PYZus{}c(col\PYZus{}map(220))}
+\PY{l+s+sd}{        line.set\PYZus{}alpha(0.3)}
+\PY{l+s+sd}{        index += 1}
+\PY{l+s+sd}{    \PYZdq{}\PYZdq{}\PYZdq{}}
+    
+    
+
+    \PY{n}{plt}\PY{o}{.}\PY{n}{show}\PY{p}{(}\PY{p}{)}
+\end{Verbatim}
+\end{tcolorbox}
+
+    
+    \begin{Verbatim}[commandchars=\\\{\}]
+interactive(children=(Dropdown(description='stazione', options=('CASTELLUCCIO', 'FEBBIO', 'CORTE BRUGNATELLA',…
+    \end{Verbatim}
+
+    
+    \begin{tcolorbox}[breakable, size=fbox, boxrule=1pt, pad at break*=1mm,colback=cellbackground, colframe=cellborder]
+\prompt{In}{incolor}{32}{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+\PY{k}{def} \PY{n+nf}{f}\PY{p}{(}\PY{n}{stazione}\PY{p}{)}\PY{p}{:}
+    \PY{n}{col\PYZus{}map} \PY{o}{=} \PY{n}{sns}\PY{o}{.}\PY{n}{light\PYZus{}palette}\PY{p}{(}\PY{p}{(}\PY{l+m+mi}{20}\PY{p}{,} \PY{l+m+mi}{75}\PY{p}{,} \PY{l+m+mi}{70}\PY{p}{)}\PY{p}{,} \PY{n+nb}{input}\PY{o}{=}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{husl}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,} \PY{n}{as\PYZus{}cmap}\PY{o}{=}\PY{k+kc}{True}\PY{p}{)}
+
+    \PY{n}{plt}\PY{o}{.}\PY{n}{figure}\PY{p}{(}\PY{n}{figsize}\PY{o}{=}\PY{p}{(}\PY{l+m+mi}{14}\PY{p}{,}\PY{l+m+mi}{8}\PY{p}{)}\PY{p}{)}
+    \PY{n}{ax} \PY{o}{=} \PY{n}{plt}\PY{o}{.}\PY{n}{subplot}\PY{p}{(}\PY{l+m+mi}{1}\PY{p}{,}\PY{l+m+mi}{1}\PY{p}{,}\PY{l+m+mi}{1}\PY{p}{)}
+
+    \PY{n}{idx\PYZus{}stazione} \PY{o}{=} \PY{n}{df}\PY{o}{.}\PY{n}{columns}\PY{o}{.}\PY{n}{to\PYZus{}list}\PY{p}{(}\PY{p}{)}\PY{o}{.}\PY{n}{index}\PY{p}{(}\PY{n}{stazione}\PY{p}{)}
+    
+    \PY{l+s+sd}{\PYZdq{}\PYZdq{}\PYZdq{}}
+\PY{l+s+sd}{    sns.lineplot(np.transpose(y\PYZus{}post\PYZus{}pred[0:50,:,idx\PYZus{}stazione]))}
+\PY{l+s+sd}{    \PYZdq{}\PYZdq{}\PYZdq{}}
+
+    \PY{n}{lower\PYZus{}lim} \PY{o}{=} \PY{n}{np}\PY{o}{.}\PY{n}{zeros}\PY{p}{(}\PY{n+nb}{len}\PY{p}{(}\PY{n}{df}\PY{o}{.}\PY{n}{index}\PY{p}{)}\PY{p}{)}
+    \PY{n}{upper\PYZus{}lim} \PY{o}{=} \PY{n}{np}\PY{o}{.}\PY{n}{zeros}\PY{p}{(}\PY{n+nb}{len}\PY{p}{(}\PY{n}{df}\PY{o}{.}\PY{n}{index}\PY{p}{)}\PY{p}{)}    
+    \PY{k}{for} \PY{n}{i} \PY{o+ow}{in} \PY{n+nb}{range}\PY{p}{(}\PY{n+nb}{len}\PY{p}{(}\PY{n}{df}\PY{o}{.}\PY{n}{index}\PY{p}{)}\PY{p}{)}\PY{p}{:}
+        \PY{n}{lower\PYZus{}lim}\PY{p}{[}\PY{n}{i}\PY{p}{]} \PY{o}{=} \PY{n}{np}\PY{o}{.}\PY{n}{percentile}\PY{p}{(}\PY{n}{y\PYZus{}post\PYZus{}pred}\PY{p}{[}\PY{p}{:}\PY{p}{,}\PY{n}{i}\PY{p}{,}\PY{n}{idx\PYZus{}stazione}\PY{p}{]}\PY{p}{,}\PY{l+m+mf}{2.5}\PY{p}{)}
+        \PY{n}{upper\PYZus{}lim}\PY{p}{[}\PY{n}{i}\PY{p}{]} \PY{o}{=} \PY{n}{np}\PY{o}{.}\PY{n}{percentile}\PY{p}{(}\PY{n}{y\PYZus{}post\PYZus{}pred}\PY{p}{[}\PY{p}{:}\PY{p}{,}\PY{n}{i}\PY{p}{,}\PY{n}{idx\PYZus{}stazione}\PY{p}{]}\PY{p}{,}\PY{l+m+mf}{97.5}\PY{p}{)}
+    
+    
+\PY{c+c1}{\PYZsh{}    sns.lineplot(lower\PYZus{}lim)}
+\PY{c+c1}{\PYZsh{}    sns.lineplot(upper\PYZus{}lim)}
+    
+    \PY{k}{for} \PY{n}{i} \PY{o+ow}{in} \PY{n+nb}{range}\PY{p}{(}\PY{n+nb}{len}\PY{p}{(}\PY{n}{df}\PY{o}{.}\PY{n}{index}\PY{p}{)}\PY{p}{)}\PY{p}{:}
+        \PY{n}{ax}\PY{o}{.}\PY{n}{add\PYZus{}patch}\PY{p}{(}\PY{n}{mplt}\PY{o}{.}\PY{n}{patches}\PY{o}{.}\PY{n}{Rectangle}\PY{p}{(}\PY{p}{(}\PY{n}{i}\PY{p}{,}\PY{n}{lower\PYZus{}lim}\PY{p}{[}\PY{n}{i}\PY{p}{]}\PY{p}{)}\PY{p}{,}\PY{l+m+mi}{1}\PY{p}{,}\PY{n}{upper\PYZus{}lim}\PY{p}{[}\PY{n}{i}\PY{p}{]}\PY{o}{\PYZhy{}}\PY{n}{lower\PYZus{}lim}\PY{p}{[}\PY{n}{i}\PY{p}{]}\PY{p}{,} \PY{n}{fill}\PY{o}{=}\PY{k+kc}{True}\PY{p}{,} \PY{n}{color}\PY{o}{=}\PY{n}{col\PYZus{}map}\PY{p}{(}\PY{l+m+mi}{180}\PY{p}{)}\PY{p}{)}\PY{p}{)}
+
+    \PY{n}{sns}\PY{o}{.}\PY{n}{lineplot}\PY{p}{(}\PY{n}{df}\PY{p}{[}\PY{n}{stazione}\PY{p}{]}\PY{p}{)}    
+    \PY{n}{sns}\PY{o}{.}\PY{n}{lineplot}\PY{p}{(}\PY{n}{np}\PY{o}{.}\PY{n}{mean}\PY{p}{(}\PY{n}{y\PYZus{}post\PYZus{}pred}\PY{p}{[}\PY{p}{:}\PY{p}{,}\PY{p}{:}\PY{p}{,}\PY{n}{idx\PYZus{}stazione}\PY{p}{]}\PY{p}{,} \PY{n}{axis}\PY{o}{=}\PY{l+m+mi}{0}\PY{p}{)}\PY{p}{)}
+
+
+    \PY{n}{index} \PY{o}{=} \PY{l+m+mi}{0}
+    \PY{k}{for} \PY{n}{line} \PY{o+ow}{in} \PY{n}{ax}\PY{o}{.}\PY{n}{get\PYZus{}lines}\PY{p}{(}\PY{p}{)}\PY{p}{:}
+        \PY{k}{if} \PY{n}{index} \PY{o}{==} \PY{l+m+mi}{0}\PY{p}{:}
+            \PY{n}{col\PYZus{}map} \PY{o}{=} \PY{n}{sns}\PY{o}{.}\PY{n}{dark\PYZus{}palette}\PY{p}{(}\PY{p}{(}\PY{l+m+mi}{230}\PY{p}{,}\PY{l+m+mi}{90}\PY{p}{,}\PY{l+m+mi}{65}\PY{p}{)}\PY{p}{,} \PY{n+nb}{input}\PY{o}{=}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{husl}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,} \PY{n}{as\PYZus{}cmap}\PY{o}{=}\PY{k+kc}{True}\PY{p}{)}
+            \PY{n}{line}\PY{o}{.}\PY{n}{set\PYZus{}c}\PY{p}{(}\PY{n}{col\PYZus{}map}\PY{p}{(}\PY{l+m+mi}{155}\PY{p}{)}\PY{p}{)}
+        \PY{k}{else}\PY{p}{:}
+            \PY{n}{col\PYZus{}map} \PY{o}{=} \PY{n}{sns}\PY{o}{.}\PY{n}{dark\PYZus{}palette}\PY{p}{(}\PY{p}{(}\PY{l+m+mi}{10}\PY{p}{,}\PY{l+m+mi}{90}\PY{p}{,}\PY{l+m+mi}{65}\PY{p}{)}\PY{p}{,} \PY{n+nb}{input}\PY{o}{=}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{husl}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,} \PY{n}{as\PYZus{}cmap}\PY{o}{=}\PY{k+kc}{True}\PY{p}{)}
+            \PY{n}{line}\PY{o}{.}\PY{n}{set\PYZus{}c}\PY{p}{(}\PY{n}{col\PYZus{}map}\PY{p}{(}\PY{l+m+mi}{175}\PY{p}{)}\PY{p}{)}
+        \PY{n}{index} \PY{o}{+}\PY{o}{=} \PY{l+m+mi}{1}
+        
+    \PY{n}{plt}\PY{o}{.}\PY{n}{ylim}\PY{p}{(}\PY{n}{bottom}\PY{o}{=}\PY{l+m+mi}{0}\PY{p}{,}\PY{n}{top}\PY{o}{=}\PY{l+m+mf}{2.5}\PY{p}{)}
+
+    \PY{n}{primo\PYZus{}giorno} \PY{o}{=} \PY{n}{datetime}\PY{o}{.}\PY{n}{date}\PY{p}{(}\PY{l+m+mi}{2018}\PY{p}{,}\PY{l+m+mi}{1}\PY{p}{,}\PY{l+m+mi}{1}\PY{p}{)}
+    \PY{n}{date\PYZus{}da\PYZus{}segnare} \PY{o}{=} \PY{p}{[}\PY{p}{]}
+    \PY{n}{date\PYZus{}da\PYZus{}segnare\PYZus{}posizioni} \PY{o}{=} \PY{p}{[}\PY{p}{]}
+
+    \PY{k}{for} \PY{n}{i} \PY{o+ow}{in} \PY{n+nb}{range}\PY{p}{(}\PY{l+m+mi}{12}\PY{p}{)}\PY{p}{:}
+        \PY{n}{date\PYZus{}da\PYZus{}segnare}\PY{o}{.}\PY{n}{append}\PY{p}{(}\PY{n}{datetime}\PY{o}{.}\PY{n}{date}\PY{p}{(}\PY{l+m+mi}{2018}\PY{p}{,}\PY{n}{i}\PY{o}{+}\PY{l+m+mi}{1}\PY{p}{,}\PY{l+m+mi}{1}\PY{p}{)}\PY{p}{)}
+        \PY{n}{date\PYZus{}da\PYZus{}segnare\PYZus{}posizioni}\PY{o}{.}\PY{n}{append}\PY{p}{(}\PY{p}{(}\PY{n}{date\PYZus{}da\PYZus{}segnare}\PY{p}{[}\PY{l+m+mi}{2}\PY{o}{*}\PY{n}{i}\PY{p}{]} \PY{o}{\PYZhy{}} \PY{n}{primo\PYZus{}giorno}\PY{p}{)}\PY{o}{.}\PY{n}{days}\PY{p}{)}
+        \PY{n}{date\PYZus{}da\PYZus{}segnare}\PY{o}{.}\PY{n}{append}\PY{p}{(}\PY{n}{datetime}\PY{o}{.}\PY{n}{date}\PY{p}{(}\PY{l+m+mi}{2018}\PY{p}{,}\PY{n}{i}\PY{o}{+}\PY{l+m+mi}{1}\PY{p}{,}\PY{l+m+mi}{15}\PY{p}{)}\PY{p}{)}
+        \PY{n}{date\PYZus{}da\PYZus{}segnare\PYZus{}posizioni}\PY{o}{.}\PY{n}{append}\PY{p}{(}\PY{p}{(}\PY{n}{date\PYZus{}da\PYZus{}segnare}\PY{p}{[}\PY{l+m+mi}{2}\PY{o}{*}\PY{n}{i}\PY{o}{+}\PY{l+m+mi}{1}\PY{p}{]} \PY{o}{\PYZhy{}} \PY{n}{primo\PYZus{}giorno}\PY{p}{)}\PY{o}{.}\PY{n}{days}\PY{p}{)}
+        \PY{n}{date\PYZus{}da\PYZus{}segnare}\PY{p}{[}\PY{l+m+mi}{2}\PY{o}{*}\PY{n}{i}\PY{p}{]} \PY{o}{=} \PY{n}{date\PYZus{}da\PYZus{}segnare}\PY{p}{[}\PY{l+m+mi}{2}\PY{o}{*}\PY{n}{i}\PY{p}{]}\PY{o}{.}\PY{n}{isoformat}\PY{p}{(}\PY{p}{)}
+        \PY{n}{date\PYZus{}da\PYZus{}segnare}\PY{p}{[}\PY{l+m+mi}{2}\PY{o}{*}\PY{n}{i}\PY{o}{+}\PY{l+m+mi}{1}\PY{p}{]} \PY{o}{=} \PY{n}{date\PYZus{}da\PYZus{}segnare}\PY{p}{[}\PY{l+m+mi}{2}\PY{o}{*}\PY{n}{i}\PY{o}{+}\PY{l+m+mi}{1}\PY{p}{]}\PY{o}{.}\PY{n}{isoformat}\PY{p}{(}\PY{p}{)}
+
+    \PY{n}{plt}\PY{o}{.}\PY{n}{xticks}\PY{p}{(}\PY{n}{date\PYZus{}da\PYZus{}segnare\PYZus{}posizioni}\PY{p}{,}\PY{n}{date\PYZus{}da\PYZus{}segnare}\PY{p}{,}\PY{n}{rotation}\PY{o}{=}\PY{l+m+mi}{65}\PY{p}{)}
+    \PY{n}{plt}\PY{o}{.}\PY{n}{tick\PYZus{}params}\PY{p}{(}
+        \PY{n}{axis}\PY{o}{=}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{x}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,}          \PY{c+c1}{\PYZsh{} changes apply to the x\PYZhy{}axis}
+        \PY{n}{which}\PY{o}{=}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{both}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,}      \PY{c+c1}{\PYZsh{} both major and minor ticks are affected}
+        \PY{n}{bottom}\PY{o}{=}\PY{k+kc}{True}\PY{p}{,}      \PY{c+c1}{\PYZsh{} ticks along the bottom edge are off}
+        \PY{n}{top}\PY{o}{=}\PY{k+kc}{False}\PY{p}{,}         \PY{c+c1}{\PYZsh{} ticks along the top edge are off}
+        \PY{n}{labelbottom}\PY{o}{=}\PY{k+kc}{True}\PY{p}{)}
+    \PY{n}{plt}\PY{o}{.}\PY{n}{grid}\PY{p}{(}\PY{p}{)}
+    
+    \PY{l+s+sd}{\PYZdq{}\PYZdq{}\PYZdq{}}
+\PY{l+s+sd}{    ax.get\PYZus{}legend().remove()}
+\PY{l+s+sd}{    col\PYZus{}vals = np.linspace(1,255,num=len(df.columns))}
+\PY{l+s+sd}{    index = 0}
+\PY{l+s+sd}{    for line in ax.get\PYZus{}lines():}
+\PY{l+s+sd}{        if(index == len(ax.get\PYZus{}lines()) \PYZhy{} 1):}
+\PY{l+s+sd}{            col\PYZus{}map = sns.dark\PYZus{}palette((230,90,65), input=\PYZsq{}husl\PYZsq{}, as\PYZus{}cmap=True)}
+\PY{l+s+sd}{            line.set\PYZus{}c(col\PYZus{}map(175))}
+\PY{l+s+sd}{            continue}
+\PY{l+s+sd}{        if(index == len(ax.get\PYZus{}lines()) \PYZhy{} 2):}
+\PY{l+s+sd}{            col\PYZus{}map = sns.dark\PYZus{}palette((120,90,65), input=\PYZsq{}husl\PYZsq{}, as\PYZus{}cmap=True)}
+\PY{l+s+sd}{            line.set\PYZus{}c(col\PYZus{}map(175))}
+\PY{l+s+sd}{            index += 1}
+\PY{l+s+sd}{            continue}
+
+\PY{l+s+sd}{        \PYZsh{}line.set\PYZus{}c(col\PYZus{}map(int(np.round(col\PYZus{}vals[index]))))}
+\PY{l+s+sd}{        line.set\PYZus{}c(col\PYZus{}map(220))}
+\PY{l+s+sd}{        line.set\PYZus{}alpha(0.3)}
+\PY{l+s+sd}{        index += 1}
+\PY{l+s+sd}{    \PYZdq{}\PYZdq{}\PYZdq{}}
+    
+    
+
+    \PY{n}{plt}\PY{o}{.}\PY{n}{show}\PY{p}{(}\PY{p}{)}
+\end{Verbatim}
+\end{tcolorbox}
+
+    \begin{tcolorbox}[breakable, size=fbox, boxrule=1pt, pad at break*=1mm,colback=cellbackground, colframe=cellborder]
+\prompt{In}{incolor}{33}{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+\PY{k}{for} \PY{n}{stazione} \PY{o+ow}{in} \PY{n}{df}\PY{o}{.}\PY{n}{columns}\PY{p}{:}
+    \PY{n}{f}\PY{p}{(}\PY{n}{stazione}\PY{p}{)}
+\end{Verbatim}
+\end{tcolorbox}
+
+    \begin{center}
+    \adjustimage{max size={0.9\linewidth}{0.9\paperheight}}{output_33_0.png}
+    \end{center}
+    { \hspace*{\fill} \\}
+    
+    \begin{center}
+    \adjustimage{max size={0.9\linewidth}{0.9\paperheight}}{output_33_1.png}
+    \end{center}
+    { \hspace*{\fill} \\}
+    
+    \begin{center}
+    \adjustimage{max size={0.9\linewidth}{0.9\paperheight}}{output_33_2.png}
+    \end{center}
+    { \hspace*{\fill} \\}
+    
+    \begin{center}
+    \adjustimage{max size={0.9\linewidth}{0.9\paperheight}}{output_33_3.png}
+    \end{center}
+    { \hspace*{\fill} \\}
+    
+    \begin{center}
+    \adjustimage{max size={0.9\linewidth}{0.9\paperheight}}{output_33_4.png}
+    \end{center}
+    { \hspace*{\fill} \\}
+    
+    \begin{center}
+    \adjustimage{max size={0.9\linewidth}{0.9\paperheight}}{output_33_5.png}
+    \end{center}
+    { \hspace*{\fill} \\}
+    
+    \begin{center}
+    \adjustimage{max size={0.9\linewidth}{0.9\paperheight}}{output_33_6.png}
+    \end{center}
+    { \hspace*{\fill} \\}
+    
+    \begin{center}
+    \adjustimage{max size={0.9\linewidth}{0.9\paperheight}}{output_33_7.png}
+    \end{center}
+    { \hspace*{\fill} \\}
+    
+    \begin{center}
+    \adjustimage{max size={0.9\linewidth}{0.9\paperheight}}{output_33_8.png}
+    \end{center}
+    { \hspace*{\fill} \\}
+    
+    \begin{center}
+    \adjustimage{max size={0.9\linewidth}{0.9\paperheight}}{output_33_9.png}
+    \end{center}
+    { \hspace*{\fill} \\}
+    
+    \begin{center}
+    \adjustimage{max size={0.9\linewidth}{0.9\paperheight}}{output_33_10.png}
+    \end{center}
+    { \hspace*{\fill} \\}
+    
+    \begin{center}
+    \adjustimage{max size={0.9\linewidth}{0.9\paperheight}}{output_33_11.png}
+    \end{center}
+    { \hspace*{\fill} \\}
+    
+    \begin{center}
+    \adjustimage{max size={0.9\linewidth}{0.9\paperheight}}{output_33_12.png}
+    \end{center}
+    { \hspace*{\fill} \\}
+    
+    \begin{center}
+    \adjustimage{max size={0.9\linewidth}{0.9\paperheight}}{output_33_13.png}
+    \end{center}
+    { \hspace*{\fill} \\}
+    
+    \begin{center}
+    \adjustimage{max size={0.9\linewidth}{0.9\paperheight}}{output_33_14.png}
+    \end{center}
+    { \hspace*{\fill} \\}
+    
+    \begin{center}
+    \adjustimage{max size={0.9\linewidth}{0.9\paperheight}}{output_33_15.png}
+    \end{center}
+    { \hspace*{\fill} \\}
+    
+    \begin{center}
+    \adjustimage{max size={0.9\linewidth}{0.9\paperheight}}{output_33_16.png}
+    \end{center}
+    { \hspace*{\fill} \\}
+    
+    \begin{center}
+    \adjustimage{max size={0.9\linewidth}{0.9\paperheight}}{output_33_17.png}
+    \end{center}
+    { \hspace*{\fill} \\}
+    
+    \begin{center}
+    \adjustimage{max size={0.9\linewidth}{0.9\paperheight}}{output_33_18.png}
+    \end{center}
+    { \hspace*{\fill} \\}
+    
+    \begin{center}
+    \adjustimage{max size={0.9\linewidth}{0.9\paperheight}}{output_33_19.png}
+    \end{center}
+    { \hspace*{\fill} \\}
+    
+    \begin{center}
+    \adjustimage{max size={0.9\linewidth}{0.9\paperheight}}{output_33_20.png}
+    \end{center}
+    { \hspace*{\fill} \\}
+    
+    \begin{center}
+    \adjustimage{max size={0.9\linewidth}{0.9\paperheight}}{output_33_21.png}
+    \end{center}
+    { \hspace*{\fill} \\}
+    
+    \begin{center}
+    \adjustimage{max size={0.9\linewidth}{0.9\paperheight}}{output_33_22.png}
+    \end{center}
+    { \hspace*{\fill} \\}
+    
+    \begin{center}
+    \adjustimage{max size={0.9\linewidth}{0.9\paperheight}}{output_33_23.png}
+    \end{center}
+    { \hspace*{\fill} \\}
+    
+    \begin{center}
+    \adjustimage{max size={0.9\linewidth}{0.9\paperheight}}{output_33_24.png}
+    \end{center}
+    { \hspace*{\fill} \\}
+    
+    \begin{center}
+    \adjustimage{max size={0.9\linewidth}{0.9\paperheight}}{output_33_25.png}
+    \end{center}
+    { \hspace*{\fill} \\}
+    
+    \begin{center}
+    \adjustimage{max size={0.9\linewidth}{0.9\paperheight}}{output_33_26.png}
+    \end{center}
+    { \hspace*{\fill} \\}
+    
+    \begin{center}
+    \adjustimage{max size={0.9\linewidth}{0.9\paperheight}}{output_33_27.png}
+    \end{center}
+    { \hspace*{\fill} \\}
+    
+    \begin{center}
+    \adjustimage{max size={0.9\linewidth}{0.9\paperheight}}{output_33_28.png}
+    \end{center}
+    { \hspace*{\fill} \\}
+    
+    \begin{center}
+    \adjustimage{max size={0.9\linewidth}{0.9\paperheight}}{output_33_29.png}
+    \end{center}
+    { \hspace*{\fill} \\}
+    
+    \begin{center}
+    \adjustimage{max size={0.9\linewidth}{0.9\paperheight}}{output_33_30.png}
+    \end{center}
+    { \hspace*{\fill} \\}
+    
+    \begin{center}
+    \adjustimage{max size={0.9\linewidth}{0.9\paperheight}}{output_33_31.png}
+    \end{center}
+    { \hspace*{\fill} \\}
+    
+    \begin{center}
+    \adjustimage{max size={0.9\linewidth}{0.9\paperheight}}{output_33_32.png}
+    \end{center}
+    { \hspace*{\fill} \\}
+    
+    \begin{center}
+    \adjustimage{max size={0.9\linewidth}{0.9\paperheight}}{output_33_33.png}
+    \end{center}
+    { \hspace*{\fill} \\}
+    
+    \begin{center}
+    \adjustimage{max size={0.9\linewidth}{0.9\paperheight}}{output_33_34.png}
+    \end{center}
+    { \hspace*{\fill} \\}
+    
+    \begin{center}
+    \adjustimage{max size={0.9\linewidth}{0.9\paperheight}}{output_33_35.png}
+    \end{center}
+    { \hspace*{\fill} \\}
+    
+    \begin{center}
+    \adjustimage{max size={0.9\linewidth}{0.9\paperheight}}{output_33_36.png}
+    \end{center}
+    { \hspace*{\fill} \\}
+    
+    \begin{center}
+    \adjustimage{max size={0.9\linewidth}{0.9\paperheight}}{output_33_37.png}
+    \end{center}
+    { \hspace*{\fill} \\}
+    
+    \begin{center}
+    \adjustimage{max size={0.9\linewidth}{0.9\paperheight}}{output_33_38.png}
+    \end{center}
+    { \hspace*{\fill} \\}
+    
+    \begin{center}
+    \adjustimage{max size={0.9\linewidth}{0.9\paperheight}}{output_33_39.png}
+    \end{center}
+    { \hspace*{\fill} \\}
+    
+    \begin{center}
+    \adjustimage{max size={0.9\linewidth}{0.9\paperheight}}{output_33_40.png}
+    \end{center}
+    { \hspace*{\fill} \\}
+    
+    \begin{center}
+    \adjustimage{max size={0.9\linewidth}{0.9\paperheight}}{output_33_41.png}
+    \end{center}
+    { \hspace*{\fill} \\}
+    
+    \begin{center}
+    \adjustimage{max size={0.9\linewidth}{0.9\paperheight}}{output_33_42.png}
+    \end{center}
+    { \hspace*{\fill} \\}
+    
+    \begin{center}
+    \adjustimage{max size={0.9\linewidth}{0.9\paperheight}}{output_33_43.png}
+    \end{center}
+    { \hspace*{\fill} \\}
+    
+    \begin{center}
+    \adjustimage{max size={0.9\linewidth}{0.9\paperheight}}{output_33_44.png}
+    \end{center}
+    { \hspace*{\fill} \\}
+    
+    \begin{center}
+    \adjustimage{max size={0.9\linewidth}{0.9\paperheight}}{output_33_45.png}
+    \end{center}
+    { \hspace*{\fill} \\}
+    
+    \begin{center}
+    \adjustimage{max size={0.9\linewidth}{0.9\paperheight}}{output_33_46.png}
+    \end{center}
+    { \hspace*{\fill} \\}
+    
+    \begin{center}
+    \adjustimage{max size={0.9\linewidth}{0.9\paperheight}}{output_33_47.png}
+    \end{center}
+    { \hspace*{\fill} \\}
+    
+    \begin{center}
+    \adjustimage{max size={0.9\linewidth}{0.9\paperheight}}{output_33_48.png}
+    \end{center}
+    { \hspace*{\fill} \\}
+    
+    \begin{tcolorbox}[breakable, size=fbox, boxrule=1pt, pad at break*=1mm,colback=cellbackground, colframe=cellborder]
+\prompt{In}{incolor}{ }{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+
+\end{Verbatim}
+\end{tcolorbox}
+
+
+    % Add a bibliography block to the postdoc
+    
+    
+    
+\end{document}
